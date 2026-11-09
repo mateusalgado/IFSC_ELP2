@@ -1,0 +1,25 @@
+{
+ "regras": {
+  "HV_clearance": [
+   "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,2500 mm)",
+   "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,7000 mm)"
+  ],
+  "isolacao_prim_sec": [
+   "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 4,5500 mm)",
+   "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 0,3100 mm)",
+   "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 1,8100 mm)",
+   "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 6,0327 mm)"
+  ],
+  "borda": [
+   "Violação do isolamento da borda da placa (regra 'borda' isolamento 0,5000 mm; atual 0,0000 mm)"
+  ],
+  "largura_HV": [
+   "Largura da trilha (regra 'largura_HV' largura mín 1,0000 mm; atual 0,5000 mm)"
+  ],
+  "largura_SEC_potencia": [
+   "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+   "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)"
+  ]
+ },
+ "total": 18
+}

@@ -1,0 +1,458 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-05T09:30:56",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "fonte_flyback_12V3A.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                },
+                {
+                    "description": "Ilha PTH 2 [SGND] de CY1",
+                    "pos": {
+                        "x": 89.0,
+                        "y": 63.4
+                    },
+                    "uuid": "8e9ffdba-3309-4f62-9052-78a9ca36ab23"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 16,5000 mm",
+                    "pos": {
+                        "x": 36.5,
+                        "y": 73.5
+                    },
+                    "uuid": "690eecde-9d11-48dd-be78-199c42bf4563"
+                },
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 89.8
+                    },
+                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 10,8000 mm",
+                    "pos": {
+                        "x": 65.2,
+                        "y": 67.5
+                    },
+                    "uuid": "78267b3b-7d4e-42c8-8452-7a93c2f1b9da"
+                },
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
+                    "pos": {
+                        "x": 48.7,
+                        "y": 29.5
+                    },
+                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,2500 mm)",
+            "items": [
+                {
+                    "description": "Ilha PTH 1 [/BULK] de C1",
+                    "pos": {
+                        "x": 47.0,
+                        "y": 32.5
+                    },
+                    "uuid": "5cf97a5e-8e91-4c57-baae-cfa0ba369690"
+                },
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
+                    "pos": {
+                        "x": 48.7,
+                        "y": 29.5
+                    },
+                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 4,5500 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                },
+                {
+                    "description": "Trilha [Net-(R3-Pad2)] no F.Cu, comprimento 1,7000 mm",
+                    "pos": {
+                        "x": 63.5,
+                        "y": 44.0
+                    },
+                    "uuid": "b12d92c2-a182-4960-8575-8b2403cecb47"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 0,3100 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 68.54,
+                        "y": 49.0
+                    },
+                    "uuid": "008539f4-3637-41da-a1e6-5eb66ef054d6"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 1,8100 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 8,2500 mm",
+                    "pos": {
+                        "x": 67.04,
+                        "y": 50.5
+                    },
+                    "uuid": "078ad67b-a30e-4080-b9aa-af1713c74c48"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,7000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 10,7500 mm",
+                    "pos": {
+                        "x": 36.25,
+                        "y": 32.5
+                    },
+                    "uuid": "1adc6473-97dd-4bd2-87f8-1cbaa2d0b2e3"
+                },
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
+                    "pos": {
+                        "x": 48.7,
+                        "y": 29.5
+                    },
+                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 6,0327 mm)",
+            "items": [
+                {
+                    "description": "Trilha [Net-(R3-Pad2)] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 62.0,
+                        "y": 42.5
+                    },
+                    "uuid": "2aee83fc-8b64-42d7-95f8-69daeb607771"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento da borda da placa (regra 'borda' isolamento 0,5000 mm; atual 0,0000 mm)",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 140.0,
+                        "y": 90.0
+                    },
+                    "uuid": "04755c5d-e680-4718-b3ac-379e35fdfade"
+                },
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 89.8
+                    },
+                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_HV' largura mín 1,0000 mm; atual 0,5000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 47.0,
+                        "y": 32.5
+                    },
+                    "uuid": "a484ec00-8ed3-49f9-a2ee-ae00f005357e"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/VO] no F.Cu, comprimento 3,0000 mm",
+                    "pos": {
+                        "x": 132.0,
+                        "y": 70.0
+                    },
+                    "uuid": "5fbcc672-1b06-477e-8987-04cc68057cf6"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 47.0,
+                        "y": 32.5
+                    },
+                    "uuid": "a484ec00-8ed3-49f9-a2ee-ae00f005357e"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VO] no F.Cu, comprimento 3,0000 mm",
+                    "pos": {
+                        "x": 132.0,
+                        "y": 70.0
+                    },
+                    "uuid": "5fbcc672-1b06-477e-8987-04cc68057cf6"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 89.8
+                    },
+                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
+                    "pos": {
+                        "x": 48.7,
+                        "y": 29.5
+                    },
+                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "e3327e11-ea7d-4e8d-a41c-4a539081d561"
+                },
+                {
+                    "description": "Segmento de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 86.84,
+                        "y": 68.13
+                    },
+                    "uuid": "3397449a-07f9-4a20-b2e3-0814d97cbc44"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "e3327e11-ea7d-4e8d-a41c-4a539081d561"
+                },
+                {
+                    "description": "Arco de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 84.19,
+                        "y": 73.33
+                    },
+                    "uuid": "3b566e10-f7d0-456d-b447-8557f2cf8f18"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Texto do footprint de D3 (K)",
+                    "pos": {
+                        "x": 45.2,
+                        "y": 50.4
+                    },
+                    "uuid": "de1890e4-7de9-4610-ab6b-ae0ae06249cf"
+                },
+                {
+                    "description": "Ilha PTH 1 [/GATE] de R8",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 50.3
+                    },
+                    "uuid": "dbce44ed-6e55-4f6f-836a-f2e58bec3ea0"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

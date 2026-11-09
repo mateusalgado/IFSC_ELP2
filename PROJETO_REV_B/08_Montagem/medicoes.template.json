@@ -1,0 +1,29 @@
+{
+  "_comentario": "Modelo para medicoes.json (revisao C). Preencher com as medicoes fisicas [M] do REGISTRO_MEDICOES.md; null = nao medido. Unidades: V, A, W, mV, ms, s, uH, graus C.",
+  "identificacao": {"data": null, "bancada": null, "responsavel": null, "instrumentos": {"osciloscopio": null, "sonda_diferencial": null, "multimetro": null, "wattimetro": null, "lcr": null, "carga": null}},
+  "divergencias_bom": [],
+  "trafo": {"Lp_uH": null, "Llk_uH": null, "relacao_sec": null, "relacao_aux": null, "isolacao_Mohm": null, "gap_mm": null},
+  "blocos": {"vbulk_127V": null, "vref": null, "fsw_kHz": null, "duty_max_pct": null, "icc_mA": null},
+  "regime": {
+    "90V_10pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "90V_50pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "90V_100pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "127V_10pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "127V_50pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "127V_100pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "220V_10pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "220V_50pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "220V_100pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "264V_10pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "264V_50pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null},
+    "264V_100pct": {"vo": null, "vo_pp_mV": null, "excursao_mV": null, "ip_pk": null, "vds_max": null, "vd_rev": null, "vcc": null, "pin": null, "eta_pct": null, "vbulk_min": null}
+  },
+  "partida": {"90V": {"t_uvlo_s": null, "t_vo_11v4_ms": null, "vo_max": null, "vds_max": null, "ip_pk": null, "vcc_min": null},
+              "264V": {"t_uvlo_s": null, "t_vo_11v4_ms": null, "vo_max": null, "vds_max": null, "ip_pk": null, "vcc_min": null}},
+  "degrau": {"90V": {"subida_mV": null, "subida_t1pct_ms": null, "descida_mV": null, "descida_t1pct_ms": null, "oscilacao": null},
+             "264V": {"subida_mV": null, "subida_t1pct_ms": null, "descida_mV": null, "descida_t1pct_ms": null, "oscilacao": null}},
+  "termico_220V_3A_30min": {"ta": null, "q1": null, "d1": null, "br1": null, "r5_r6": null, "t1": null, "c1": null, "c_saida": null},
+  "curto": {"liberado": false, "127V": {"ip_sust": null, "t_uvlo_ms": null, "t_off_ms": null, "t_on_ms": null, "vds_aplic": null, "t_d1_30s": null, "religou": null},
+            "220V": {"ip_sust": null, "t_uvlo_ms": null, "t_off_ms": null, "t_on_ms": null, "vds_aplic": null, "t_d1_30s": null, "religou": null}},
+  "ocorrencias": []
+}

@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-19T20:44:49",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/0f4e2c6a-3b1d-4e0a-9c2d-5a6b7c8d9e02",
+            "violations": [
+                {
+                    "description": "Pin not connected",
+                    "items": [
+                        {
+                            "description": "Symbol R1 Pino 1 [Passive, Line]",
+                            "pos": {
+                                "x": 50.8,
+                                "y": 46.99
+                            },
+                            "uuid": "0f4e2c6a-3b1d-4e0a-9c2d-5a6b7c8d9e04"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "pin_not_connected"
+                },
+                {
+                    "description": "Pin not connected",
+                    "items": [
+                        {
+                            "description": "Symbol R1 Pino 2 [Passive, Line]",
+                            "pos": {
+                                "x": 50.8,
+                                "y": 54.61
+                            },
+                            "uuid": "0f4e2c6a-3b1d-4e0a-9c2d-5a6b7c8d9e05"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "pin_not_connected"
+                },
+                {
+                    "description": "O símbolo 'R' não bate com a cópia existente na biblioteca 'Device'",
+                    "items": [
+                        {
+                            "description": "Símbolo R1 [R]",
+                            "pos": {
+                                "x": 50.8,
+                                "y": 50.8
+                            },
+                            "uuid": "0f4e2c6a-3b1d-4e0a-9c2d-5a6b7c8d9e03"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                }
+            ]
+        }
+    ],
+    "source": "min.kicad_sch"
+}

@@ -1,0 +1,105 @@
+SGND                           139.1 mm  23 segs
+/COMP                          108.5 mm  18 segs
+/BULK                           96.5 mm  21 segs
+Net-(D1-K)                      79.6 mm  13 segs
+/VO                             75.2 mm  15 segs
+/VCC                            65.5 mm  18 segs
+/DRAIN                          61.6 mm  15 segs
+/CS                             55.9 mm  31 segs
+Net-(CX1-Pad2)                  54.6 mm  14 segs
+Net-(JP1-A)                     54.1 mm  16 segs
+/VREF                           53.5 mm  16 segs
+/SW                             52.2 mm  13 segs
+/LEDA                           44.4 mm  11 segs
+PGND                            44.1 mm  7 segs
+/KA                             41.0 mm  9 segs
+/DRV                            40.1 mm  20 segs
+Net-(D2-K)                      39.9 mm  9 segs
+Net-(U2-REF)                    35.9 mm  11 segs
+Net-(BR1-Pad3)                  33.2 mm  8 segs
+/GATE                           32.2 mm  12 segs
+Net-(BR1-Pad2)                  31.9 mm  6 segs
+Net-(JP2-B)                     26.2 mm  11 segs
+Net-(J1-Pin_2)                  24.6 mm  6 segs
+Net-(R1-Pad2)                   19.7 mm  5 segs
+Net-(JP1-B)                     17.8 mm  4 segs
+Net-(JP2-A)                     15.4 mm  4 segs
+Net-(D4-K)                      13.4 mm  5 segs
+Net-(U1-RC)                     13.2 mm  8 segs
+Net-(J1-Pin_1)                  12.9 mm  5 segs
+/AUX                            11.8 mm  3 segs
+Net-(R3-Pad2)                    9.3 mm  3 segs
+Net-(C14-Pad2)                   7.3 mm  3 segs
+Net-(C9-Pad1)                    3.8 mm  1 segs
+--- footprints
+TP3 TestPoint_THTPad_D2.0mm_Drill1.0mm 56.0 63.5 3.0 3.0
+C3 C_Disc_D5.0mm_W2.5mm_P5.00mm 10.0 74.5 7.2 3.0
+C9 C_Rect_L7.0mm_W2.5mm_P5.00mm 120.0 12.0 7.5 3.0
+L1 Choke_Schaffner_RN214-04-15.5x23.0mm 21.0 41.0 23.8 16.3
+R18 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 118.0 74.8 12.3 3.0
+TP8 TestPoint_THTPad_D2.0mm_Drill1.0mm 9.0 71.0 3.0 3.0
+C7 C_Disc_D5.0mm_W2.5mm_P5.00mm 32.0 78.0 7.2 3.0
+F1 Fuseholder_Clip-5x20mm_Keystone_3517_Inl 12.0 7.0 26.4 6.9
+R3 R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_H 62.0 24.3 4.2 15.7
+Q1 TO-220-3_Vertical 55.0 48.0 10.6 5.0
+TP4 TestPoint_THTPad_D2.0mm_Drill1.0mm 58.0 40.5 3.0 3.0
+C13 CP_Radial_D10.0mm_P5.00mm 125.0 50.0 10.6 10.8
+C8 C_Disc_D5.0mm_W2.5mm_P5.00mm 11.5 65.5 7.2 3.0
+D4 D_DO-41_SOD81_P10.16mm_Horizontal 60.0 64.0 12.9 3.2
+T1 Trafo_EE30_10pin 84.0 44.0 33.0 33.0
+R5 R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_ 58.0 6.0 18.2 5.0
+RT1 C_Disc_D9.0mm_W5.0mm_P7.50mm 17.0 20.1 10.1 5.5
+R10 R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_H 60.0 59.5 15.7 4.2
+TP1 TestPoint_THTPad_D2.0mm_Drill1.0mm 52.0 14.0 3.0 3.0
+R14 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 14.0 82.0 12.3 3.0
+U1 DIP-8_W7.62mm 14.0 66.0 9.8 10.7
+CY1 C_Disc_D9.0mm_W5.0mm_P10.00mm 79.0 63.4 12.6 5.5
+D3 D_DO-35_SOD27_P7.62mm_Horizontal 47.0 50.4 2.5 9.8
+H4 MountingHole_3.2mm_M3 136.0 86.0 7.0 7.0
+TP10 TestPoint_THTPad_D2.0mm_Drill1.0mm 134.0 50.0 3.0 3.0
+BR1 Diode_Bridge_Vishay_GBU 33.5 42.0 4.5 22.6
+TP9 TestPoint_THTPad_D2.0mm_Drill1.0mm 50.0 82.0 3.0 3.0
+H2 MountingHole_3.2mm_M3 136.0 4.0 7.0 7.0
+C14 C_Disc_D5.0mm_W2.5mm_P5.00mm 118.0 78.0 7.2 3.0
+R1 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 28.0 17.2 12.3 3.0
+L2 L_Radial_D7.0mm_P3.00mm 114.0 50.0 7.5 7.5
+R13 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 60.0 69.0 12.3 3.0
+R20 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 96.0 67.0 12.3 3.0
+TP2 TestPoint_THTPad_D2.0mm_Drill1.0mm 65.8 35.5 3.0 3.0
+C2 C_Disc_D7.5mm_W5.0mm_P10.00mm 70.0 21.0 12.6 5.5
+R4 R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_H 65.2 44.0 4.2 15.7
+C6 C_Disc_D5.0mm_W2.5mm_P5.00mm 25.5 70.5 3.0 7.2
+R16 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 114.0 62.0 12.3 3.0
+D2 D_DO-41_SOD81_P10.16mm_Horizontal 57.0 17.5 12.9 3.2
+R15 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 106.0 12.0 12.3 3.0
+C4 C_Disc_D5.0mm_W2.5mm_P5.00mm 23.5 78.5 7.2 3.0
+R11 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 29.0 75.3 3.0 12.3
+JP2 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 98.0 25.5 12.3 3.0
+R7 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 50.0 50.4 3.0 12.3
+U3 DIP-4_W7.62mm 88.0 72.0 9.8 5.6
+H1 MountingHole_3.2mm_M3 4.0 4.0 7.0 7.0
+TP7 TestPoint_THTPad_D2.0mm_Drill1.0mm 38.5 63.2 3.0 3.0
+TP11 TestPoint_THTPad_D2.0mm_Drill1.0mm 134.0 56.0 3.0 3.0
+D1 TO-220-3_Vertical 110.0 20.0 10.6 5.0
+C1 CP_Radial_D18.0mm_P7.50mm 47.0 32.5 18.6 19.1
+TP6 TestPoint_THTPad_D2.0mm_Drill1.0mm 32.0 82.0 3.0 3.0
+J2 TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x 132.0 70.0 11.1 11.2
+R6 R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_ 58.0 13.0 18.2 5.0
+RV1 RV_Disc_D12mm_W4.2mm_P7.5mm 16.5 14.0 12.6 4.8
+R8 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 44.0 50.3 3.0 12.3
+C10 CP_Radial_D10.0mm_P5.00mm 108.0 36.0 10.6 10.8
+R17 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 114.0 65.4 12.3 3.0
+R12 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 10.0 78.0 12.3 3.0
+CX1 C_Rect_L18.0mm_W8.0mm_P15.00mm_FKS3_FKP3 16.0 33.5 18.6 8.6
+U2 TL431_TI_LP 110.0 70.0 7.2 4.8
+TP5 TestPoint_THTPad_D2.0mm_Drill1.0mm 53.0 68.0 3.0 3.0
+R9 R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_H 60.0 54.5 15.7 4.2
+H3 MountingHole_3.2mm_M3 4.0 86.0 7.0 7.0
+J1 TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x 7.0 16.0 11.1 11.2
+R19 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 96.0 63.0 12.3 3.0
+CX2 C_Rect_L18.0mm_W8.0mm_P15.00mm_FKS3_FKP3 12.0 59.6 18.6 8.6
+JP1 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 30.0 14.0 12.3 3.0
+C5 CP_Radial_D8.0mm_P3.50mm 35.0 70.0 8.7 8.6
+R2 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_H 24.0 24.5 12.3 3.0
+C12 CP_Radial_D10.0mm_P5.00mm 132.0 36.0 10.6 10.8
+C11 CP_Radial_D10.0mm_P5.00mm 120.0 36.0 10.6 10.8

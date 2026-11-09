@@ -1,0 +1,26 @@
+{
+ "t_on_ms": 60.0,
+ "t_off_ms": 380.0,
+ "eventos": [
+  [
+   214.7,
+   "off"
+  ],
+  [
+   311.9,
+   "on"
+  ],
+  [
+   327.0,
+   "off"
+  ]
+ ],
+ "vcc_fim": 8.475957870483398,
+ "t_fim_ms": 420.0,
+ "vcc_no_curto": 14.238003730773928,
+ "t_ate_uvlo_ms": 154.7142765308449,
+ "t_recarga_ms": 97.20269099921563,
+ "t_ligado_ms": 15.050012007308878,
+ "duty_falha_pct": 13.407260230013454,
+ "religou_apos_remocao": false
+}

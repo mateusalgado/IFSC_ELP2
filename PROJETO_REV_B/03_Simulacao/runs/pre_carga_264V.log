@@ -1,0 +1,17 @@
+LTspice 26.1.1 for Windows
+Circuit: C:\Users\mateu\ELP2_sim_runs\REV_B\pre_carga_264V.net
+Start Time: Wed Nov  4 04:30:13 2026
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = trap
+Per .tran options, skipping operating point for transient analysis.
+Total elapsed time: 2.393 seconds.
+Total iterations: 614234
+
+Files loaded:
+C:\Users\mateu\ELP2_sim_runs\REV_B\pre_carga_264V.net
+
+t_uv: V(vcc)=8.5 AT 1.06692977002
+b_uv: V(bc)=371.109979966 at 1.06692977002

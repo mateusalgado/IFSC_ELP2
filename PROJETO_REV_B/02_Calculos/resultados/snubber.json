@@ -1,0 +1,85 @@
+{
+  "K_CLAMP": 1.8,
+  "R": 9000.0,
+  "C": 2.2e-08,
+  "Vc_2pct": 134.81633276954955,
+  "Vc_3pct": 153.44846568804184,
+  "P_2pct": 2.019493731269991,
+  "P_3pct": 2.6162701802237947,
+  "Vds_max_3pct": 523.0980256755136,
+  "diodo": "UF4007",
+  "tabela": {
+    "1%": {
+      "Llk": 2.9381625e-06,
+      "Vc": 137.16,
+      "E_uJ": 6.754221388367729,
+      "P": 0.9878048780487804,
+      "R": 19045.123199999998,
+      "C": 8.077981551001669e-09,
+      "t_clamp_ns": 103.34645669291338,
+      "Vds_max": 506.80955998747163
+    },
+    "2%": {
+      "Llk": 5.876325e-06,
+      "Vc": 137.16,
+      "E_uJ": 13.508442776735459,
+      "P": 1.9756097560975607,
+      "R": 9522.561599999999,
+      "C": 1.6155963102003338e-08,
+      "t_clamp_ns": 206.69291338582676,
+      "Vds_max": 506.80955998747163
+    },
+    "3%": {
+      "Llk": 8.8144875e-06,
+      "Vc": 137.16,
+      "E_uJ": 20.26266416510319,
+      "P": 2.9634146341463405,
+      "R": 6348.3744000000015,
+      "C": 2.4233944653005e-08,
+      "t_clamp_ns": 310.0393700787401,
+      "Vds_max": 506.80955998747163
+    }
+  },
+  "rc_diodo": {
+    "R": 15.0,
+    "C": 2.2e-09,
+    "P": 0.8452354466275518
+  },
+  "componentes": [
+    {
+      "ref": "R_sn1,R_sn2",
+      "valor": "18 kΩ 2 W",
+      "descricao": "resistor do grampo RCD (2 em paralelo)",
+      "pn": "Vishay PR02 / Yageo FKN2WSJR",
+      "qtd": 2
+    },
+    {
+      "ref": "C_sn",
+      "valor": "22 nF 630 V",
+      "descricao": "capacitor do grampo RCD",
+      "pn": "EPCOS B32521 / KEMET R82",
+      "qtd": 1
+    },
+    {
+      "ref": "D_sn",
+      "valor": "UF4007",
+      "descricao": "diodo ultrarrápido do grampo",
+      "pn": "Vishay UF4007-E3/54",
+      "qtd": 1
+    },
+    {
+      "ref": "R_d",
+      "valor": "15 Ω 1/2 W",
+      "descricao": "RC de amortecimento do diodo de saída",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "C_d",
+      "valor": "2.2 nF 100 V",
+      "descricao": "RC de amortecimento do diodo de saída",
+      "pn": "",
+      "qtd": 1
+    }
+  ]
+}

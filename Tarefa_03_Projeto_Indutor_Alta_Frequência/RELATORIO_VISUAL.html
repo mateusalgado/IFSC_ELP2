@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarefa 03 - Projeto de Indutor em Alta Frequência</title>
+<style>
+  @page { size: A4; margin: 1.8cm 1.8cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.5; color: #1a1a1a; background: #fff; font-size: 10.5pt; }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 10px; }
+  .header-info p { margin: 2px 0; }
+  .header-info { margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
+  h2 { font-size: 1.3em; font-weight: 600; margin-top: 20px; margin-bottom: 8px; padding-bottom: 3px; border-bottom: 1px solid #ccc; break-after: avoid; break-inside: avoid; }
+  h3 { font-size: 1.08em; font-weight: 600; margin-top: 14px; margin-bottom: 6px; break-after: avoid; break-inside: avoid; }
+  p { margin-bottom: 8px; text-align: justify; }
+  ul, ol { margin: 0 0 8px 22px; }
+  li { margin-bottom: 2px; text-align: justify; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.93em; }
+  tr { break-inside: avoid; }
+  th { border-bottom: 1.5px solid #333; padding: 5px 8px; text-align: left; font-weight: 600; background: #f3f3f3; }
+  td { padding: 4px 8px; border-bottom: 1px solid #ddd; vertical-align: top; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  tr.hl td { background: #eef5ee; font-weight: 600; }
+  .eq { font-family: 'Cambria Math', Cambria, 'Times New Roman', serif; font-size: 1.05em; margin: 6px 0 8px 18px; break-inside: avoid; }
+  .note { font-size: 0.9em; color: #444; }
+  figure { text-align: center; margin: 10px 0; break-inside: avoid; }
+  figure img { max-width: 78%; border: 1px solid #ddd; }
+  figcaption { font-size: 0.88em; color: #444; margin-top: 4px; }
+  .ref li { font-size: 0.9em; }
+  .sm { font-family: 'Courier New', monospace; font-size: 0.88em; border: 1px solid #bbb; background: #fcfcfc; padding: 8px 12px; margin: 8px 0; }
+  .sm div { margin: 2px 0; break-inside: avoid; }
+  .sm .smh { color: #0000cc; font-weight: bold; margin-top: 8px; border-bottom: 1px dotted #99c; break-after: avoid; }
+  .in { background: #fff3b0; }
+  table.mag td, table.mag th { font-size: 0.95em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Tarefa 03 – Projeto de Indutor em Alta Frequência</h1>
+<div class="header-info">
+  <p><strong>Disciplina:</strong> Eletrônica de Potência II</p>
+  <p><strong>Aluno:</strong> Mateus Salgado Barboza Costa</p>
+  <p><strong>Professor:</strong> Joabel Moia</p>
+  <p><strong>Data:</strong> 21/09/2026</p>
+</div>
+
+<h2>1. Objetivo</h2>
+<p>Este relatório apresenta o projeto do indutor de saída do conversor Buck proposto na aula <em>Projeto de Indutores para Alta Frequência</em>. O indutor foi projetado de duas formas: com a planilha SMath da disciplina e núcleo de ferrite Thornton, e com a planilha <em>Inductor Design Tool</em> da Magnetics e núcleo desse fabricante. Ao final, os dois resultados são comparados.</p>
+
+<table>
+  <tr><th>Especificação do conversor</th><th class="n">Valor</th></tr>
+  <tr><td>Tensão de entrada, V<sub>i</sub></td><td class="n">36 V</td></tr>
+  <tr><td>Tensão de saída, V<sub>o</sub></td><td class="n">12 V</td></tr>
+  <tr><td>Potência de saída, P<sub>o</sub></td><td class="n">100 W</td></tr>
+  <tr><td>Frequência de comutação, F<sub>s</sub></td><td class="n">100 kHz</td></tr>
+  <tr><td>Ondulação de corrente no indutor</td><td class="n">ΔI<sub>L</sub> = 10 % da corrente média</td></tr>
+  <tr><td>Capacitância de saída, C</td><td class="n">100 µF</td></tr>
+</table>
+
+<h2>2. Metodologia</h2>
+<p>Segundo a aula, o projeto de um indutor depende da frequência de operação, da corrente, do regime de trabalho e do material do núcleo. Por isso, os dois projetos seguiram a mesma sequência de passos para elementos magnéticos em alta frequência:</p>
+<ol>
+  <li>calcular os esforços de corrente e tensão no indutor;</li>
+  <li>calcular a variação do fluxo magnético;</li>
+  <li>definir o material e o fabricante do núcleo;</li>
+  <li>calcular o tamanho mínimo do núcleo e escolher um núcleo comercial;</li>
+  <li>calcular o número de espiras;</li>
+  <li>calcular a bitola do fio e a quantidade de fios em paralelo, considerando o efeito pelicular;</li>
+  <li>verificar a possibilidade de execução, isto é, se o enrolamento cabe na janela;</li>
+  <li>calcular as perdas no núcleo e no cobre;</li>
+  <li>calcular a elevação de temperatura.</li>
+</ol>
+
+<h2>3. Esforços no indutor (passo 1)</h2>
+<p>O conversor opera em modo de condução contínua e em regime permanente, e os componentes foram considerados ideais. Pela aula, a ondulação de corrente no Buck é ΔI<sub>Lo</sub> = (V<sub>i</sub> − V<sub>o</sub>)·D/(L<sub>o</sub>·F<sub>s</sub>). Isolando L<sub>o</sub> para a ondulação especificada:</p>
+<div class="eq">D = V<sub>o</sub>/V<sub>i</sub> = 12/36 = 0,333 &nbsp;&nbsp;&nbsp; I<sub>Lo</sub> = P<sub>o</sub>/V<sub>o</sub> = 100/12 = 8,333 A &nbsp;&nbsp;&nbsp; ΔI<sub>Lo</sub> = 0,1·I<sub>Lo</sub> = 0,833 A</div>
+<div class="eq">L<sub>o</sub> = (V<sub>i</sub> − V<sub>o</sub>)·D / (F<sub>s</sub>·ΔI<sub>Lo</sub>) = 24 × 0,333 / (100 000 × 0,833) = <strong>96 µH</strong></div>
+<div class="eq">I<sub>Lop</sub> = I<sub>Lo</sub> + ΔI<sub>Lo</sub>/2 = 8,75 A &nbsp;&nbsp;&nbsp; I<sub>Loef</sub> = √(I<sub>Lo</sub><sup>2</sup> + ΔI<sub>Lo</sub><sup>2</sup>/12) = 8,337 A</div>
+
+<table>
+  <tr><th>Esforço no indutor</th><th class="n">Valor</th></tr>
+  <tr><td>Indutância, L<sub>o</sub></td><td class="n">96 µH</td></tr>
+  <tr><td>Corrente média, I<sub>Lo</sub></td><td class="n">8,333 A</td></tr>
+  <tr><td>Ondulação pico a pico, ΔI<sub>Lo</sub></td><td class="n">0,833 A</td></tr>
+  <tr><td>Corrente de pico, I<sub>Lop</sub></td><td class="n">8,75 A</td></tr>
+  <tr><td>Corrente mínima, I<sub>Lo</sub> − ΔI<sub>Lo</sub>/2</td><td class="n">7,917 A</td></tr>
+  <tr><td>Corrente eficaz, I<sub>Loef</sub></td><td class="n">8,337 A</td></tr>
+  <tr><td>Energia armazenada, L·I<sub>Lop</sub><sup>2</sup></td><td class="n">7,35 mH·A²</td></tr>
+</table>
+<p>Como a corrente mínima é positiva, o modo de condução contínua se confirma. A corrente no indutor é praticamente contínua: a ondulação é só 10 % do valor médio. Isso orienta todo o projeto, porque a variação de fluxo no núcleo é pequena e o que dimensiona o indutor é o valor de pico da corrente (saturação) e o seu valor eficaz (aquecimento do cobre).</p>
+
+<h2>4. Projeto 1 – Núcleo de ferrite Thornton</h2>
+<p>Este projeto seguiu a planilha <em>Projeto Físico do Indutor de Alta Frequência</em> (SMath) da disciplina, com os parâmetros adotados na aula. A memória de cálculo completa da planilha está no Apêndice A.</p>
+
+<h3>4.1 Material e variação do fluxo (passos 2 e 3)</h3>
+<p>Adotou-se ferrite Thornton tipo IP, com densidade de fluxo máxima B = 0,35 T. Também foram adotados fator de enrolamento k = 0,7 e densidade de corrente J = 450 A/cm². Como o fluxo acompanha a corrente, a variação de densidade de fluxo é proporcional à ondulação:</p>
+<div class="eq">ΔB = B·ΔI<sub>Lo</sub>/I<sub>Lop</sub> = 0,35 × 0,833 / 8,75 = 0,0333 T</div>
+
+<h3>4.2 Escolha do núcleo (passo 4)</h3>
+<p>O tamanho mínimo do núcleo foi calculado pelo produto de áreas:</p>
+<div class="eq">A<sub>e</sub>A<sub>w</sub> = L<sub>o</sub>·I<sub>Lop</sub>·I<sub>Loef</sub>·10<sup>4</sup> / (k·B·J) = 96·10<sup>−6</sup> × 8,75 × 8,337 × 10<sup>4</sup> / (0,7 × 0,35 × 450) = <strong>0,635 cm<sup>4</sup></strong></div>
+<p>Na tabela de núcleos Thornton da aula, o E-30/7 (0,48 cm<sup>4</sup>) não atende. O menor núcleo com produto de áreas suficiente é o <strong>EE-30/14</strong> (A<sub>e</sub> = 1,20 cm², A<sub>w</sub> = 0,85 cm², l<sub>t</sub> = 6,7 cm, V<sub>e</sub> = 8,0 cm³, A<sub>e</sub>A<sub>w</sub> = 1,02 cm<sup>4</sup>), que foi o escolhido.</p>
+
+<h3>4.3 Número de espiras e entreferro (passo 5)</h3>
+<div class="eq">N = L<sub>o</sub>·I<sub>Lop</sub>·10<sup>4</sup> / (B·A<sub>e</sub>) = 8,4 / 0,42 = <strong>20 espiras</strong></div>
+<div class="eq">l<sub>g</sub> = N²·µ<sub>0</sub>·A<sub>e</sub>·10<sup>−2</sup> / L<sub>o</sub> = <strong>0,063 cm = 0,63 mm</strong></div>
+<p>Com 20 espiras, a densidade de fluxo no pico de corrente é exatamente o limite de 0,35 T. O entreferro total de 0,63 mm pode ser feito com um espaçador de cerca de 0,31 mm entre as duas metades do núcleo, já que o fluxo atravessa o espaçador duas vezes. O valor final deve ser ajustado na montagem, medindo a indutância.</p>
+
+<h3>4.4 Condutores (passo 6)</h3>
+<p>Em 100 kHz, o efeito pelicular concentra a corrente na superfície do condutor. Por isso, a aula limita o diâmetro do fio a duas vezes a profundidade de penetração:</p>
+<div class="eq">Δ = 7,5/√F<sub>s</sub> = 0,0237 cm &nbsp;&nbsp;&nbsp; d<sub>max</sub> = 2Δ = 0,0474 cm</div>
+<p>O fio <strong>26 AWG</strong> (diâmetro de cobre de 0,040 cm e A<sub>cu</sub> = 0,001287 cm²) respeita esse limite. A seção de cobre necessária, S = I<sub>Loef</sub>/J = 0,01853 cm², é maior que a de um único fio. A razão S/A<sub>cu</sub> dá 14,4, então foram adotados <strong>15 fios em paralelo</strong>, com densidade de corrente real de 432 A/cm².</p>
+
+<h3>4.5 Possibilidade de execução (passo 7)</h3>
+<div class="eq">A<sub>w,nec</sub> = N·n<sub>fios</sub>·S<sub>26,isol</sub> = 20 × 15 × 0,001671 = 0,501 cm² &nbsp;&nbsp;&nbsp; K<sub>ocup</sub> = A<sub>w,nec</sub>/A<sub>w</sub> = 0,501/0,85 = <strong>0,59</strong></div>
+<p>O fator de ocupação é menor que 1, então o enrolamento cabe no carretel. Mesmo com a margem do exemplo da aula (A<sub>w,nec</sub>/0,7), o fator fica em 0,84, ainda viável.</p>
+
+<h3>4.6 Perdas e elevação de temperatura (passos 8 e 9)</h3>
+<table>
+  <tr><th>Grandeza</th><th>Expressão</th><th class="n">Resultado</th></tr>
+  <tr><td>Perdas no núcleo</td><td>ΔB<sup>2,4</sup>·(K<sub>H</sub>·F<sub>s</sub> + K<sub>E</sub>·F<sub>s</sub>²)·V<sub>e</sub>, com K<sub>H</sub> = 4·10<sup>−5</sup> e K<sub>E</sub> = 4·10<sup>−10</sup></td><td class="n">18,2 mW</td></tr>
+  <tr><td>Resistência do enrolamento (100 °C)</td><td>R = N·ρ<sub>26</sub>·l<sub>t</sub>/n<sub>fios</sub> = 20 × 0,001789 × 6,7 / 15</td><td class="n">16,0 mΩ</td></tr>
+  <tr><td>Perdas no cobre</td><td>R·I<sub>Loef</sub>²</td><td class="n">1,111 W</td></tr>
+  <tr><td>Perdas totais</td><td>P<sub>núcleo</sub> + P<sub>cobre</sub></td><td class="n">1,129 W</td></tr>
+  <tr><td>Resistência térmica</td><td>R<sub>t</sub> = 23·(A<sub>e</sub>A<sub>w</sub>)<sup>−0,37</sup></td><td class="n">22,8 °C/W</td></tr>
+  <tr><td>Elevação de temperatura</td><td>ΔT = R<sub>t</sub>·P<sub>total</sub></td><td class="n"><strong>25,8 °C</strong></td></tr>
+</table>
+<p>As perdas no núcleo são pequenas porque a variação de fluxo é de apenas 0,033 T. Quase toda a perda (98 %) está no cobre, e a elevação de 25,8 °C é aceitável para o material e o carretel.</p>
+
+<h2>5. Projeto 2 – Núcleo Magnetics</h2>
+<p>Este projeto seguiu a aba <em>Toroid Design</em> da planilha <em>Inductor Design Tool</em> da Magnetics, que trabalha com núcleos toroidais de pó. Os dados de entrada foram: L = 0,096 mH em plena carga, corrente CC de 8,33 A, ondulação de 0,833 A pico a pico, frequência de 100 kHz e temperatura ambiente de 25 °C. O painel de resultados da planilha está no Apêndice B.</p>
+
+<h3>5.1 Material e seleção do núcleo (passos 3 e 4)</h3>
+<p>Escolheu-se o material <strong>MPP</strong> (Molypermalloy), que tem as menores perdas no núcleo entre os pós da Magnetics e é indicado para 100 kHz. Nos núcleos de pó, o entreferro fica distribuído no próprio material. Por isso não há entreferro discreto, mas a permeabilidade cai com a intensidade de campo H, ou seja, com a corrente CC.</p>
+<p>A Magnetics seleciona o núcleo pela energia armazenada. A planilha calculou LI² = 0,096 × (8,33 + 0,833/2)² = 7,34 mH·A². No gráfico de seleção de toroides MPP (Figura 1), esse valor indica o núcleo <strong>55930</strong> (125µ, diâmetro externo de 27,7 mm).</p>
+<figure>
+  <img src="assets/magnetics_LI2_MPP.png" alt="Gráfico de seleção LI² para toroides MPP">
+  <figcaption>Figura 1 – Gráfico de seleção de núcleo por LI² para toroides MPP (Magnetics, <em>Inductor Design Tool</em>).</figcaption>
+</figure>
+
+<h3>5.2 Número de espiras (passo 5)</h3>
+<p>A planilha calcula as espiras sem carga, N<sub>0</sub> = √(L/A<sub>L,min</sub>), usando o A<sub>L</sub> mínimo (−8 % de tolerância). Em seguida, corrige esse valor pela queda de permeabilidade com o campo H = N·I/l<sub>e</sub>. Para o 55930, com 42 espiras e fio 13 AWG, os resultados foram:</p>
+<ul>
+  <li>na corrente de pico, H = 57,9 A/cm e a permeabilidade cai para 35 % da inicial. Assim, a indutância mínima em plena carga fica em <strong>89,7 µH, abaixo dos 96 µH exigidos</strong>;</li>
+  <li>o fator de enrolamento chega a 0,76, alto para um toroide. As tabelas da Magnetics consideram cerca de 40 %.</li>
+</ul>
+<p>Como o 55930 não garante a indutância especificada, passou-se para o tamanho seguinte do mesmo material e permeabilidade, o <strong>55548</strong> (MPP 125µ, diâmetro externo de 33,7 mm). Nele, a planilha resulta em <strong>41 espiras</strong>. O caminho magnético é maior (l<sub>e</sub> = 8,14 cm contra 6,35 cm), então o campo no pico cai para 44,1 A/cm e a permeabilidade fica em 50 % da inicial. A indutância mínima em plena carga passa a ser <strong>98,4 µH</strong>, acima do especificado. Os valores do 55548 foram obtidos com as equações da aba <em>Toroid Design</em>, as mesmas que produziram os resultados do 55930.</p>
+
+<h3>5.3 Condutores e possibilidade de execução (passos 6 e 7)</h3>
+<p>Foram adotados <strong>2 fios 16 AWG em paralelo</strong>. A seção de cobre fica próxima à de um fio 13 AWG, mas o conjunto é mais fácil de enrolar no toroide. O fator de enrolamento resulta em <strong>0,41</strong>, dentro dos cerca de 40 % recomendados pela Magnetics, com o enrolamento distribuído em 2 camadas.</p>
+<p>A profundidade de penetração calculada pela planilha é de 0,21 mm, e o fio 16 AWG (Ø 1,29 mm) é mais grosso que 2δ. Mesmo assim, ele é adequado neste caso, porque a corrente é quase toda contínua: a componente alternada eficaz é de apenas 0,24 A, contra 8,33 A CC. A planilha aplica R<sub>CA</sub> = 2,5·R<sub>CC</sub> a essa parcela, o que resulta em só cerca de 2 mW de perda adicional. O critério da aula (d ≤ 2Δ para toda a corrente) é mais conservador e explica os 15 fios finos do Projeto 1.</p>
+
+<h3>5.4 Perdas e elevação de temperatura (passos 8 e 9)</h3>
+<table>
+  <tr><th>Parâmetro</th><th class="n">55930, 42 esp., 1 × 13 AWG</th><th class="n">55548, 41 esp., 2 × 16 AWG</th></tr>
+  <tr><td>A<sub>L</sub> (±8 %)</td><td class="n">157 nH/esp²</td><td class="n">127 nH/esp²</td></tr>
+  <tr><td>Diâmetro externo × diâmetro interno × altura (núcleo)</td><td class="n">27,7 × 14,1 × 12,0 mm</td><td class="n">33,7 × 19,4 × 11,5 mm</td></tr>
+  <tr><td>l<sub>e</sub> / A<sub>e</sub> / V<sub>e</sub></td><td class="n">6,35 cm / 0,654 cm² / 4,15 cm³</td><td class="n">8,14 cm / 0,656 cm² / 5,34 cm³</td></tr>
+  <tr><td>H de pico / permeabilidade restante</td><td class="n">57,9 A/cm / 35,2 %</td><td class="n">44,1 A/cm / 50,1 %</td></tr>
+  <tr><td><strong>L mínima em plena carga (8,75 A)</strong></td><td class="n"><strong>89,7 µH – não atende</strong></td><td class="n"><strong>98,4 µH – atende</strong></td></tr>
+  <tr><td>Fator de enrolamento / camadas</td><td class="n">0,76 / 3</td><td class="n">0,41 / 2</td></tr>
+  <tr><td>Resistência CC (20 °C)</td><td class="n">15,1 mΩ</td><td class="n">13,3 mΩ</td></tr>
+  <tr><td>Perdas no núcleo</td><td class="n">29,3 mW</td><td class="n">47,7 mW</td></tr>
+  <tr><td>Perdas no cobre</td><td class="n">1,047 W</td><td class="n">0,926 W</td></tr>
+  <tr><td>Perdas totais</td><td class="n">1,076 W</td><td class="n">0,973 W</td></tr>
+  <tr><td>Elevação de temperatura</td><td class="n">14,9 °C</td><td class="n">12,2 °C</td></tr>
+</table>
+<p>O núcleo maior tem perdas no núcleo um pouco maiores, por ter mais volume, mas perdas no cobre menores: as espiras são mais curtas e há mais cobre em paralelo. A maior superfície do núcleo também ajuda a dissipar o calor. O resultado é 0,97 W de perdas e elevação de 12,2 °C.</p>
+
+<h2>6. Resumo dos indutores projetados</h2>
+<table>
+  <tr><th>Item</th><th class="n">Projeto 1 – Thornton (SMath)</th><th class="n">Projeto 2 – Magnetics (Design Tool)</th></tr>
+  <tr><td>Indutância de projeto</td><td class="n">96 µH</td><td class="n">96 µH (mín. 98,4 µH em plena carga)</td></tr>
+  <tr class="hl"><td>Núcleo</td><td class="n">EE-30/14 Thornton, 1 par</td><td class="n">Toroide Magnetics 55548 (C055548A2)</td></tr>
+  <tr><td>Material</td><td class="n">Ferrite Thornton tipo IP</td><td class="n">Pó MPP, µ = 125</td></tr>
+  <tr><td>Dados geométricos</td><td class="n">A<sub>e</sub> = 1,20 cm², A<sub>w</sub> = 0,85 cm², V<sub>e</sub> = 8,0 cm³</td><td class="n">A<sub>e</sub> = 0,656 cm², W<sub>a</sub> = 2,97 cm², V<sub>e</sub> = 5,34 cm³</td></tr>
+  <tr class="hl"><td>Número de espiras</td><td class="n">20</td><td class="n">41</td></tr>
+  <tr><td>Entreferro</td><td class="n">0,63 mm total (≈0,31 mm de espaçador)</td><td class="n">Distribuído no material</td></tr>
+  <tr class="hl"><td>Fio</td><td class="n">15 × 26 AWG em paralelo</td><td class="n">2 × 16 AWG em paralelo</td></tr>
+  <tr><td>Seção de cobre total</td><td class="n">0,0193 cm²</td><td class="n">0,0294 cm²</td></tr>
+  <tr><td>Densidade de corrente</td><td class="n">432 A/cm²</td><td class="n">283 A/cm²</td></tr>
+  <tr><td>Ocupação da janela</td><td class="n">K<sub>ocup</sub> = 0,59</td><td class="n">Fator de enrolamento = 0,41</td></tr>
+  <tr><td>Resistência do enrolamento</td><td class="n">16,0 mΩ (100 °C)</td><td class="n">13,3 mΩ (20 °C)</td></tr>
+  <tr><td>Perdas no núcleo</td><td class="n">18,2 mW</td><td class="n">47,7 mW</td></tr>
+  <tr><td>Perdas no cobre</td><td class="n">1,111 W</td><td class="n">0,926 W</td></tr>
+  <tr class="hl"><td>Perdas totais</td><td class="n">1,129 W</td><td class="n">0,973 W</td></tr>
+  <tr class="hl"><td>Elevação de temperatura</td><td class="n">25,8 °C</td><td class="n">12,2 °C</td></tr>
+</table>
+
+<h2>7. Conclusão</h2>
+<p>Os dois indutores de 96 µH são viáveis para o Buck de 100 W em 100 kHz. Seguindo os passos da aula, o projeto com ferrite Thornton levou ao núcleo <strong>EE-30/14 com 20 espiras de 15 × 26 AWG</strong> e entreferro de 0,63 mm, com ocupação da janela de 0,59 e elevação de temperatura de 25,8 °C. O grande número de fios em paralelo vem do critério de profundidade de penetração para 100 kHz.</p>
+<p>No projeto com a ferramenta da Magnetics, a seleção inicial pelo gráfico LI² (55930) não garantia a indutância em plena carga quando considerada a tolerância do A<sub>L</sub> e a queda de permeabilidade com a corrente CC. Um tamanho acima, o toroide <strong>55548 (MPP 125µ) com 41 espiras de 2 × 16 AWG</strong> atende à especificação, com 0,97 W de perdas e elevação de 12,2 °C. Esse caso mostra que, em núcleos de pó, é necessário verificar a indutância na corrente máxima e não apenas na condição sem carga.</p>
+<p>Nos dois projetos, as perdas no cobre dominam (mais de 95 % do total). A ondulação de corrente é pequena, então a variação de fluxo e as perdas no núcleo também são. O dimensionamento é definido principalmente pela corrente de pico, que limita a saturação, e pela corrente eficaz, que define o aquecimento do enrolamento.</p>
+
+<h2>Apêndice A – Memória de cálculo da planilha SMath</h2>
+<p class="note">Regiões da planilha <em>Projeto Físico do Indutor de Alta Frequência (Versão 01)</em>, na ordem em que aparecem, com os resultados calculados pela SMath Studio (4 casas decimais). As linhas <span class="in">em destaque</span> são os valores de entrada deste projeto.</p>
+<div class="sm">
+<div class="smh">Parâmetros de entrada</div>
+<div class="in">Lo := 96·10<sup>−6</sup> H &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Indutância desejada</div>
+<div class="in">ILop := 8,75 A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Corrente de pico no indutor</div>
+<div class="in">ILoef := 8,337 A &nbsp;&nbsp;// Corrente eficaz</div>
+<div class="in">ΔILo := 0,8333 A &nbsp;// Ondulação de corrente</div>
+<div class="in">Fs := 100000 Hz &nbsp;&nbsp;// Frequência de operação</div>
+<div class="smh">Escolha do núcleo</div>
+<div>k := 0,7 &nbsp;&nbsp;&nbsp;&nbsp;J := 450 A/cm² &nbsp;&nbsp;&nbsp;&nbsp;B := 0,35 T (material IP Thornton) &nbsp;&nbsp;&nbsp;&nbsp;μ := 4·π·10<sup>−7</sup></div>
+<div>AeAw := Lo·ILop·ILoef·10<sup>4</sup> / (k·B·J) &nbsp;→&nbsp; <b>AeAw = 0,6352 cm<sup>4</sup></b></div>
+<div>Tabela de núcleos Thornton (Barbi): linhas 1–6 = E-20, E-30/7, E-30/14, E-42/15, E-42/20, E-55</div>
+<div class="in">Linha := 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Núcleo escolhido: EE-30/14 Thornton</div>
+<div>Ae = 1,2 cm² &nbsp;&nbsp;&nbsp;lt = 6,7 cm &nbsp;&nbsp;&nbsp;Aw = 0,85 cm² &nbsp;&nbsp;&nbsp;Ve = 8 cm³ &nbsp;&nbsp;&nbsp;AeAw = 1,02 cm<sup>4</sup></div>
+<div class="smh">Cálculo do número de espiras</div>
+<div>N := Lo·ILop / (B·Ae)·10<sup>4</sup> &nbsp;→&nbsp; <b>N = 20 espiras</b></div>
+<div class="in">N := 20 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Ajuste (arredondamento)</div>
+<div class="smh">Cálculo do entreferro</div>
+<div>lg := N²·μ·Ae / Lo·10<sup>−2</sup> &nbsp;→&nbsp; <b>lg = 0,0628 cm</b></div>
+<div class="smh">Perdas no núcleo</div>
+<div>KH := 4·10<sup>−5</sup> &nbsp;&nbsp;&nbsp;KE := 4·10<sup>−10</sup></div>
+<div>ΔB := B·ΔILo / ILop &nbsp;→&nbsp; <b>ΔB = 0,0333 T</b></div>
+<div>Pnucleo := ΔB<sup>2,4</sup>·(KH·Fs + KE·Fs²)·Ve &nbsp;→&nbsp; <b>Pnucleo = 0,0182 W</b></div>
+<div class="smh">Profundidade de penetração</div>
+<div>Δ := 7,5 / √Fs &nbsp;→&nbsp; <b>Δ = 0,0237 cm</b> &nbsp;&nbsp;&nbsp;&nbsp;2·Δ = <b>0,0474 cm</b> (diâmetro máximo do condutor)</div>
+<div class="in">Fio := 26 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// AWG escolhido (Ø cobre 0,040 cm)</div>
+<div>Acufio = 0,0013 cm² &nbsp;&nbsp;&nbsp;ρfio = 0,0018 Ω/cm (100 °C) &nbsp;&nbsp;&nbsp;Sfio = 0,0017 cm² (com isolamento)</div>
+<div class="smh">Área e número de condutores</div>
+<div>S := ILoef / J &nbsp;→&nbsp; <b>S = 0,0185 cm²</b></div>
+<div>NFios := S / Acufio &nbsp;→&nbsp; <b>NFios = 14,3952</b> fios de seção 26 AWG</div>
+<div class="in">NFios := 15 &nbsp;&nbsp;&nbsp;// Ajuste (arredondamento)</div>
+<div class="smh">Resistência, perdas e temperatura</div>
+<div>RFio := N·ρfio / NFios·lt &nbsp;→&nbsp; <b>RFio = 0,016 Ω</b></div>
+<div>Pcu := RFio·ILoef² &nbsp;→&nbsp; <b>Pcu = 1,1108 W</b></div>
+<div>Ptotal := Pnucleo + Pcu &nbsp;→&nbsp; <b>Ptotal = 1,1291 W</b></div>
+<div>Rt := 23·(Ae·Aw)<sup>−0,37</sup> &nbsp;→&nbsp; <b>Rt = 22,8321 °C/W</b></div>
+<div>Δt := Ptotal·Rt &nbsp;→&nbsp; <b>Δt = 25,7788 °C</b></div>
+<div class="smh">Fator de ocupação</div>
+<div>Awneces := N·NFios·Sfio &nbsp;→&nbsp; <b>Awneces = 0,5013 cm²</b></div>
+<div>Kocup := Awneces / Aw &nbsp;→&nbsp; <b>Kocup = 0,5898</b> (&lt; 1, é possível executar)</div>
+</div>
+
+<h2>Apêndice B – Planilha Magnetics (aba <em>Toroid Design</em>)</h2>
+<p class="note">Painel de entradas e resultados da aba <em>Toroid Design</em> da planilha <em>Inductor Design Tool</em>, nas etapas STEP 1 a STEP 4, para o núcleo selecionado inicialmente (55930) e para o núcleo adotado (55548).</p>
+
+<table class="mag">
+  <tr><th colspan="2">STEP 1 – Design Input</th></tr>
+  <tr><td>Full Load L</td><td class="n">0,096 mH</td></tr>
+  <tr><td>DC Current</td><td class="n">8,33 A</td></tr>
+  <tr><td>Ripple Current (peak to peak)</td><td class="n">0,833 A</td></tr>
+  <tr><td>Frequency</td><td class="n">100 kHz</td></tr>
+  <tr><td>Stack Cores</td><td class="n">1</td></tr>
+  <tr><td>Specified Current</td><td class="n">8,33 A</td></tr>
+  <tr><td>Ambient Temperature</td><td class="n">25 °C</td></tr>
+  <tr><th colspan="2">STEP 2 – Calculated LI² value</th></tr>
+  <tr><td>LI² (DC + Peak Ripple) = L·(I<sub>DC</sub> + ΔI/2)² = 0,096 × 8,7465²</td><td class="n"><b>7,344 mH·A²</b></td></tr>
+  <tr><td>RMS Ripple Current = ΔI/2/1,732</td><td class="n">0,2405 A</td></tr>
+  <tr><td>Skin depth = 66,3/√f</td><td class="n">0,2097 mm</td></tr>
+</table>
+
+<table class="mag">
+  <tr><th>STEP 3 e STEP 4 – Design Output</th><th class="n">55930 (seleção inicial)</th><th class="n">55548 (adotado)</th></tr>
+  <tr><td>Part Number / Material / Permeability</td><td class="n">C055930A2 / MPP / 125</td><td class="n">C055548A2 / MPP / 125</td></tr>
+  <tr><td>Core OD × ID × HT (mm)</td><td class="n">27,69 × 14,1 × 12</td><td class="n">33,66 × 19,4 × 11,5</td></tr>
+  <tr><td>Core A<sub>L</sub> (nH/T², ±8 %)</td><td class="n">157</td><td class="n">127</td></tr>
+  <tr><td>Wire AWG / # of Strands</td><td class="n">13 / 1</td><td class="n">16 / 2</td></tr>
+  <tr><td>Number of Turns</td><td class="n">42</td><td class="n">41</td></tr>
+  <tr><td>Inductance at No Load</td><td class="n">0,2769 mH</td><td class="n">0,2135 mH</td></tr>
+  <tr><td>Specified Current Inductance (mín.)</td><td class="n">0,0962 mH</td><td class="n">0,1038 mH</td></tr>
+  <tr><td><b>Inductance at Full Load (mín.)</b></td><td class="n"><b>0,0897 mH</b></td><td class="n"><b>0,0984 mH</b></td></tr>
+  <tr><td>% Initial Perm at Max Current</td><td class="n">35,2 %</td><td class="n">50,1 %</td></tr>
+  <tr><td>H at Max Current (A·T/cm)</td><td class="n">57,85</td><td class="n">44,05</td></tr>
+  <tr><td>B Peak (ΔB/2)</td><td class="n">11,48 mT</td><td class="n">12,88 mT</td></tr>
+  <tr><td>Core Loss</td><td class="n">0,0293 W</td><td class="n">0,0477 W</td></tr>
+  <tr><td>Copper Loss</td><td class="n">1,0468 W</td><td class="n">0,926 W</td></tr>
+  <tr><td>Total Loss</td><td class="n">1,0760 W</td><td class="n">0,973 W</td></tr>
+  <tr><td>Winding Factor</td><td class="n">0,7646</td><td class="n">0,406</td></tr>
+  <tr><td>Number of Layers</td><td class="n">3</td><td class="n">2</td></tr>
+  <tr><td>MLT</td><td class="n">54,6 mm</td><td class="n">49,3 mm</td></tr>
+  <tr><td>Total Wire Length</td><td class="n">2293 mm</td><td class="n">2020 mm (por fio)</td></tr>
+  <tr><td>DC Resistance of Winding (20 °C)</td><td class="n">15,05 mΩ</td><td class="n">13,31 mΩ</td></tr>
+  <tr><td>Wound Surface Area</td><td class="n">42,1 cm²</td><td class="n">48,3 cm²</td></tr>
+  <tr><td>Temp Rise = (P<sub>total</sub>[mW]/SA[cm²])<sup>0,833</sup></td><td class="n">14,9 °C</td><td class="n">12,2 °C</td></tr>
+  <tr><td>Operating Temperature</td><td class="n">39,9 °C</td><td class="n">37,2 °C</td></tr>
+</table>
+
+<p class="note"><b>Principais equações da aba <em>Toroid Design</em>:</b> N<sub>0</sub> = ⌈√(L/A<sub>L,min</sub>)⌉, com A<sub>L,min</sub> = 0,92·A<sub>L</sub>; H = N·I/l<sub>e</sub>; %µ = 1/(a + b·H<sup>c</sup>), com a = 0,01, b = 1,967·10<sup>−6</sup> e c = 2,2535 (MPP 125µ); N = ⌈N<sub>0</sub>/%µ⌉; L = A<sub>L,min</sub>·%µ·N²; B(H) = [(A + B·H + C·H²)/(1 + D·H + E·H²)]<sup>0,5</sup>; P<sub>núcleo</sub> = 53,05·B<sub>pk</sub><sup>2,06</sup>·f<sub>kHz</sub><sup>1,56</sup>·V<sub>e</sub> [mW]; P<sub>cu</sub> = I<sub>DC</sub>²·R<sub>DC</sub> + I<sub>rip,rms</sub>²·2,5·R<sub>DC</sub>.</p>
+
+<h2>Referências</h2>
+<ul class="ref">
+  <li>Prof. Joabel Moia. <em>Apresentação Aula 04B – Projeto de Indutores para Alta Frequência</em>. IFSC, agosto de 2026.</li>
+  <li>C. Petry; J. Moia. <em>Projeto Físico do Indutor de Alta Frequência (Versão 01)</em>, planilha SMath Studio. IFSC, 2017.</li>
+  <li>I. Barbi. <em>Projeto de Fontes Chaveadas</em>. Florianópolis: Edição do Autor (tabelas de núcleos Thornton e de fios esmaltados).</li>
+  <li>Magnetics Inc. <em>Inductor Design Tool</em> (planilha Excel) e <em>Powder Cores Catalog</em> (gráficos de seleção LI² e curvas de ajuste do MPP). https://www.mag-inc.com</li>
+  <li>Thornton Eletrônica Ltda. <em>Catálogo de Ferrites – Núcleos EE</em>.</li>
+</ul>
+
+</div>
+</body>
+</html>

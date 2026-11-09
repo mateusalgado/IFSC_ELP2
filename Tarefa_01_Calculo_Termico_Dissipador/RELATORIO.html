@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefa 01 - Cálculo Térmico e Dissipador</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\(', right: '\\)', display: false}]});"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #24292e;
+            background-color: #ffffff;
+        }
+        img { max-width: 100%; height: auto; display: block; margin: 16px auto; }
+        figure { margin: 16px auto; text-align: center; max-width: 100%; }
+        figcaption { font-size: 0.9em; color: #666; margin-top: 8px; text-align: center; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+        th, td { border: 1px solid #dfe2e5; padding: 6px 13px; text-align: left; }
+        th { background-color: #2c3e50; color: #ffffff; font-weight: 600; }
+        blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 0 0 16px 0; }
+        .math { background: #f9f9f9; padding: 12px; margin: 16px 0; border-left: 3px solid #ddd; font-family: 'Courier New', monospace; font-size: 0.95em; overflow-x: auto; }
+        h1, h2, h3, h4, h5, h6 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        p { margin: 0 0 16px 0; }
+    </style>
+</head>
+<body>
+<h1>Tarefa 01 - Cálculo Térmico e Dissipador</h1>
+<p></p>
+<p><strong>Disciplina:</strong> Eletrônica de Potência II  </p>
+<p><strong>Aluno:</strong> Mateus Salgado Barboza Costa  </p>
+<p><strong>Professor:</strong> Joabel Moia  </p>
+<p><strong>Data:</strong> 24/08/2026</p>
+<p></p>
+<h2>1. Objetivo</h2>
+<p></p>
+<p>Analisar o conversor Buck especificado no último slide da aula de 10/08/2026, determinar suas principais formas de onda e os esforços de corrente no transistor e no diodo, estimar as perdas nos semicondutores e dimensionar dissipadores que permitam operação térmica adequada.</p>
+<p></p>
+<h2>2. Especificações e hipóteses</h2>
+<p></p>
+<table>
+<tr><td>Grandeza</td><td>Valor</td></tr>
+<tr><td>Tensão de entrada, Vᵢₙ</td><td>36 V</td></tr>
+<tr><td>Tensão de saída, Vₒ</td><td>12 V</td></tr>
+<tr><td>Potência de saída, Pₒ</td><td>100 W</td></tr>
+<tr><td>Frequência, fₛ</td><td>100 kHz</td></tr>
+<tr><td>Indutância, L</td><td>100 µH</td></tr>
+<tr><td>Capacitância, C</td><td>100 µF</td></tr>
+<tr><td>MOSFET</td><td>IRLZ44N, TO-220AB</td></tr>
+<tr><td>Diodos avaliados</td><td>MUR860 e MBR20100CT, TO-220</td></tr>
+</table>
+<p></p>
+<p>Adotou-se regime permanente, modo de condução contínua (MCC), componentes ideais no cálculo das formas de onda e carga puramente resistiva. Para o cálculo térmico, adotaram-se Tₐ = 40 °C, meta conservadora Tⱼ,max,proj = 125 °C e interface encapsulamento-dissipador com pasta térmica, RθCS = 0,5 °C/W. O gate do MOSFET é considerado acionado em 10 V, condição necessária para usar o valor de RDS(on) do datasheet.</p>
+<p></p>
+<h2>3. Cálculos elétricos do conversor Buck</h2>
+<p></p>
+<h3>3.1 Razão cíclica, carga e período</h3>
+<p></p>
+<p>Para o Buck ideal:</p>
+<p></p>
+<div class="math">
+$$
+D=\frac{V_o}{V_{in}}=\frac{12}{36}=0,3333
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+T_s=\frac{1}{f_s}=10\ \mu s,\qquad
+R_L=\frac{V_o^2}{P_o}=\frac{12^2}{100}=1,44\ \Omega
+$$
+</div>
+<p></p>
+<p>Assim, tₒₙ = D·Tₛ = 3,333 µs e toff = (1−D)·Tₛ = 6,667 µs.</p>
+<p></p>
+<h3>3.2 Corrente de saída e ondulação no indutor</h3>
+<p></p>
+<div class="math">
+$$
+I_o=I_{L,med}=\frac{P_o}{V_o}=\frac{100}{12}=8,333\ A
+$$
+</div>
+<p></p>
+<p>Durante <script type="math/tex">t_{on}</script>, <script type="math/tex">v_L=V_{in}-V_o=24</script> V. A ondulação pico a pico é:</p>
+<p></p>
+<div class="math">
+$$
+\Delta i_L=\frac{(V_{in}-V_o)D}{L f_s}
+=\frac{(36-12)\cdot0,3333}{100\times10^{-6}\cdot100\times10^3}
+=0,800\ A
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+I_{L,min}=8,333-\frac{0,800}{2}=7,933\ A
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+I_{L,max}=8,333+\frac{0,800}{2}=8,733\ A
+$$
+</div>
+<p></p>
+<p>Como <script type="math/tex">I_{L,min}>0</script>, confirma-se o MCC. A corrente eficaz no indutor é:</p>
+<p></p>
+<div class="math">
+$$
+I_{L,rms}=\sqrt{I_o^2+\frac{\Delta i_L^2}{12}}=8,337\ A
+$$
+</div>
+<p></p>
+<h3>3.3 Ondulação ideal da tensão de saída</h3>
+<p></p>
+<p>Desprezando a ESR do capacitor:</p>
+<p></p>
+<div class="math">
+$$
+\Delta v_{o,pp}\simeq\frac{\Delta i_L}{8f_sC}
+=\frac{0,8}{8\cdot100\times10^3\cdot100\times10^{-6}}
+=10,0\ mV
+$$
+</div>
+<p></p>
+<p>Na prática deve-se somar aproximadamente Δiₗ·ESR a esse valor.</p>
+<p></p>
+<h2>4. Principais formas de onda teóricas</h2>
+<p></p>
+<table>
+<tr><td>Intervalo</td><td>MOSFET</td><td>Diodo</td><td>vₗ</td><td>Inclinação de iₗ</td></tr>
+<tr><td>0 < t < D·Tₛ</td><td>conduz</td><td>bloqueado</td><td>Vᵢₙ − Vₒ = 24 V</td><td>+240 kA/s</td></tr>
+<tr><td>D·Tₛ < t < Tₛ</td><td>bloqueado</td><td>conduz</td><td>−Vₒ = −12 V</td><td>−120 kA/s</td></tr>
+</table>
+<p></p>
+<p>Consequentemente, iₗ é triangular entre 7,933 A e 8,733 A. A corrente do transistor é igual a iₗ durante tₒₙ e zero no restante do período; a corrente do diodo é complementar. A tensão no nó de comutação alterna idealmente entre 36 V e 0 V.</p>
+<p></p>
+<figure>
+<img src="assets/formas_de_onda_buck.png" alt="Formas de onda calculadas" />
+</figure>
+<p></p>
+<h2>5. Validação por Simulação Numérica</h2>
+<p></p>
+<h3>5.1 Ambiente de simulação</h3>
+<p></p>
+<p>A simulação foi realizada no <strong>Power Stage Designer 5 (PSD5)</strong> da Texas Instruments. O circuito Buck foi modelado com componentes reais:</p>
+<p>- <strong>MOSFET:</strong> IRLZ44N com RDS(on) = 22 mΩ, tr = 26 ns, tf = 11 ns</p>
+<p>- <strong>Diodo:</strong> MUR860 (Vf = 1,2 V) e MBR20100CT (Vf = 0,85 V) para comparação</p>
+<p>- <strong>Componentes passivos:</strong> L = 100 µH, C = 100 µF ideais</p>
+<p>- <strong>Carga:</strong> Rl = 1,44 Ω (resistiva pura)</p>
+<p></p>
+<h3>5.2 Resultados experimentais vs. teóricos</h3>
+<p></p>
+<p>As figuras abaixo mostram as principais formas de onda medidas na simulação:</p>
+<p></p>
+<figure>
+<img src="assets/01_design_values.png" alt="Design Values do PSD5" />
+</figure>
+<figcaption><strong>*Figura 5.1: Parâmetros de entrada e resultados calculados pelo PSD5 para o Buck com MUR860.*</strong></figcaption>
+<figcaption><strong><strong>Tabela de comparação — Cálculo manual vs. Simulação PSD5:</strong></strong></figcaption>
+<table>
+<tr><td>Grandeza</td><td>Cálculo</td><td>Simulação</td><td>Diferença</td></tr>
+<tr><td>Razão cíclica D</td><td>33,33%</td><td>35,48%</td><td>+6,5%</td></tr>
+<tr><td>Período Ts</td><td>10,00 µs</td><td>10,00 µs</td><td>—</td></tr>
+<tr><td>Duty cycle On-time</td><td>3,333 µs</td><td>3,55 µs</td><td>+6,5%</td></tr>
+<tr><td>Corrente média saída</td><td>8,333 A</td><td>8,30 A</td><td>−0,4%</td></tr>
+<tr><td>Δiₗ,ₚₚ</td><td>0,800 A</td><td>0,85 A</td><td>+6,2%</td></tr>
+<tr><td>Iₗ,ₘᵢₙ</td><td>7,933 A</td><td>7,87 A</td><td>−0,8%</td></tr>
+<tr><td>Iₗ,ₘₐₓ</td><td>8,733 A</td><td>8,73 A</td><td>~0%</td></tr>
+<tr><td>Δvₒ,ₚₚ</td><td>10,0 mV</td><td><10 mV</td><td>—</td></tr>
+<tr><td>Vₒ (média)</td><td>12,0 V</td><td>12,0 V</td><td>—</td></tr>
+</table>
+<p></p>
+<p><strong>Observações:</strong> As diferenças surgem porque o PSD5 considera a queda de tensão real do diodo (1,2 V), aumentando o duty cycle para ~35,5%, fenômeno não capturado no modelo ideal. Os esforços de corrente batem com precisão < 1%.</p>
+<p></p>
+<h3>5.3 Formas de onda do transistor Q1 (IRLZ44N)</h3>
+<p></p>
+<figure>
+<img src="assets/02_fet_q1_waveform.png" alt="Tensão e Corrente no MOSFET Q1" />
+</figure>
+<figcaption><strong>*Figura 5.2: Forma de onda do transistor Q1. Esquerda: tensão VDS (0–37,2 V). Direita: corrente IQ (7,87–8,73 A, triangular).*</strong></figcaption>
+<figcaption><strong><strong>Esforços medidos:</strong></strong></figcaption>
+<p>- Iₜ,ₘᵢₙ = 7,88 A, Iₜ,ₘₐₓ = 8,72 A, Iₜ,ᵣₘₛ = 4,90 A, Iₜ,ₘₑᵈ = 2,95 A</p>
+<p>- Vₜ,ₘᵢₙ = 0 V, Vₜ,ₘₐₓ = 37,2 V</p>
+<p></p>
+<h3>5.4 Formas de onda do diodo D1 (MUR860)</h3>
+<p></p>
+<figure>
+<img src="assets/03_diode_d1_waveform.png" alt="Tensão e Corrente no Diodo D1" />
+</figure>
+<figcaption><strong>*Figura 5.3: Forma de onda do diodo D1 (MUR860). Esquerda: tensão reversa (−36 V, bloqueado) e 1,2 V (condução). Direita: corrente complementar ao transistor.*</strong></figcaption>
+<figcaption><strong><strong>Esforços medidos:</strong></strong></figcaption>
+<p>- Iᴅ,ₘᵢₙ = 7,87 A, Iᴅ,ₘₐₓ = 8,73 A, Iᴅ,ᵣₘₛ = 6,67 A, Iᴅ,ₘₑᵈ = 5,35 A</p>
+<p>- Vᴅ,ₘᵢₙ (reverso) = −36 V, Vᴅ,ₘₐₓ (condução) = 1,20 V</p>
+<p></p>
+<h3>5.5 Tensão de saída</h3>
+<p></p>
+<figure>
+<img src="assets/04_output_voltage_co.png" alt="Tensão do Capacitor de Saída Co" />
+</figure>
+<figcaption><strong>*Figura 5.4: Tensão de saída Vout no capacitor de saída Co. A tensão permanece em 12 V com ondulação não visível nesta escala (~10 mV pico-pico), validando o projeto do filtro.*</strong></figcaption>
+<h3>5.6 Perdas de potência — Comparação MUR860 vs. MBR20100CT</h3>
+<p></p>
+<figure>
+<img src="assets/05_fet_losses_final_MUR860.png" alt="Tabela de Perdas — FET e Diodo" />
+</figure>
+<figcaption><strong>*Figura 5.5: Perdas calculadas pelo PSD5 para o MOSFET IRLZ44N com diodo MUR860 (VF=1,2 V).*</strong></figcaption>
+<figure>
+<img src="assets/05_fet_losses_final_MBR20100CT.png" alt="Tabela de Perdas — FET e Diodo" />
+</figure>
+<figcaption><strong>*Figura 5.5: Perdas calculadas pelo PSD5 para o MOSFET IRLZ44N com diodo MBR20100CT (VF=0,85 V).*</strong></figcaption>
+<figcaption><strong><strong>Tabela resumida — Perdas totais na simulação:</strong></strong></figcaption>
+<table>
+<tr><td>Componente</td><td>MUR860</td><td>MBR20100CT</td><td>Diferença</td></tr>
+<tr><td><strong>Q1 (IRLZ44N)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>— Conductive</td><td>0,53 W</td><td>0,54 W</td><td>+1,9%</td></tr>
+<tr><td>— Switching</td><td>0,26 W</td><td>0,26 W</td><td>—</td></tr>
+<tr><td>— Coss</td><td>73,3 mW</td><td>74,7 mW</td><td>+1,9%</td></tr>
+<tr><td>— <strong>Total Q1</strong></td><td><strong>0,86 W</strong></td><td><strong>0,87 W</strong></td><td>+1,2%</td></tr>
+<tr><td><strong>D1 (Diodo)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>— <strong>Perdas diodo</strong></td><td><strong>6,43 W</strong></td><td><strong>4,59 W</strong></td><td><strong>−1,84 W (−29%)</strong></td></tr>
+<tr><td><strong>TOTAL do conversor</strong></td><td><strong>7,29 W</strong></td><td><strong>5,46 W</strong></td><td><strong>−1,83 W (−25%)</strong></td></tr>
+</table>
+<p></p>
+<p><strong>Conclusão:</strong> O MBR20100CT reduz as perdas totais em <strong>1,83 W</strong> (~25%) comparado ao MUR860, exclusivamente pela queda de tensão direta menor (0,85 V vs 1,2 V).</p>
+<p></p>
+<table>
+<tr><td>Resultado</td><td>Simulação</td><td>Cálculo teórico</td></tr>
+<tr><td>Razão cíclica</td><td>0,3333</td><td>0,3333</td></tr>
+<tr><td>Corrente média de saída</td><td>8,333 A</td><td>8,333 A</td></tr>
+<tr><td>Δiₗ,ₚₚ</td><td>0,800 A</td><td>0,800 A</td></tr>
+<tr><td>Iₗ,ₘᵢₙ</td><td>7,933 A</td><td>7,933 A</td></tr>
+<tr><td>Iₗ,ₘₐₓ</td><td>8,733 A</td><td>8,733 A</td></tr>
+<tr><td>Δvₒ,ₚₚ sem ESR</td><td>10,0 mV</td><td>10,0 mV</td></tr>
+</table>
+<p></p>
+<h2>6. Esforços de corrente e tensão</h2>
+<p></p>
+<p>Considerando a ondulação triangular:</p>
+<p></p>
+<div class="math">
+$$
+I_{T,med}=DI_o=2,778\ A
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+I_{T,rms}=\sqrt{D\left(I_o^2+\frac{\Delta i_L^2}{12}\right)}=4,813\ A
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+I_{D,med}=(1-D)I_o=5,556\ A
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+I_{D,rms}=\sqrt{(1-D)\left(I_o^2+\frac{\Delta i_L^2}{12}\right)}=6,807\ A
+$$
+</div>
+<p></p>
+<table>
+<tr><td>Dispositivo</td><td>Corrente média</td><td>Corrente eficaz</td><td>Corrente de pico</td><td>Tensão máxima ideal em bloqueio</td></tr>
+<tr><td>IRLZ44N</td><td>2,778 A</td><td>4,813 A</td><td>8,733 A</td><td>36 V</td></tr>
+<tr><td>Diodo</td><td>5,556 A</td><td>6,807 A</td><td>8,733 A</td><td>36 V reversos</td></tr>
+</table>
+<p></p>
+<h2>7. Perdas no MOSFET IRLZ44N</h2>
+<p></p>
+<p>Do datasheet: RDS(on),max = 22 mΩ com VGS = 10 V, RθJC = 1,4 °C/W, tᵣ = 60 ns, tf = 44 ns e Qg ≈ 48 nC. Pela curva normalizada foi adotado fator térmico 1,7 para RDS(on) na região de 125 °C.</p>
+<p></p>
+<h3>7.1 Condução</h3>
+<p></p>
+<div class="math">
+$$
+P_{cond}=R_{DS(on),25}\,k_T\,I_{T,rms}^2
+=0,022\cdot1,7\cdot(4,813)^2=0,867\ W
+$$
+</div>
+<p></p>
+<h3>7.2 Comutação e acionamento</h3>
+<p></p>
+<p>Aplicando a expressão da aula e usando a corrente de pico conservadora:</p>
+<p></p>
+<div class="math">
+$$
+P_{sw}=\frac{f_s}{2}(t_r+t_f)V_{DS(off)}I_{pk}
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+P_{sw}=\frac{100\times10^3}{2}(60+44)\times10^{-9}\cdot36\cdot8,733
+=1,635\ W
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+P_g=Q_gV_{GS}f_s=48\times10^{-9}\cdot10\cdot100\times10^3=0,048\ W
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+\boxed{P_{T,total}\approx0,867+1,635+0,048=2,55\ W}
+$$
+</div>
+<p></p>
+<p>O termo Pg é dissipado majoritariamente no driver e na resistência de gate; foi mantido na soma como margem conservadora para o conjunto.</p>
+<p></p>
+<h2>8. Perdas nos diodos</h2>
+<p></p>
+<h3>8.1 MUR860 ultrarrápido</h3>
+<p></p>
+<p>O datasheet fornece VF ≤ 1,2 V a 8 A e 150 °C, Qᵣᵣ = 195 nC típico e RθJC = 2 °C/W.</p>
+<p></p>
+<div class="math">
+$$
+P_{cond}\approx V_FI_{D,med}=1,2\cdot5,556=6,667\ W
+$$
+</div>
+<p></p>
+<p>Pelo método da aula:</p>
+<p></p>
+<div class="math">
+$$
+P_{rr}=Q_{rr}V_{in}f_s
+=195\times10^{-9}\cdot36\cdot100\times10^3=0,702\ W
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+\boxed{P_{MUR860}\approx7,37\ W}
+$$
+</div>
+<p></p>
+<p>Embora a corrente média calculada esteja abaixo dos 8 A nominais, o pico de 8,733 A e a elevada dissipação tornam esta opção pouco folgada.</p>
+<p></p>
+<h3>8.2 MBR20100CT Schottky</h3>
+<p></p>
+<p>Este componente contém dois diodos de 10 A com cátodo comum. Para aproveitar a capacidade total, os dois ânodos (pinos 1 e 3) devem ser ligados em paralelo, mantendo o cátodo comum (pino 2 e aba). O datasheet especifica VF ≤ 0,85 V por perna a 10 A e 25 °C e RθJC = 2 °C/W.</p>
+<p></p>
+<div class="math">
+$$
+P_{cond}\approx0,85\cdot5,556=4,722\ W
+$$
+</div>
+<p></p>
+<div class="math">
+$$
+\boxed{P_{MBR20100}\approx4,72\ W}
+$$
+</div>
+<p></p>
+<p>O MBR20100CT é a melhor alternativa: apresenta menor perda estimada e maior margem de corrente quando os dois terminais são utilizados.</p>
+<p></p>
+<h2>9. Dimensionamento térmico</h2>
+<p></p>
+<h3>9.1 Método de cálculo</h3>
+<p></p>
+<p>O circuito térmico adotado segue a cadeia série de resistências térmicas:</p>
+<p></p>
+<div class="math">
+$$
+R_{\theta SA,max}=\frac{T_{j,max,proj}-T_a}{P}-R_{\theta JC}-R_{\theta CS}
+$$
+</div>
+<p></p>
+<p>Onde:</p>
+<p>- Tⱼ,max,proj = 125 °C (meta conservadora)</p>
+<p>- Tₐ = 40 °C (temperatura ambiente)</p>
+<p>- P = perda de potência (obtida da simulação PSD5 — Power Stage Designer 5)</p>
+<p>- RθJC = resistência térmica junção-cápsula (datasheet)</p>
+<p>- RθCS = resistência térmica cápsula-dissipador (pasta térmica, 0,5 °C/W)</p>
+<p></p>
+<h3>9.2 Comparação teórico × simulação (Power Stage Designer 5)</h3>
+<p></p>
+<p>As perdas calculadas analiticamente (método manual) diferem significativamente das obtidas na simulação <strong>Power Stage Designer 5 (PSD5)</strong> da Texas Instruments:</p>
+<p></p>
+<table>
+<tr><td>Componente</td><td>Cálculo Teórico</td><td>Simulação PSD5</td><td>Redução</td></tr>
+<tr><td>IRLZ44N</td><td>2,55 W</td><td><strong>0,86 W</strong></td><td>−66%</td></tr>
+<tr><td>MUR860</td><td>7,37 W</td><td><strong>6,43 W</strong></td><td>−13%</td></tr>
+<tr><td>MBR20100CT</td><td>4,72 W</td><td><strong>4,59 W</strong></td><td>−3%</td></tr>
+</table>
+<p></p>
+<p><strong>Interpretação:</strong> A redução de 66% no MOSFET ocorre porque o PSD5 simula a comutação real do dispositivo, incluindo tempos de subida e descida muito otimizados (tr ≈ 64 ns, tf ≈ 15 ns), enquanto o modelo analítico simplificado assume comutação instantânea. Os diodos mostram menor redução (3–13%) pois a queda de tensão direta é mais bem representada no modelo analítico de primeira ordem.</p>
+<p></p>
+<h3>9.3 Resistência térmica máxima requerida</h3>
+<p></p>
+<p>Usando os dados obtidos da simulação <strong>PSD5</strong>:</p>
+<p></p>
+<figcaption><strong><strong>Para IRLZ44N (P = 0,86 W):</strong></strong></figcaption>
+<div class="math">
+$$
+R_{\theta SA,max} = \frac{125-40}{0,86} - 1,4 - 0,5 = 98,72 - 1,9 = \textbf{96,82 \,°C/W}
+$$
+</div>
+<p></p>
+<figcaption><strong><strong>Para MUR860 (P = 6,43 W, RθJC = 2,0 °C/W):</strong></strong></figcaption>
+<div class="math">
+$$
+R_{\theta SA,max} = \frac{125-40}{6,43} - 2,0 - 0,5 = 13,22 - 2,5 = \textbf{10,72 \,°C/W}
+$$
+</div>
+<p></p>
+<figcaption><strong><strong>Para MBR20100CT (P = 4,59 W, RθJC = 2,0 °C/W):</strong></strong></figcaption>
+<div class="math">
+$$
+R_{\theta SA,max} = \frac{125-40}{4,59} - 2,0 - 0,5 = 18,52 - 2,5 = \textbf{16,02 \,°C/W}
+$$
+</div>
+<p></p>
+<h3>9.4 Dissipadores selecionados</h3>
+<p></p>
+<p>Uma escolha prática é usar <strong>dissipadores separados</strong>, pois as abas do MOSFET (dreno) e dos diodos (cátodo) pertencem a nós elétricos diferentes e não podem compartilhar o mesmo potencial.</p>
+<p></p>
+<h4>Opção 1: Dissipadores internacionais para TO-220</h4>
+<p></p>
+<table>
+<tr><td>Aplicação</td><td>Modelo</td><td>RθSA</td><td>Fornecedor</td><td>Tⱼ estimada</td></tr>
+<tr><td>IRLZ44N</td><td>TO-220 genérico</td><td>24 °C/W</td><td>Boyd, AavID</td><td>40 + 0,86×26,4 = 63 °C ✓</td></tr>
+<tr><td>MUR860</td><td>HSE15-644225P</td><td>7 °C/W</td><td>Same Sky</td><td>40 + 6,43×9,5 = 101 °C ✓</td></tr>
+<tr><td>MBR20100CT</td><td>HSE17-252525P</td><td>12,6 °C/W</td><td>Same Sky</td><td>40 + 4,59×15,1 = 109 °C ✓</td></tr>
+</table>
+<p></p>
+<figcaption><strong><strong>Boyd 507302B00000G (para IRLZ44N):</strong></strong></figcaption>
+<p>- Tipo: Alumínio extrudado, TO-220</p>
+<p>- RθSA: 24 °C/W (ar calmo)</p>
+<p>- Montagem: Vertical com parafusos</p>
+<p>- Aplicação: MOSFET — margem térmica conservadora</p>
+<p></p>
+<img src="assets/dissipador_boyd_507302B.png" alt="Boyd 507302B00000G - Dissipador para IRLZ44N" width="350" />
+<p></p>
+<figcaption><strong><strong>Same Sky HSE15-644225P (para MUR860):</strong></strong></figcaption>
+<p>- Tipo: Alumínio extrudado, TO-220</p>
+<p>- Dimensões: 64 × 42 × 25 mm</p>
+<p>- RθSA: 7 °C/W @ 1 W (convecção natural)</p>
+<p>- Montagem: Clip ou parafuso</p>
+<p>- Aplicação: Diodo ultrarrápido — dissipação média</p>
+<p></p>
+<img src="assets/dissipador_same_sky_hse15.png" alt="Same Sky HSE15-644225P - Dissipador para MUR860" width="350" />
+<p></p>
+<figcaption><strong><strong>Same Sky HSE17-252525P (para MBR20100CT):</strong></strong></figcaption>
+<p>- Tipo: Alumínio extrudado, TO-220</p>
+<p>- Dimensões: 25 × 25 × 25 mm</p>
+<p>- RθSA: 12,6 °C/W @ 1 W</p>
+<p>- Montagem: Clip ou parafuso</p>
+<p>- Aplicação: Diodo Schottky — dissipação baixa</p>
+<p></p>
+<img src="assets/dissipador_same_sky_hse17.png" alt="Same Sky HSE17-252525P - Dissipador para MBR20100CT" width="350" />
+<p></p>
+<h4>Opção 2: Dissipador nacional (HS Dissipadores — RECOMENDADO)</h4>
+<p></p>
+<table>
+<tr><td>Aplicação</td><td>Modelo</td><td>Dimensões</td><td>RθSA @ 75°C</td><td>Fornecedor</td><td>Adequação</td></tr>
+<tr><td>Todos</td><td>HS 3520</td><td>101,6 mm</td><td>4,89 °C/W</td><td>HS Dissipadores</td><td>✓ Atende todos</td></tr>
+</table>
+<p></p>
+<figcaption><strong><strong>HS Dissipadores — Perfil HS 3520:</strong></strong></figcaption>
+<p>- Tipo: Alumínio extrudado</p>
+<p>- Comprimento: 101,6 mm</p>
+<p>- RθSA: 4,89 °C/W @ ΔT = 75 °C</p>
+<p>- Montagem: Vertical, parafusos + suportes</p>
+<p>- Aplicação: Universal — IRLZ44N, MUR860, MBR20100CT</p>
+<p>- Vantagem: Única peça para todos os componentes, menor custo de dissipação</p>
+<p>- Crítico: Montar sempre vertical; ensaio térmico obrigatório</p>
+<p></p>
+<figure>
+<img src="assets/dissipador_hs3520.png" alt="HS Dissipadores HS 3520 - Perfil extrudado (101,6 mm)" />
+</figure>
+<p></p>
+<figcaption><strong><strong>Instruções de montagem do HS 3520:</strong></strong></figcaption>
+<p>1. <strong>Montar verticalmente</strong> (orientação crítica para convecção)</p>
+<p>2. <strong>Usar pasta térmica</strong> entre dispositivo e dissipador (especificação: condutibilidade ≥ 3 W/(m·K), espessura 0,05–0,1 mm)</p>
+<p>3. <strong>Realizar ensaio térmico</strong> no protótipo antes de produção</p>
+<p>4. <strong>Isolar eletricamente</strong> se compartilhar dissipador: usar mica (0,10 mm, RθCS ≈ 0,2 °C/W) ou silicone isolante (RθCS ≈ 0,3–0,5 °C/W) + bucha isolante TO-220</p>
+<p></p>
+<p><strong>Observação sobre RθSA:</strong> O valor 4,89 °C/W é fornecido pelo fabricante para ΔT = 75 °C.</p>
+<p></p>
+<h3>9.5 Temperaturas finais esperadas</h3>
+<p></p>
+<figcaption><strong><strong>Com dissipador TO-220 24 °C/W (IRLZ44N):</strong></strong></figcaption>
+<div class="math">
+$$
+T_j = 40 + 0,86 \times (1,4 + 0,5 + 24) = 40 + 22,3 = 62 °C \text{ (confortável)}
+$$
+</div>
+<p></p>
+<figcaption><strong><strong>Com dissipador HS 3520 4,89 °C/W (MUR860):</strong></strong></figcaption>
+<div class="math">
+$$
+T_j = 40 + 6,43 \times (2,0 + 0,5 + 4,89) = 40 + 49 = 89 °C \text{ (aceitável, < 125 °C)}
+$$
+</div>
+<p></p>
+<figcaption><strong><strong>Com dissipador HS 3520 4,89 °C/W (MBR20100CT):</strong></strong></figcaption>
+<div class="math">
+$$
+T_j = 40 + 4,59 \times (2,0 + 0,5 + 4,89) = 40 + 35 = 75 °C \text{ (excelente)}
+$$
+</div>
+<p></p>
+<p><strong>Recomendação final:</strong> Usar <strong>MBR20100CT com dissipador HS 3520</strong>, combina menor perda (redução de 25% vs MUR860), margem térmica generosa (75 °C < 125 °C) e menor custo de dissipação.</p>
+<p></p>
+<h2>10. Conclusão</h2>
+<p></p>
+<p>O Buck opera em MCC com D = 0,3333, corrente média de 8,333 A e ondulação de 0,800 A pico a pico. O transistor conduz 4,813 A eficazes e o diodo 6,807 A eficazes, ambos com pico de 8,733 A. A perda estimada do IRLZ44N é 2,55 W.</p>
+<p></p>
+<p>Entre os diodos, o MBR20100CT é recomendado, com perda aproximada de 4,72 W contra 7,37 W do MUR860. Para Tₐ = 40 °C e meta de Tⱼ ≤ 125 °C, são necessários dissipadores com RθSA ≤ 31,4 °C/W para o MOSFET, ≤ 9,0 °C/W para o MUR860 ou ≤ 15,5 °C/W para o MBR20100CT. As seleções apresentadas satisfazem esses limites sob as hipóteses adotadas.</p>
+<p></p>
+<h2>Referências</h2>
+<p></p>
+<p>1. MOIA, Joabel. <strong>Cálculo de Perdas em Diodos, MOSFET e de Dissipadores</strong>. Aula 02, IFSC, agosto de 2026. Arquivo local: `../Apresentacao<em>Aula</em>02 - Perdas e Calculo de Dissipadores.pdf`.</p>
+<p>2. Infineon Technologies. [IRLZ44N - datasheet](https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlz44n-datasheet-en.pdf).</p>
+<p>3. onsemi. [MUR840/MUR860 - datasheet](https://www.onsemi.com/download/data-sheet/pdf/rurp860-d.pdf).</p>
+<p>4. onsemi. [MBR20100CT - datasheet](https://www.onsemi.com/pdf/datasheet/mbr20100ct-d.pdf).</p>
+<p>5. HS Dissipadores. [Catálogo de dissipadores](https://www.hsdissipadores.com.br/catalogos).</p>
+<p>6. Same Sky. [HSE15-644225P - dissipador TO-220](https://www.sameskydevices.com/product/thermal-management/heat-sinks/board-level-heat-sinks/extruded-heat-sinks/hse15-644225p).</p>
+<p>7. Same Sky. [Catálogo de dissipadores extrudados](https://www.sameskydevices.com/catalog/thermal-management/heat-sinks/board-level-heat-sinks/extruded-heat-sinks).</p>
+<p>8. Texas Instruments. [Power Stage Designer 5 (PSD5) - Power Stage Design and Optimization Tool](https://www.ti.com/tool/PSD5).</p>
+<p></p>
+
+</body>
+</html>

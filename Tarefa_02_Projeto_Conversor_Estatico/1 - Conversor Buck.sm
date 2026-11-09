@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?application progid="SMath Studio Desktop" version="1.0.8348.30405"?>
+<worksheet xmlns="http://smath.info/schemas/worksheet/1.0">
+  <settings ppi="96">
+    <identity>
+      <id>03ada495-39e8-41ac-bf3e-c8d8a53b868b</id>
+      <revision>26</revision>
+    </identity>
+    <calculation>
+      <precision>4</precision>
+      <exponentialThreshold>5</exponentialThreshold>
+      <trailingZeros>false</trailingZeros>
+      <significantDigitsMode>false</significantDigitsMode>
+      <roundingMode>0</roundingMode>
+      <approximateEqualAccuracy>0</approximateEqualAccuracy>
+      <fractions>decimal</fractions>
+    </calculation>
+    <pageModel active="false" viewMode="2" printGrid="false" printAreas="true" simpleEqualsOnly="false" printBackgroundImages="true">
+      <paper id="9" orientation="Portrait" width="827" height="1169" />
+      <margins left="39" right="39" top="49" bottom="49" />
+      <header alignment="Center" color="#a9a9a9">&amp;[DATE] &amp;[TIME] - &amp;[FILENAME]</header>
+      <footer alignment="Center" color="#a9a9a9">&amp;[PAGENUM] / &amp;[COUNT]</footer>
+      <backgrounds />
+    </pageModel>
+    <dependencies>
+      <assembly name="SMath Studio Desktop" version="1.0.8348.30405" guid="a37cba83-b69c-4c71-9992-55ff666763bd" />
+      <assembly name="MathRegion" version="1.11.8348.30405" guid="02f1ab51-215b-466e-a74d-5d8b1cf85e8d" />
+      <assembly name="TextRegion" version="1.11.8348.30405" guid="485d28c5-349a-48b6-93be-12a35a1c1e39" />
+    </dependencies>
+  </settings>
+  <regions type="content">
+    <region left="297" top="0" width="128" height="23" color="#ffffff" bgColor="#000000" fontSize="10" isBreakable="false">
+      <text lang="por" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="font-family: Arial; color: #ffffff; background-color: #000000;">1 - Conversor Buck</p>
+        </content>
+      </text>
+    </region>
+    <region left="414" top="27" width="91" height="41" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">ΔV.C%</e>
+          <e type="operand">1</e>
+          <e type="operand">12</e>
+          <e type="operator" args="2">/</e>
+          <e type="operand" style="unit">%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="171" top="45" width="79" height="30" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">V.in</e>
+          <e type="operand">36</e>
+          <e type="operand" style="unit">V</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="288" top="45" width="97" height="41" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">I.out</e>
+          <e type="operand">100</e>
+          <e type="operand">12</e>
+          <e type="operator" args="2">/</e>
+          <e type="operand" style="unit">A</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="567" top="54" width="90" height="24" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">f</e>
+          <e type="operand">100</e>
+          <e type="operand" style="unit">kHz</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="171" top="72" width="85" height="30" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">V.out</e>
+          <e type="operand">12</e>
+          <e type="operand" style="unit">V</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="396" top="72" width="95" height="30" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">ΔI.L%</e>
+          <e type="operand">9.6</e>
+          <e type="operand" style="unit">%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+      </math>
+    </region>
+    <region left="99" top="135" width="96" height="23" color="#ffffff" bgColor="#000000" fontSize="10">
+      <text lang="por" width="35" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="background-color: #000000; color: #ffffff; font-family: Arial;">Razão Cíclica</p>
+        </content>
+      </text>
+    </region>
+    <region left="90" top="162" width="139" height="53" color="#000000" fontSize="10">
+      <math decimalPlaces="2">
+        <input>
+          <e type="operand">D</e>
+          <e type="operand">V.out</e>
+          <e type="operand">V.in</e>
+          <e type="operator" args="2">/</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">%</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">33.33</e>
+        </result>
+      </math>
+    </region>
+    <region left="279" top="171" width="194" height="30" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">ΔV.out</e>
+          <e type="operand">V.out</e>
+          <e type="operand">ΔV.C%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <result action="numeric">
+          <e type="operand">0.01</e>
+          <e type="operand" style="unit">V</e>
+          <e type="operator" args="2">*</e>
+        </result>
+      </math>
+    </region>
+    <region left="504" top="171" width="174" height="30" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">ΔI.L</e>
+          <e type="operand">I.out</e>
+          <e type="operand">ΔI.L%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <result action="numeric">
+          <e type="operand">0.8</e>
+          <e type="operand" style="unit">A</e>
+          <e type="operator" args="2">*</e>
+        </result>
+      </math>
+    </region>
+    <region left="189" top="252" width="56" height="23" color="#ffffff" bgColor="#000000" fontSize="10" isBreakable="false">
+      <text lang="por" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="font-family: Arial; background-color: #000000; color: #ffffff;">Indutor</p>
+        </content>
+      </text>
+    </region>
+    <region left="477" top="252" width="71" height="23" color="#ffffff" bgColor="#000000" fontSize="10" isBreakable="false">
+      <text lang="por" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="font-family: Arial; background-color: #000000; color: #ffffff;">Capacitor</p>
+        </content>
+      </text>
+    </region>
+    <region left="108" top="279" width="199" height="55" color="#000000" fontSize="10">
+      <math decimalPlaces="2">
+        <input>
+          <e type="operand">L</e>
+          <e type="operand">V.in</e>
+          <e type="operand">V.out</e>
+          <e type="operator" args="2">-</e>
+          <e type="bracket">(</e>
+          <e type="operand">D</e>
+          <e type="operator" args="2">*</e>
+          <e type="operand">f</e>
+          <e type="operand">I.out</e>
+          <e type="operand">ΔI.L%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">/</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">μH</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">100</e>
+        </result>
+      </math>
+    </region>
+    <region left="441" top="279" width="206" height="53" color="#000000" fontSize="10">
+      <math decimalPlaces="7">
+        <input>
+          <e type="operand">C</e>
+          <e type="operand">ΔI.L</e>
+          <e type="operand">8</e>
+          <e type="operand">f</e>
+          <e type="operator" args="2">*</e>
+          <e type="operand">V.out</e>
+          <e type="operand">ΔV.C%</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">/</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">μF</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">100</e>
+        </result>
+      </math>
+    </region>
+    <region left="270" top="378" width="165" height="23" color="#ffffff" bgColor="#000000" fontSize="10" isBreakable="false">
+      <text lang="por" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="font-family: Arial; background-color: #000000; color: #ffffff;">Parametros de simulação</p>
+        </content>
+      </text>
+    </region>
+    <region left="36" top="423" width="174" height="58" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">TimeStep</e>
+          <e type="operand">1</e>
+          <e type="operand">f</e>
+          <e type="operator" args="2">/</e>
+          <e type="operand">250</e>
+          <e type="operator" args="2">/</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">ns</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">40</e>
+        </result>
+      </math>
+    </region>
+    <region left="279" top="441" width="145" height="25" color="#000000" fontSize="10">
+      <text lang="por" fontFamily="Arial" fontSize="10">
+        <content>
+          <p style="color: #000000; background-color: #ffffff; font-family: Arial;">\[REGION[2cf960f3a687406dbd631d3c0d483406]]\</p>
+        </content>
+        <regions>
+          <region id="2cf960f3a687406dbd631d3c0d483406" left="2" top="0" width="138" height="24" color="#000000" fontSize="10">
+            <math>
+              <input>
+                <e type="operand">PrintTime</e>
+                <e type="operand">10</e>
+                <e type="operand" style="unit">ms</e>
+                <e type="operator" args="2">*</e>
+                <e type="operator" args="2">:</e>
+              </input>
+            </math>
+          </region>
+        </regions>
+      </text>
+    </region>
+    <region left="531" top="441" width="173" height="24" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">Angulo</e>
+          <e type="operand">D</e>
+          <e type="operand">2</e>
+          <e type="operator" args="2">*</e>
+          <e type="operand">π</e>
+          <e type="operator" args="2">*</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">°</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">120</e>
+        </result>
+      </math>
+    </region>
+    <region left="162" top="504" width="282" height="41" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">TotalTime</e>
+          <e type="operand">3</e>
+          <e type="operand">f</e>
+          <e type="operator" args="2">/</e>
+          <e type="operand">PrintTime</e>
+          <e type="operator" args="2">+</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <contract>
+          <e type="operand" style="unit">ms</e>
+        </contract>
+        <result action="numeric">
+          <e type="operand">10.03</e>
+        </result>
+      </math>
+    </region>
+    <region left="495" top="504" width="132" height="53" color="#000000" fontSize="10">
+      <math>
+        <input>
+          <e type="operand">R</e>
+          <e type="operand">V.out</e>
+          <e type="operand">I.out</e>
+          <e type="operator" args="2">/</e>
+          <e type="operator" args="2">:</e>
+        </input>
+        <result action="numeric">
+          <e type="operand">1.44</e>
+          <e type="operand" style="unit">Ω</e>
+          <e type="operator" args="2">*</e>
+        </result>
+      </math>
+    </region>
+  </regions>
+</worksheet>

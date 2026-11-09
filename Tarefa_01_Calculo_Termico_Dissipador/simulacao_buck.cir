@@ -1,0 +1,64 @@
+* Buck Converter - Thermal Calculation
+* Specifications:
+* Vin = 36V, Vout = 12V, Po = 100W, fs = 100kHz
+* L = 100uH, C = 100uF
+* MOSFET: IRLZ44N, Diode: MUR860 / MBR20100CT
+
+.title Buck Converter Simulation
+
+* Input Voltage Source
+Vin 1 0 DC 36
+
+* Control Signal: PWM @ 100kHz, D=0.3333
+Vpwm 2 0 PULSE(0 5 0 1n 1n 3.33u 10u)
+
+* Power Stage
+* MOSFET Q1: IRLZ44N
+* Using subcircuit or basic NMOS model
+Mq1 3 2 0 0 IRLZ44N_model W=10m L=1m
+
+* Freewheeling Diode D1 - MUR860 (change model as needed)
+Dd1 0 3 MUR860_model
+
+* Inductor L1 = 100uH
+L1 1 3 100u IC=0
+
+* Output Capacitor C1 = 100uF (ESR = 50mOhm typical)
+Cesr1 3 4 100u
+Resr1 3 4 50m
+
+* Load Resistor: RL = Vout^2/Po = 144/100 = 1.44 Ohm
+Rload 4 0 1.44
+
+* MOSFET Model - IRLZ44N simplified
+.subckt IRLZ44N_model d g s
+.param rds=22m
+Rds d s {rds}
+Cgs g s 1n
+Cgd g d 1n
+.ends
+
+* Diode Model - MUR860
+.model MUR860_model D(
++ IS=1e-14 RS=10m N=1.0 BV=600 IBV=100u
++ CJO=350p VJ=0.7 M=0.5 FC=0.5 TT=195n)
+
+* Diode Model - MBR20100CT (Schottky)
+.model MBR20100CT_model D(
++ IS=1e-3 RS=10m N=1.0 BV=100 IBV=1m
++ CJO=500p VJ=0.7 M=0.3 FC=0.5 TT=10n)
+
+* Analysis
+.tran 0 100u 0 10n
+.option gmin=1e-12 abstol=1e-12 reltol=1e-6
+
+* Measurements
+.meas tran Vout_avg AVG v(4) FROM=50u TO=100u
+.meas tran Vout_ripple PP v(4) FROM=90u TO=100u
+.meas tran Iout_avg AVG i(Rload) FROM=50u TO=100u
+.meas tran IL_max MAX v(3)-v(0) FROM=50u TO=100u
+.meas tran IL_min MIN v(3)-v(0) FROM=50u TO=100u
+.meas tran Iq_rms RMS i(Mq1) FROM=50u TO=100u
+.meas tran Id_rms RMS i(Dd1) FROM=50u TO=100u
+
+.end

@@ -1,0 +1,50 @@
+{
+  "L_CM": 0.01,
+  "L_LK": 0.0002,
+  "C_X": 2.2e-07,
+  "C_X2": 1e-07,
+  "C_Y": 2.2e-09,
+  "R_BLEED": 1000000.0,
+  "f_dm": 42920.89629716038,
+  "f_cm": 23993.51044391741,
+  "i_fuga": 0.0002073451151369263,
+  "att_dm_195k": 57.73664427568995,
+  "att_cm_150k": 25.568627870338773,
+  "componentes": [
+    {
+      "ref": "L1",
+      "valor": "2 × 10 mH / 1,2 A",
+      "descricao": "choke de modo comum (pinos 1-2 e 3-4)",
+      "pn": "Schaffner RN214-1.2-02-10M",
+      "qtd": 1
+    },
+    {
+      "ref": "CX1",
+      "valor": "220 nF X2 275 VAC",
+      "descricao": "capacitor X2",
+      "pn": "EPCOS B32922C3224M",
+      "qtd": 1
+    },
+    {
+      "ref": "CX2",
+      "valor": "100 nF X2 275 VAC",
+      "descricao": "capacitor X2",
+      "pn": "EPCOS B32922C3104M",
+      "qtd": 1
+    },
+    {
+      "ref": "CY1",
+      "valor": "2,2 nF Y1 250 VAC",
+      "descricao": "capacitor Y1 primário–secundário",
+      "pn": "Murata DE1E3KX222MA4BN01",
+      "qtd": 1
+    },
+    {
+      "ref": "R_x1,R_x2",
+      "valor": "470 kΩ 1/4 W",
+      "descricao": "descarga do X2",
+      "pn": "",
+      "qtd": 2
+    }
+  ]
+}

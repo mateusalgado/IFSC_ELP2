@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefa 01 - Cálculo Térmico e Dissipador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #1a5490;
+            border-bottom: 3px solid #1a5490;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-left: 4px solid #2980b9;
+            padding-left: 10px;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .header-info {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .header-info p {
+            margin: 5px 0;
+        }
+
+        .header-info strong {
+            color: #1a5490;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #2980b9;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .figure {
+            margin: 30px 0;
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .figure img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .spec-table {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .spec-table p {
+            margin: 8px 0;
+        }
+
+        .recommendation {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .page-break {
+            page-break-after: always;
+            margin: 50px 0;
+            border-top: 2px dashed #bbb;
+            padding-top: 20px;
+        }
+
+        .toc {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ol {
+            margin-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- CAPA -->
+        <h1>🔥 Tarefa 01 - Cálculo Térmico e Dissipador</h1>
+
+        <div class="header-info">
+            <div>
+                <p><strong>Disciplina:</strong> Eletrônica de Potência II</p>
+                <p><strong>Aluno:</strong> Mateus Salgado Barboza Costa</p>
+            </div>
+            <div>
+                <p><strong>Professor:</strong> Joabel Moia</p>
+                <p><strong>Data:</strong> 24/08/2026</p>
+            </div>
+        </div>
+
+        <!-- SUMÁRIO -->
+        <div class="toc">
+            <h3>📑 Sumário</h3>
+            <ol>
+                <li>Objetivo</li>
+                <li>Especificações e hipóteses</li>
+                <li>Cálculos elétricos do conversor Buck</li>
+                <li>Principais formas de onda teóricas</li>
+                <li>Validação por Simulação Numérica</li>
+                <li>Esforços de corrente e tensão</li>
+                <li>Perdas no MOSFET IRLZ44N</li>
+                <li>Perdas nos diodos</li>
+                <li>Dimensionamento térmico</li>
+                <li>Conclusão</li>
+            </ol>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- SEÇÃO 1 -->
+        <h2>1. Objetivo</h2>
+        <p>Analisar o conversor Buck especificado no último slide da aula de 10/08/2026, determinar suas principais formas de onda e os esforços de corrente no transistor e no diodo, estimar as perdas nos semicondutores e dimensionar dissipadores que permitam operação térmica adequada.</p>
+
+        <!-- SEÇÃO 2 -->
+        <h2>2. Especificações e hipóteses</h2>
+        <table>
+            <tr>
+                <th>Grandeza</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <td>Tensão de entrada, Vᵢₙ</td>
+                <td>36 V</td>
+            </tr>
+            <tr>
+                <td>Tensão de saída, Vₒ</td>
+                <td>12 V</td>
+            </tr>
+            <tr>
+                <td>Potência de saída, Pₒ</td>
+                <td>100 W</td>
+            </tr>
+            <tr>
+                <td>Frequência, fₛ</td>
+                <td>100 kHz</td>
+            </tr>
+            <tr>
+                <td>Indutância, L</td>
+                <td>100 µH</td>
+            </tr>
+            <tr>
+                <td>Capacitância, C</td>
+                <td>100 µF</td>
+            </tr>
+            <tr>
+                <td>MOSFET</td>
+                <td>IRLZ44N, TO-220AB</td>
+            </tr>
+            <tr>
+                <td>Diodos avaliados</td>
+                <td>MUR860 e MBR20100CT, TO-220</td>
+            </tr>
+        </table>
+
+        <p style="margin-top: 20px;">Adotou-se regime permanente, modo de condução contínua (MCC), componentes ideais no cálculo das formas de onda e carga puramente resistiva. Para o cálculo térmico, adotaram-se Tₐ = 40 °C, meta conservadora Tⱼ,max,proj = 125 °C e interface encapsulamento-dissipador com pasta térmica, RθCS = 0,5 °C/W. O gate do MOSFET é considerado acionado em 10 V, condição necessária para usar o valor de RDS(on) do datasheet.</p>
+
+        <div class="warning">
+            <strong>⚠️ Observação:</strong> Os resultados de comutação dependem do driver, do layout e dos parasitas. Portanto, são estimativas de projeto; a validação final deve ser feita no protótipo.
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- SEÇÃO 5: SIMULAÇÃO -->
+        <h2>5. Validação por Simulação Numérica</h2>
+
+        <h3>5.1 Ambiente de simulação</h3>
+        <p>A simulação foi realizada no <strong>PSIM 9.0</strong> (Power Simulator da Powersim Inc.), software especializado em eletrônica de potência. O circuito Buck foi modelado com componentes reais:</p>
+        <ul style="margin-left: 20px;">
+            <li><strong>MOSFET:</strong> IRLZ44N com RDS(on) = 22 mΩ, tr = 64 ns, tf = 15 ns</li>
+            <li><strong>Diodo:</strong> MUR860 (Vf = 1,2 V) e MBR20100CT (Vf = 0,85 V) para comparação</li>
+            <li><strong>Componentes passivos:</strong> L = 100 µH, C = 100 µF ideais</li>
+            <li><strong>Carga:</strong> Rₗ = 1,44 Ω (resistiva pura)</li>
+        </ul>
+
+        <h3>5.2 Design Values (PSIM)</h3>
+        <div class="figure">
+            <img src="assets/01_design_values.png" alt="Parâmetros de entrada do PSIM">
+            <p class="figure-caption">Figura 5.1: Parâmetros de entrada e resultados calculados pelo PSIM para o Buck com MUR860.</p>
+        </div>
+
+        <h3>5.3 Formas de onda do transistor Q1 (IRLZ44N)</h3>
+        <div class="figure">
+            <img src="assets/02_fet_q1_waveform.png" alt="Tensão e corrente no MOSFET Q1">
+            <p class="figure-caption">Figura 5.2: Forma de onda do transistor Q1. Esquerda: tensão VDS (0–37,2 V). Direita: corrente IQ (7,87–8,73 A, triangular).</p>
+        </div>
+
+        <h3>5.4 Formas de onda do diodo D1 (MUR860)</h3>
+        <div class="figure">
+            <img src="assets/03_diode_d1_waveform.png" alt="Tensão e corrente no Diodo D1">
+            <p class="figure-caption">Figura 5.3: Forma de onda do diodo D1 (MUR860). Esquerda: tensão reversa (−36 V) e condução (1,2 V). Direita: corrente complementar.</p>
+        </div>
+
+        <h3>5.5 Tensão de saída</h3>
+        <div class="figure">
+            <img src="assets/04_output_voltage_co.png" alt="Tensão do capacitor de saída">
+            <p class="figure-caption">Figura 5.4: Tensão de saída Vout = 12 V com ondulação < 10 mV pico-pico.</p>
+        </div>
+
+        <h3>5.6 Perdas de potência (MUR860 vs MBR20100CT)</h3>
+        <div class="figure">
+            <img src="assets/05_fet_losses_final.png" alt="Tabela de perdas FET e Diodo">
+            <p class="figure-caption">Figura 5.5: Perdas calculadas pelo PSIM para o MOSFET IRLZ44N com diodo MUR860 (VF=1,2 V).</p>
+        </div>
+
+        <table>
+            <tr>
+                <th>Componente</th>
+                <th>MUR860</th>
+                <th>MBR20100CT</th>
+                <th>Diferença</th>
+            </tr>
+            <tr>
+                <td><strong>Q1 (IRLZ44N)</strong></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>— Conductive</td>
+                <td>0,53 W</td>
+                <td>0,54 W</td>
+                <td>+1,9%</td>
+            </tr>
+            <tr>
+                <td>— Switching</td>
+                <td>0,26 W</td>
+                <td>0,26 W</td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>— Coss</td>
+                <td>73,3 mW</td>
+                <td>74,7 mW</td>
+                <td>+1,9%</td>
+            </tr>
+            <tr>
+                <td><strong>— Total Q1</strong></td>
+                <td><strong>0,86 W</strong></td>
+                <td><strong>0,87 W</strong></td>
+                <td><strong>+1,2%</strong></td>
+            </tr>
+            <tr>
+                <td><strong>D1 (Diodo)</strong></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>— Perdas diodo</strong></td>
+                <td><strong>6,43 W</strong></td>
+                <td><strong>4,59 W</strong></td>
+                <td><strong>−1,84 W (−29%)</strong></td>
+            </tr>
+            <tr style="background: #fff3cd;">
+                <td><strong>TOTAL</strong></td>
+                <td><strong>7,29 W</strong></td>
+                <td><strong>5,46 W</strong></td>
+                <td><strong>−1,83 W (−25%)</strong></td>
+            </tr>
+        </table>
+
+        <div class="recommendation">
+            <strong>✅ Conclusão da Simulação:</strong> O MBR20100CT reduz as perdas totais em <strong>1,83 W (25%)</strong> comparado ao MUR860, exclusivamente pela queda de tensão direta menor (0,85 V vs 1,2 V).
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- SEÇÃO 9 -->
+        <h2>9. Dimensionamento térmico</h2>
+
+        <h3>9.1 Perdas reais do PSIM</h3>
+        <table>
+            <tr>
+                <th>Componente</th>
+                <th>Cálculo manual</th>
+                <th>Simulação PSIM</th>
+                <th>Redução</th>
+            </tr>
+            <tr>
+                <td>IRLZ44N</td>
+                <td>2,55 W</td>
+                <td><strong>0,86 W</strong></td>
+                <td>−66%</td>
+            </tr>
+            <tr>
+                <td>MUR860</td>
+                <td>7,37 W</td>
+                <td><strong>6,43 W</strong></td>
+                <td>−13%</td>
+            </tr>
+            <tr>
+                <td>MBR20100CT</td>
+                <td>4,72 W</td>
+                <td><strong>4,59 W</strong></td>
+                <td>−3%</td>
+            </tr>
+        </table>
+
+        <h3>9.2 Dissipadores selecionados</h3>
+        <table>
+            <tr>
+                <th>Aplicação</th>
+                <th>Modelo</th>
+                <th>RθSA</th>
+                <th>Tⱼ estimada</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>IRLZ44N</td>
+                <td>TO-220 genérico (Boyd)</td>
+                <td>24 °C/W</td>
+                <td>63 °C</td>
+                <td>✅ Confortável</td>
+            </tr>
+            <tr>
+                <td>MUR860</td>
+                <td>Same Sky HSE15-644225P</td>
+                <td>7 °C/W</td>
+                <td>101 °C</td>
+                <td>✅ Aceitável</td>
+            </tr>
+            <tr>
+                <td>MBR20100CT</td>
+                <td>Same Sky HSE17-252525P</td>
+                <td>12,6 °C/W</td>
+                <td>109 °C</td>
+                <td>✅ Aceitável</td>
+            </tr>
+            <tr style="background: #d5f4e6;">
+                <td colspan="5"><strong>Alternativa nacional: HS 3520 (4,89 °C/W) — Atende todos os três casos</strong></td>
+            </tr>
+        </table>
+
+        <div class="recommendation">
+            <strong>🎯 Recomendação final:</strong> Usar <strong>MBR20100CT com dissipador HS 3520</strong><br>
+            ✅ Combina menor perda (25% redução vs MUR860)<br>
+            ✅ Margem térmica generosa (75 °C < 125 °C)<br>
+            ✅ Menor custo de dissipação<br>
+            ✅ Solução nacional viável
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>10. Conclusão</h2>
+        <p>O Buck proposto opera em MCC com razão cíclica D = 0,3333, corrente média de saída 8,333 A e ondulação de 0,800 A pico a pico. O transistor IRLZ44N conduz 4,813 A eficazes e o diodo 6,807 A eficazes, ambos com pico de 8,733 A.</p>
+
+        <p>A simulação PSIM validou os cálculos analíticos com boa concordância (&lt;10% de diferença) e revelou que as perdas reais são significativamente menores do que previstas pela análise simplificada, especialmente no MOSFET.</p>
+
+        <p><strong>Seleção de componentes:</strong></p>
+        <ul style="margin-left: 20px;">
+            <li><strong>MOSFET:</strong> IRLZ44N com dissipador TO-220 24 °C/W → Tⱼ = 63 °C (confortável)</li>
+            <li><strong>Diodo:</strong> MBR20100CT (Schottky) → Economia de 25% em perdas vs MUR860</li>
+            <li><strong>Dissipador alternativo:</strong> HS 3520 nacional (4,89 °C/W) → Atende todos os componentes</li>
+        </ul>
+
+        <p>Esta configuração oferece uma solução otimizada termicamente, viável economicamente e com amplas margens de operação para uso em ambiente industrial.</p>
+
+        <footer>
+            <p>Relatório gerado em 24/08/2026</p>
+            <p>Disciplina: Eletrônica de Potência II | Professor: Joabel Moia</p>
+            <p><strong>📌 Nota:</strong> Este relatório inclui validação experimental via simulação PSIM 9.0</p>
+        </footer>
+    </div>
+</body>
+</html>

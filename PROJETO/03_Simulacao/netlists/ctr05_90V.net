@@ -1,0 +1,138 @@
+* Fonte flyback 12 V / 3 A com UC3845 - caso: ctr05_90V
+* VAC = 90 V, 50 Hz, carga = 100 %, Llk = 2 % de Lp, snubber = True
+.param VPK=127.28
+* ---- rede, protecoes, EMI (modo diferencial) e retificador ----
+V_ac L N SINE(0 {VPK} 50)
+R_ntc L L1 2.00
+L_dm L1 L2 2.000e-04 Rser=0.1
+C_x1 L2 N 2.200e-07
+D_br1 L2 bulk DBR
+D_br2 N bulk DBR
+D_br3 0 L2 DBR
+D_br4 0 N DBR
+C_bulk bulkc 0 1.000e-04
+R_bulk bulk bulkc 0.8
+* ---- transformador (Lp 294 uH, n = 6.000, Naux/Np = 0.214, K = 0.98995) ----
+L_p bulk drain 2.9382e-04 Rser=0.2099
+L_s sgnd secn 8.1616e-06 Rser=0.0070
+L_a 0 auxn 1.3492e-05 Rser=0.05
+K1 L_p L_s L_a 0.989949
+* ---- MOSFET, sensor de corrente, gate ----
+M1 drain gate sw sw STP13N65M2
+R_s1 sw 0 0.660
+R_s2 sw 0 0.660
+R_cs sw isns 1k
+C_cs isns 0 220p
+R_g drv gate 10.0
+D_g gate drv D1N4148
+R_gs gate sw 10k
+* ---- snubber RCD ----
+D_sn drain snub UF4007
+C_sn snub bulk 2.200e-08
+R_sn snub bulk 9100.0
+* ---- secundario: Schottky, banco de capacitores, pos-filtro LC, carga ----
+D_out secn vout STPS20H100
+R_d secn nrc 15.0
+C_d nrc vout 2.400e-09
+C_o1 voutc sgnd 3.000e-03
+R_o1 vout voutc 0.0063
+L_pos vout vo 3.300e-06 Rser=0.01
+C_o2 voc sgnd 4.700e-04
+R_o2 vo voc 0.040
+Rload vo sgnd 4.0000
+* referencia do secundario (Y1 + resistor de alta impedancia para o solver)
+C_y sgnd 0 2.200e-09
+R_sg sgnd 0 10Meg
+* ---- realimentacao: divisor, TL431, PC817 ----
+R_a vo ref 9530.0
+R_b ref sgnd 2490.0
+R_z ref nz 47500.0
+C_z nz ka 1.500e-07
+B_431 ka sgnd I=max(0, 0.5*(V(ref,sgnd)-2.495))
+D_431 sgnd ka DIDEAL
+R_led vo ledk 2740.0
+D_led ledk ka DLED
+R_bias ledk ka 1000.0
+G_opto comp 0 VALUE={0.5*I(D_led)}
+D_oc 0 comp DIDEAL
+C_pc comp 0 1.000e-09
+R_pu vref comp 4700.0
+* ---- alimentacao do CI: startup + auxiliar ----
+R_st1 bulk nst 82000
+R_st2 nst vcc 82000
+C_vcc vccc 0 2.200e-04
+R_vcc vcc vccc 0.1
+C_vcc2 vcc 0 100n
+D_aux auxn nax UF4004
+R_aux nax vcc 10
+C_ref vref 0 1u
+
+* ---- UC3845 comportamental (nos uc_*) ----
+* UVLO com histerese: liga em 8,4 V, desliga em 7,6 V (porta 7 do dispositivo A = saida verdadeira)
+A_uvlo vcc 0 0 0 0 0 uc_on 0 SCHMITT vt=8.0 vh=0.4 vhigh=1 vlow=0 trise=10n tfall=10n
+* consumo: 0,3 mA antes da partida, 11 mA em operacao; zener de 34 V
+B_icc vcc 0 I=if(V(uc_on)>0.5, 11m, 0.3m)
+D_z 0 vcc DZ34
+* referencia 5 V quando ligado
+B_ref vref 0 V=if(V(uc_on)>0.5, 5, 0)
+R_ref vref 0 1Meg
+* oscilador: pulso de descarga (tempo morto) a fosc; onda de meio periodo a fsw = fosc/2 -> Dmax < 50 %
+V_clk uc_clk 0 PULSE(0 1 3.8628e-06 5n 5n 4.2410e-07 7.725581e-06)
+V_half uc_half 0 PULSE(0 1 4.2969e-06 5n 5n 7.705581e-06 1.545116e-05)
+* limiar do comparador de corrente: (COMP - 1,4)/3 limitado a [0, 1] V
+B_th uc_th 0 V=limit((V(comp)-1.4)/3, 0, 1.0)
+B_cmp uc_cmp 0 V=0.5+0.5*tanh((V(isns)-V(uc_th)-0.01)*2000)
+R_cmp uc_cmp uc_rst 1k
+C_cmp uc_rst 0 100p
+* latch PWM: set no pulso de clock (saida bloqueada durante o clock), reset pelo comparador
+A_latch uc_clk uc_rst 0 0 0 0 uc_ql 0 SRFLOP
+B_drv uc_drv 0 V=if(V(uc_on)>0.5 & V(uc_ql)>0.5 & V(uc_half)>0.5 & V(uc_clk)<0.5, 1, 0)
+* driver totem-pole: alto = VCC - 1,5 V, resistencia de saida ~10 ohm
+B_out uc_outi 0 V=if(V(uc_drv)>0.5, V(vcc)-1.5, 0)
+R_out uc_outi drv 10
+
+* ---- modelos ----
+.model STP13N65M2 VDMOS(Rg=6.5 Vto=3.5 Kp=6 Lambda=0.001 Rd=0.30 Rs=0.01 Cgdmax=150p Cgdmin=15p a=0.5 Cgs=560p Cjo=400p m=0.6 Vj=0.8 Is=1e-12 n=1.2 Rds=2e7 mtriode=1.2 ksubthres=0.1)
+.model STPS20H100 D(Is=2e-8 n=1.05 Rs=0.0045 Cjo=1.2n m=0.5 Vj=0.6 bv=100 Ibv=1u)
+.model DBR D(Is=1e-9 n=1.5 Rs=0.03 bv=600 Cjo=50p tt=1u)
+.model UF4007 D(Is=1e-9 n=1.6 Rs=0.05 Cjo=20p tt=50n bv=1000)
+.model UF4004 D(Is=1e-9 n=1.6 Rs=0.08 Cjo=15p tt=50n bv=400)
+.model D1N4148 D(Is=2.5n n=1.75 Rs=0.5 Cjo=4p tt=10n bv=100)
+.model DLED D(Is=1e-15 n=1.8 Rs=1)
+.model DZ34 D(Is=1e-12 bv=34 Ibv=1m)
+.model DIDEAL D(Is=1e-14 n=1 Rs=0.1 Cjo=10p)
+
+.model SW SW(Ron=1m Roff=1Meg Vt=0.5 Vh=0.1)
+.model SWSHORT SW(Ron=10m Roff=1Meg Vt=0.5 Vh=0.1)
+.ic V(bulk)=120.9 V(bulkc)=120.9 V(vout)=12.0 V(voutc)=12.0 V(vo)=12.0 V(voc)=12.0 V(vcc)=15 V(vccc)=15 V(comp)=2.5 V(sgnd)=0
+.options reltol=0.005 abstol=1e-8 vntol=1e-5 method=gear itl4=50 gmin=1e-10
+.save V(drv) V(l2) I(D_br1) I(D_br2) I(D_br3) I(D_br4) V(vo) V(sgnd) V(vout) V(bulk) V(drain) V(gate) V(sw) V(isns) V(uc_th) V(comp) V(vcc) V(vref) V(l) V(n) V(secn) V(snub) V(ref) V(ka) I(V_ac) I(L_p) I(D_out) I(C_o1) I(C_bulk) I(Rload) I(D_led) Id(M1) I(D_sn) I(L_pos)
+.tran 0 4.0000e-02 0 100n
+* ---- medicoes ----
+.meas TRAN Vo_avg AVG V(vo,sgnd) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vo_pp PP V(vo,sgnd) FROM 3.9382e-02 TO 4.0000e-02
+.meas TRAN Vo_min MIN V(vo,sgnd) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vo_max MAX V(vo,sgnd) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vbulk_min MIN V(bulk) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vbulk_max MAX V(bulk) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Ip_pk MAX I(L_p) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Ip_rms RMS I(L_p) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Is_pk MAX I(D_out) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Is_rms RMS I(D_out) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Is_avg AVG I(D_out) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Ic1_rms RMS I(C_o1) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vds_max MAX V(drain) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vd_min MIN V(secn,vout) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vcc_avg AVG V(vcc) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vcomp_avg AVG V(comp) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Iin_rms RMS I(V_ac) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Iin_pk MAX -I(V_ac) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Pin AVG -V(L,N)*I(V_ac) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Po AVG V(vo,sgnd)*I(Rload) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Pmos AVG V(drain,sw)*Id(M1) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Pdiode AVG V(secn,vout)*I(D_out) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Psnub AVG V(snub,bulk)*V(snub,bulk)/9100.0 FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Pbr AVG V(L2,bulk)*I(D_br1)+V(N,bulk)*I(D_br2)+-V(L2)*I(D_br3)-V(N)*I(D_br4) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Ic_bulk_rms RMS I(C_bulk) FROM 3.0000e-02 TO 4.0000e-02
+.meas TRAN Vdrv_avg AVG V(drv) FROM 3.0000e-02 TO 4.0000e-02
+.end

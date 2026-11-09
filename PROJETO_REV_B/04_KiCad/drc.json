@@ -1,0 +1,1144 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-04T02:42:46",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "fonte_flyback_12V3A.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 2 [Net-(D2-K)] de R5",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 6.0
+                    },
+                    "uuid": "4700268a-4d1f-4688-b3bb-0d80ab27727b"
+                },
+                {
+                    "description": "Trilha [Net-(D2-K)] no B.Cu, comprimento 6,5000 mm",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 19.5
+                    },
+                    "uuid": "4d1dc42c-be5f-4e5c-93eb-bf0fc907076d"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no B.Cu, comprimento 11,7500 mm",
+                    "pos": {
+                        "x": 48.0,
+                        "y": 34.0
+                    },
+                    "uuid": "3b763360-3e7d-4bb8-9f24-252d590a6d6d"
+                },
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 10,7500 mm",
+                    "pos": {
+                        "x": 37.25,
+                        "y": 34.0
+                    },
+                    "uuid": "479cdd21-b501-4322-8e95-b6b79306b8bb"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 1 [/BULK] de R6",
+                    "pos": {
+                        "x": 58.0,
+                        "y": 13.0
+                    },
+                    "uuid": "2e97a653-d394-4dc0-905d-d1c62f2af2cd"
+                },
+                {
+                    "description": "Trilha [/BULK] no B.Cu, comprimento 8,0500 mm",
+                    "pos": {
+                        "x": 52.0,
+                        "y": 22.05
+                    },
+                    "uuid": "fd4a05c1-6b62-44a1-8c6e-fdf34cd78feb"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 1 [Net-(BR1-Pad2)] de CX2",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 58.5
+                    },
+                    "uuid": "0efb1cf0-1377-4207-9220-bf76cd303731"
+                },
+                {
+                    "description": "Trilha [Net-(BR1-Pad2)] no F.Cu, comprimento 10,2000 mm",
+                    "pos": {
+                        "x": 22.2,
+                        "y": 56.0
+                    },
+                    "uuid": "d26b47e7-a328-4041-81d3-1cf1841eb428"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad2)] no F.Cu, comprimento 0,6505 mm",
+                    "pos": {
+                        "x": 24.46,
+                        "y": 47.08
+                    },
+                    "uuid": "9fa3aac7-3094-4b7c-930b-0084a7866995"
+                },
+                {
+                    "description": "Ilha PTH 2 [Net-(BR1-Pad2)] de L1",
+                    "pos": {
+                        "x": 11.0,
+                        "y": 39.5
+                    },
+                    "uuid": "693ee0c4-e804-4528-84cf-25d154c245cd"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 4 [Net-(BR1-Pad3)] de L1",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 39.5
+                    },
+                    "uuid": "0961913a-6ce1-4d32-84a1-db8ac4ee41d0"
+                },
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no B.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 17.0,
+                        "y": 45.0
+                    },
+                    "uuid": "6dfb37ea-31ab-4ce4-a319-b53ef13229a5"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no F.Cu, comprimento 2,0400 mm",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 53.96
+                    },
+                    "uuid": "641992f2-ab28-45b5-8af9-c02ea287101b"
+                },
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no B.Cu, comprimento 8,2000 mm",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 56.0
+                    },
+                    "uuid": "51c51868-c18a-4147-9062-91900fc15595"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 2 [Net-(BR1-Pad3)] de CX2",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 58.5
+                    },
+                    "uuid": "c7bbad8e-76c6-4b76-965a-21845c971dd8"
+                },
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no B.Cu, comprimento 8,2000 mm",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 56.0
+                    },
+                    "uuid": "51c51868-c18a-4147-9062-91900fc15595"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no B.Cu, comprimento 1,0000 mm",
+                    "pos": {
+                        "x": 15.0,
+                        "y": 62.0
+                    },
+                    "uuid": "a32d45fd-e69e-4740-9dad-d1c9818aa579"
+                },
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 7,5000 mm",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 62.0
+                    },
+                    "uuid": "cf7e8656-11b0-499b-8026-c8d430747ded"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 1 [/VREF] de R14",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.5
+                    },
+                    "uuid": "f7ec42ba-a320-48db-aa6d-5998ef13e861"
+                },
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 3,5000 mm",
+                    "pos": {
+                        "x": 18.62,
+                        "y": 80.5
+                    },
+                    "uuid": "83749360-da1f-4928-9f67-5d8e55258035"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/COMP] no F.Cu, comprimento 1,0607 mm",
+                    "pos": {
+                        "x": 14.75,
+                        "y": 66.0
+                    },
+                    "uuid": "80022853-96e5-46ed-898f-a39006085923"
+                },
+                {
+                    "description": "Ilha PTH 2 [/COMP] de R14",
+                    "pos": {
+                        "x": 24.16,
+                        "y": 81.5
+                    },
+                    "uuid": "d27dd772-e482-4aef-8572-fe27950f31c0"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [/CS] no F.Cu, comprimento 5,0000 mm",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 71.08
+                    },
+                    "uuid": "2bc295a3-306c-4c9b-82eb-ec4ea057ff4c"
+                },
+                {
+                    "description": "Ilha PTH 1 [/CS] de C3",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 74.5
+                    },
+                    "uuid": "8ad71270-0f50-4c54-80dd-9d7089c24e79"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [Net-(CX1-Pad1)] no F.Cu, comprimento 8,2000 mm",
+                    "pos": {
+                        "x": 5.8,
+                        "y": 48.0
+                    },
+                    "uuid": "c12b0302-8adb-4a34-b272-0998f734059f"
+                },
+                {
+                    "description": "Ilha PTH 1 [Net-(CX1-Pad1)] de L1",
+                    "pos": {
+                        "x": 11.0,
+                        "y": 52.0
+                    },
+                    "uuid": "033e0b33-a4ec-4a8a-bbee-85ca7f65e997"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Trilha [Net-(CX1-Pad1)] no F.Cu, comprimento 5,2000 mm",
+                    "pos": {
+                        "x": 28.6,
+                        "y": 29.2
+                    },
+                    "uuid": "8d45aa1d-c922-4b47-9ade-1bede0033a29"
+                },
+                {
+                    "description": "Ilha PTH 2 [Net-(CX1-Pad1)] de F1",
+                    "pos": {
+                        "x": 33.0,
+                        "y": 24.0
+                    },
+                    "uuid": "db626fd4-6311-472d-9878-83b1c06c480d"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Ilha PTH 3 [Net-(CX1-Pad2)] de L1",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 52.0
+                    },
+                    "uuid": "1a3c832d-651f-42d9-8b24-757800991140"
+                },
+                {
+                    "description": "Trilha [Net-(CX1-Pad2)] no F.Cu, comprimento 7,2000 mm",
+                    "pos": {
+                        "x": 24.0,
+                        "y": 36.3
+                    },
+                    "uuid": "00cf883c-79bf-4058-8f87-01806a5aed78"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Itens encurtando duas redes (redes <nenhuma rede> e /BULK)",
+            "items": [
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 61.0,
+                        "y": 11.5
+                    },
+                    "uuid": "1045d309-e0b9-46fa-9110-b9b327e40d19"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de R6",
+                    "pos": {
+                        "x": 58.0,
+                        "y": 13.0
+                    },
+                    "uuid": "2e97a653-d394-4dc0-905d-d1c62f2af2cd"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes /BULK e <nenhuma rede>)",
+            "items": [
+                {
+                    "description": "Ilha PTH 1 [/BULK] de R6",
+                    "pos": {
+                        "x": 58.0,
+                        "y": 13.0
+                    },
+                    "uuid": "2e97a653-d394-4dc0-905d-d1c62f2af2cd"
+                },
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 1,5000 mm",
+                    "pos": {
+                        "x": 59.5,
+                        "y": 13.0
+                    },
+                    "uuid": "f2067e39-5408-4b58-bf1c-1a966333413c"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes /GATE e /BULK)",
+            "items": [
+                {
+                    "description": "Trilha [/GATE] no B.Cu, comprimento 11,2500 mm",
+                    "pos": {
+                        "x": 45.5,
+                        "y": 42.75
+                    },
+                    "uuid": "8f44f19c-1969-4af7-b46a-ee9e8edd401e"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de C1",
+                    "pos": {
+                        "x": 46.0,
+                        "y": 32.5
+                    },
+                    "uuid": "d2696868-7458-4e9c-b17a-f64a4b5f65ce"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes /GATE e /BULK)",
+            "items": [
+                {
+                    "description": "Trilha [/GATE] no B.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 45.5,
+                        "y": 31.5
+                    },
+                    "uuid": "2e1b6ff2-c15e-495d-9bb2-e9cff0f8901b"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de C1",
+                    "pos": {
+                        "x": 46.0,
+                        "y": 32.5
+                    },
+                    "uuid": "d2696868-7458-4e9c-b17a-f64a4b5f65ce"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,2000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [Net-(CX1-Pad1)] no F.Cu, comprimento 16,5000 mm",
+                    "pos": {
+                        "x": 5.5,
+                        "y": 31.0
+                    },
+                    "uuid": "0a872afe-9107-4af9-82a2-7fa8e80cf88a"
+                },
+                {
+                    "description": "Ilha PTH 2 [Net-(CX1-Pad2)] de CX1",
+                    "pos": {
+                        "x": 18.5,
+                        "y": 33.0
+                    },
+                    "uuid": "ca4f17af-a24c-4b54-815b-8805eb781a05"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes /VREF e PGND)",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 13,0000 mm",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 63.5
+                    },
+                    "uuid": "13aac123-8dbf-411c-870c-c991e277fdd4"
+                },
+                {
+                    "description": "Ilha PTH 2 [PGND] de C3",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 74.5
+                    },
+                    "uuid": "77fa5345-1c2f-43d5-8828-6118fd2adf30"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes <nenhuma rede> e Net-(D2-K))",
+            "items": [
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 10,7400 mm",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 6.0
+                    },
+                    "uuid": "10ad6499-6041-427e-ab7c-7ca048ad0881"
+                },
+                {
+                    "description": "Ilha PTH 2 [Net-(D2-K)] de R5",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 6.0
+                    },
+                    "uuid": "4700268a-4d1f-4688-b3bb-0d80ab27727b"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes Net-(U1-RC) e /VREF)",
+            "items": [
+                {
+                    "description": "Trilha [Net-(U1-RC)] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 15.5,
+                        "y": 83.12
+                    },
+                    "uuid": "aa9a9509-81c0-4897-9688-f36960c1eaae"
+                },
+                {
+                    "description": "Ilha PTH 1 [/VREF] de R14",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.5
+                    },
+                    "uuid": "f7ec42ba-a320-48db-aa6d-5998ef13e861"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes Net-(U1-RC) e /VREF)",
+            "items": [
+                {
+                    "description": "Trilha [Net-(U1-RC)] no F.Cu, comprimento 8,0000 mm",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.62
+                    },
+                    "uuid": "61f475fd-f70a-4005-a76f-b7ec29be7eeb"
+                },
+                {
+                    "description": "Ilha PTH 1 [/VREF] de R14",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.5
+                    },
+                    "uuid": "f7ec42ba-a320-48db-aa6d-5998ef13e861"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Itens encurtando duas redes (redes /VREF e /COMP)",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 11,8800 mm",
+                    "pos": {
+                        "x": 32.0,
+                        "y": 82.0
+                    },
+                    "uuid": "2a724ab5-a494-4e7f-ad46-36ca2d26f2d2"
+                },
+                {
+                    "description": "Ilha PTH 2 [/COMP] de R14",
+                    "pos": {
+                        "x": 24.16,
+                        "y": 81.5
+                    },
+                    "uuid": "d27dd772-e482-4aef-8572-fe27950f31c0"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 3,6000 mm",
+                    "pos": {
+                        "x": 112.54,
+                        "y": 66.4
+                    },
+                    "uuid": "17e47cc9-3f15-4502-8344-884b7fa68bbc"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 0,7500 mm",
+                    "pos": {
+                        "x": 89.0,
+                        "y": 63.4
+                    },
+                    "uuid": "2cc82891-9cbd-4921-add2-ddfa8bd2a413"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 1,0607 mm",
+                    "pos": {
+                        "x": 89.0,
+                        "y": 64.15
+                    },
+                    "uuid": "c1637deb-d695-4f7d-bb99-f616023c631c"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 21,2900 mm",
+                    "pos": {
+                        "x": 89.75,
+                        "y": 64.9
+                    },
+                    "uuid": "e6cf3d49-c0cb-4745-9589-a263e08a3e3a"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Largura da trilha (regra 'largura_SEC_potencia' largura mín 1,5000 mm; atual 0,8000 mm)",
+            "items": [
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 111.04,
+                        "y": 64.9
+                    },
+                    "uuid": "f9bc5d7c-cf8b-49ed-8724-580470b668c6"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 61.0,
+                        "y": 11.5
+                    },
+                    "uuid": "1045d309-e0b9-46fa-9110-b9b327e40d19"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de R6",
+                    "pos": {
+                        "x": 58.0,
+                        "y": 13.0
+                    },
+                    "uuid": "2e97a653-d394-4dc0-905d-d1c62f2af2cd"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 10,7400 mm",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 6.0
+                    },
+                    "uuid": "10ad6499-6041-427e-ab7c-7ca048ad0881"
+                },
+                {
+                    "description": "Ilha PTH 2 [Net-(D2-K)] de R5",
+                    "pos": {
+                        "x": 73.24,
+                        "y": 6.0
+                    },
+                    "uuid": "4700268a-4d1f-4688-b3bb-0d80ab27727b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [<no net>] no F.Cu, comprimento 1,5000 mm",
+                    "pos": {
+                        "x": 59.5,
+                        "y": 13.0
+                    },
+                    "uuid": "f2067e39-5408-4b58-bf1c-1a966333413c"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de R6",
+                    "pos": {
+                        "x": 58.0,
+                        "y": 13.0
+                    },
+                    "uuid": "2e97a653-d394-4dc0-905d-d1c62f2af2cd"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 13,0000 mm",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 63.5
+                    },
+                    "uuid": "13aac123-8dbf-411c-870c-c991e277fdd4"
+                },
+                {
+                    "description": "Ilha PTH 2 [PGND] de C3",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 74.5
+                    },
+                    "uuid": "77fa5345-1c2f-43d5-8828-6118fd2adf30"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 11,8800 mm",
+                    "pos": {
+                        "x": 32.0,
+                        "y": 82.0
+                    },
+                    "uuid": "2a724ab5-a494-4e7f-ad46-36ca2d26f2d2"
+                },
+                {
+                    "description": "Ilha PTH 2 [/COMP] de R14",
+                    "pos": {
+                        "x": 24.16,
+                        "y": 81.5
+                    },
+                    "uuid": "d27dd772-e482-4aef-8572-fe27950f31c0"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda de trás conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [/GATE] no B.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 45.5,
+                        "y": 31.5
+                    },
+                    "uuid": "2e1b6ff2-c15e-495d-9bb2-e9cff0f8901b"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de C1",
+                    "pos": {
+                        "x": 46.0,
+                        "y": 32.5
+                    },
+                    "uuid": "d2696868-7458-4e9c-b17a-f64a4b5f65ce"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda de trás conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [/GATE] no B.Cu, comprimento 11,2500 mm",
+                    "pos": {
+                        "x": 45.5,
+                        "y": 42.75
+                    },
+                    "uuid": "8f44f19c-1969-4af7-b46a-ee9e8edd401e"
+                },
+                {
+                    "description": "Ilha PTH 1 [/BULK] de C1",
+                    "pos": {
+                        "x": 46.0,
+                        "y": 32.5
+                    },
+                    "uuid": "d2696868-7458-4e9c-b17a-f64a4b5f65ce"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [Net-(U1-RC)] no F.Cu, comprimento 8,0000 mm",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.62
+                    },
+                    "uuid": "61f475fd-f70a-4005-a76f-b7ec29be7eeb"
+                },
+                {
+                    "description": "Ilha PTH 1 [/VREF] de R14",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.5
+                    },
+                    "uuid": "f7ec42ba-a320-48db-aa6d-5998ef13e861"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "A abertura da máscara de solda da frente conecta itens com redes diferentes",
+            "items": [
+                {
+                    "description": "Trilha [Net-(U1-RC)] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 15.5,
+                        "y": 83.12
+                    },
+                    "uuid": "aa9a9509-81c0-4897-9688-f36960c1eaae"
+                },
+                {
+                    "description": "Ilha PTH 1 [/VREF] de R14",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 81.5
+                    },
+                    "uuid": "f7ec42ba-a320-48db-aa6d-5998ef13e861"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 10,7500 mm",
+                    "pos": {
+                        "x": 37.25,
+                        "y": 34.0
+                    },
+                    "uuid": "479cdd21-b501-4322-8e95-b6b79306b8bb"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/BULK] no B.Cu, comprimento 11,7500 mm",
+                    "pos": {
+                        "x": 48.0,
+                        "y": 34.0
+                    },
+                    "uuid": "3b763360-3e7d-4bb8-9f24-252d590a6d6d"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad2)] no F.Cu, comprimento 10,2000 mm",
+                    "pos": {
+                        "x": 22.2,
+                        "y": 56.0
+                    },
+                    "uuid": "d26b47e7-a328-4041-81d3-1cf1841eb428"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no F.Cu, comprimento 2,0400 mm",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 53.96
+                    },
+                    "uuid": "641992f2-ab28-45b5-8af9-c02ea287101b"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no B.Cu, comprimento 8,2000 mm",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 56.0
+                    },
+                    "uuid": "51c51868-c18a-4147-9062-91900fc15595"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(BR1-Pad3)] no B.Cu, comprimento 1,5000 mm",
+                    "pos": {
+                        "x": 15.5,
+                        "y": 43.5
+                    },
+                    "uuid": "b97c142f-9444-4591-b3c8-28edf030cdbd"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [PGND] no F.Cu, comprimento 4,9500 mm",
+                    "pos": {
+                        "x": 52.95,
+                        "y": 26.5
+                    },
+                    "uuid": "5ef8eb3b-9fcd-4210-9990-6ab72b49a866"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no F.Cu, comprimento 7,5000 mm",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 62.0
+                    },
+                    "uuid": "cf7e8656-11b0-499b-8026-c8d430747ded"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VREF] no B.Cu, comprimento 1,0000 mm",
+                    "pos": {
+                        "x": 15.0,
+                        "y": 62.0
+                    },
+                    "uuid": "a32d45fd-e69e-4740-9dad-d1c9818aa579"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(CX1-Pad1)] no F.Cu, comprimento 8,2000 mm",
+                    "pos": {
+                        "x": 5.8,
+                        "y": 48.0
+                    },
+                    "uuid": "c12b0302-8adb-4a34-b272-0998f734059f"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [Net-(CX1-Pad2)] no F.Cu, comprimento 7,2000 mm",
+                    "pos": {
+                        "x": 24.0,
+                        "y": 36.3
+                    },
+                    "uuid": "00cf883c-79bf-4058-8f87-01806a5aed78"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/SW] no F.Cu, comprimento 0,2500 mm",
+                    "pos": {
+                        "x": 46.0,
+                        "y": 73.0
+                    },
+                    "uuid": "19104bd1-9c6f-43f8-a0d0-63c9df91b8e5"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "24e89d32-23ab-411c-bb53-7ec95b0b7099"
+                },
+                {
+                    "description": "Segmento de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 86.84,
+                        "y": 68.13
+                    },
+                    "uuid": "a72515e4-a3c4-4297-9b49-77c1713c61e6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "24e89d32-23ab-411c-bb53-7ec95b0b7099"
+                },
+                {
+                    "description": "Arco de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 84.19,
+                        "y": 73.33
+                    },
+                    "uuid": "76437032-94e6-425a-acdb-606fe92fd186"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Texto do footprint de D3 (K)",
+                    "pos": {
+                        "x": 38.2,
+                        "y": 49.9
+                    },
+                    "uuid": "fb08dd2d-e449-4d15-ac37-1ce01097fe13"
+                },
+                {
+                    "description": "Ilha PTH 1 [/GATE] de R8",
+                    "pos": {
+                        "x": 37.0,
+                        "y": 49.84
+                    },
+                    "uuid": "9edd1862-042a-420e-8eda-092164531de8"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

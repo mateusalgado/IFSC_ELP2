@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fonte flyback 12 V / 3 A – UC3845 – Projeto Semestral EPO II 2026-2 – Revisão B</title>
+<style>
+  @page { size: 297mm 167mm; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; color: #1a1a1a; background: #fff; }
+  section { width: 297mm; height: 167mm; padding: 12mm 14mm 10mm 14mm; page-break-after: always; break-after: page; position: relative; overflow: hidden; border-bottom: 1px solid #eee; }
+  section:last-child { page-break-after: auto; }
+  h1 { font-size: 30pt; color: #1b4f72; margin-bottom: 6mm; }
+  h2 { font-size: 20pt; color: #1b4f72; border-bottom: 2px solid #1b4f72; padding-bottom: 2mm; margin-bottom: 5mm; }
+  p, li { font-size: 13pt; line-height: 1.35; }
+  ul { margin-left: 7mm; }
+  li { margin-bottom: 2mm; }
+  table { border-collapse: collapse; width: 100%; font-size: 11pt; margin-top: 2mm; }
+  th { background: #e8eef5; border-bottom: 1.5px solid #1b4f72; padding: 1.5mm 2mm; text-align: left; }
+  td { border-bottom: 1px solid #ddd; padding: 1.2mm 2mm; }
+  .cols { display: flex; gap: 8mm; }
+  .cols > div { flex: 1; }
+  .fig { text-align: center; }
+  .fig img { max-width: 100%; max-height: 118mm; border: 1px solid #ddd; }
+  .cap { font-size: 10pt; color: #555; margin-top: 1mm; }
+  .foot { position: absolute; bottom: 5mm; left: 14mm; right: 14mm; font-size: 9pt; color: #777; border-top: 1px solid #ddd; padding-top: 1.5mm; display: flex; justify-content: space-between; }
+  .title { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+  .title p { font-size: 15pt; margin-top: 3mm; }
+  .big { font-size: 15pt; }
+  .ok { color: #1e7e34; font-weight: 600; }
+  .warn { color: #b8860b; font-weight: 600; }
+  .tag { font-size: 9pt; color: #555; }
+  .small li, .small p { font-size: 11.5pt; }
+</style>
+</head>
+<body>
+
+<section><div class="title">
+  <h1>Fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845</h1>
+  <p><strong>Projeto Semestral – Tema II · Revisão B</strong> · Eletrônica de Potência II (2026-2)</p>
+  <p>Mateus Salgado Barboza Costa · Prof. Joabel Moia · IFSC – Engenharia Eletrônica</p>
+  <p>Apresentação: 21/12/2026</p>
+  <p class="tag">Origem de cada número: [C] cálculo · [S] simulação LTspice da revisão B · [CAD] verificação ERC/DRC · [M] medição física (não há medições: protótipo não montado)</p>
+</div></section>
+
+<section>
+  <h2>1. Produto, requisitos e aplicações</h2>
+  <div class="cols"><div>
+  <ul>
+    <li>Fonte de mesa CA-CC de <strong>36 W (12 V / 3 A)</strong>: roteadores, CFTV, fitas de LED, automação</li>
+    <li>Entrada universal <strong>90–264 VAC</strong>, 50/60 Hz (validação em 127 e 220 V)</li>
+    <li>Saída 12 V ± 5 %, ondulação ≤ 120 mV, η meta 85 % (hipótese de cálculo 82 %)</li>
+    <li>Tema II: ponte + filtro capacitivo, flyback com <strong>UC3845</strong>, proteções de surto, filtro de EMI, snubber, malha fechada</li>
+    <li>Revisão B: resposta ao parecer técnico da revisão A (04/11/2026) — proteção de curto efetiva, DRC verificável, placa pronta para teste e para gabinete</li>
+  </ul></div>
+  <div><table>
+    <tr><th>Bloco</th><th>Escolha (revisão B)</th></tr>
+    <tr><td>Proteções</td><td>Fusível 5 × 20 T2A/250 V em clipes (produto: axial 477), NTC 10 Ω, varistor S14K275</td></tr>
+    <tr><td>EMI</td><td>X2 220 nF + choke Schaffner 2 × 10 mH / 1,2 A + X2 100 nF, Y1 2,2 nF</td></tr>
+    <tr><td>Retificador</td><td>GBU4J + <strong>150 µF/400 V</strong></td></tr>
+    <tr><td>Flyback</td><td><strong>STF13N65M2 (TO-220FP isolado)</strong>, E-30/7 (42:7:9), 65 kHz, MCD</td></tr>
+    <tr><td>Snubber</td><td>RCD 9 kΩ (2 × 18 kΩ/2 W em paralelo) / 22 nF/630 V / UF4007</td></tr>
+    <tr><td>Saída</td><td>STPS20H100CT, 3 × 1000 µF ZLH + LC 3,3 µH/470 µF</td></tr>
+    <tr><td>Controle</td><td>UC3845 modo corrente de pico, TL431 + PC817 (R<sub>z</sub> 21,5 kΩ / C<sub>z</sub> 270 nF)</td></tr>
+    <tr><td>Curto-circuito</td><td>limite ciclo a ciclo + <strong>hiccup por UVLO</strong> (R13 = 100 Ω no auxiliar)</td></tr>
+  </table></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>2 / 16</span></div>
+</section>
+
+<section>
+  <h2>2. O que o parecer apontou na revisão A e o que a B corrigiu</h2>
+  <table class="small">
+    <tr><th>Item do parecer</th><th>Revisão A</th><th>Revisão B</th></tr>
+    <tr><td>Curto-circuito</td><td>9 A no MOSFET, 596 V no dreno, CI nunca desliga</td><td>R13 10 → <strong>100 Ω</strong>: VCC cai, <strong>desligamento por UVLO e hiccup</strong>; janelas aplicação / sustentado / recuperação [S]</td></tr>
+    <tr><td>Grampo RCD</td><td>R5 e R6 em série na placa (36,4 kΩ) × 9,1 kΩ no modelo</td><td>R5 ∥ R6 = 9 kΩ no esquemático, na placa e na simulação</td></tr>
+    <tr><td>Filtro do sensor de corrente</td><td>RC do lado errado de R<sub>sense</sub>, τ = 220 ns</td><td>330 Ω / 100 pF <strong>no pino 3</strong>, τ = 33 ns</td></tr>
+    <tr><td>Choke de modo comum</td><td>0,7 A (Würth 744821110) &lt; 0,89 A rms em 90 V</td><td>Schaffner RN214 2 × 10 mH / <strong>1,2 A</strong>; pinagem 1-2 / 3-4 no símbolo e footprint</td></tr>
+    <tr><td>Barramento</td><td>100 µF (vale 94,6 V, sem tolerância)</td><td><strong>150 µF</strong>: vale 104 V [C]; com −20 % (120 µF) 99,8 V [S]</td></tr>
+    <tr><td>Regras de layout</td><td>classes HV/SEC não atribuídas → DRC de 1 mm / 6 mm sem efeito</td><td>classes atribuídas a todas as redes; <strong>ensaio de cobertura</strong> com 5 violações deliberadas (5/5 disparam) [CAD]</td></tr>
+    <tr><td>Pinagem de T1 / TL431</td><td>guia e esquemático divergentes</td><td>ficha única: 1-BULK, 3-DRAIN, 4-PGND, 5-AUX, 6/7-SGND, 9/10-ânodos de D1; TL431 K-A-REF</td></tr>
+    <tr><td>Instrumentação</td><td>terra do osciloscópio solto</td><td>isolador + sonda diferencial, <strong>terra de proteção mantido</strong>, curto físico bloqueado até justificar limites</td></tr>
+    <tr><td>Estabilidade / perdas / BOM</td><td>modelo sem L2 nem polo do opto; custo sem PCI mínima</td><td>planta com L2–C13 e polo do opto (MF 88°); BOM B com saída de caixa real (lote mínimo de 5 placas)</td></tr>
+  </table>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>3 / 16</span></div>
+</section>
+
+<section>
+  <h2>3. Metodologia (Aulas 02 a 08)</h2>
+  <ul>
+    <li><strong>Entrada</strong>: simulação numérica do retificador com 150 µF → V<sub>bulk,mín</sub> = 104 V (90 V/50 Hz), I<sub>in,rms</sub> = 0,89 A, FP 0,58, inrush 31 A com NTC (Aulas 06/07) [C]</li>
+    <li><strong>Flyback em MCD</strong> na pior condição (Aula 04C, Barbi) com vale conservador de 94,6 V: I<sub>p</sub> = 2,16 A, L<sub>p</sub> = 290 µH, V<sub>r</sub> = 71 V → n = 6 [C]</li>
+    <li><strong>Transformador</strong>: A<sub>e</sub>A<sub>w</sub> ≥ 0,45 cm⁴ → E-30/7 Thornton; l<sub>g</sub>, N<sub>p</sub>, N<sub>s</sub>, fios por efeito pelicular, perdas, ΔT, K<sub>ocup</sub> [C]</li>
+    <li><strong>Capacitores</strong>: seis critérios da Aula 03; <strong>semicondutores</strong>: pré-escolha, perdas e dissipadores (Aula 02, método das Tarefas 1 e 2) [C]</li>
+    <li><strong>UC3845</strong>: RT/CT, R<sub>sense</sub>, partida, auxiliar e <strong>hiccup</strong>, driver, compensador tipo 2 com TL431 (Aula 05); snubber e proteções (Aula 07) [C]</li>
+    <li><strong>Simulação</strong> LTspice em lote (23 casos, janelas antes/durante/depois de cada evento, partida a frio com pré-carga) → comparação com a teoria [S]</li>
+    <li><strong>Esquemático e layout</strong> KiCad 10 (Aula 08, IPC-2221): ERC, DRC com paridade, ensaio de cobertura das regras, Gerbers da mesma revisão [CAD]</li>
+    <li>Tudo por scripts (Python, kicad-cli, pcbnew): a referência elétrica é única — cálculo → esquemático → netlist → BOM → guia</li>
+  </ul>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>4 / 16</span></div>
+</section>
+
+<section>
+  <h2>4. Transformador e esforços [C]</h2>
+  <div class="cols"><div>
+  <table>
+    <tr><th>Núcleo</th><th>A<sub>e</sub>A<sub>w</sub></th><th>l<sub>g</sub></th><th>N<sub>p</sub>/N<sub>s</sub>/N<sub>aux</sub></th><th>P (W)</th><th>ΔT</th><th>K<sub>ocup</sub></th></tr>
+    <tr><td><strong>E-30/7</strong></td><td>0,48</td><td>0,45 mm</td><td>42 / 7 / 9</td><td>0,96</td><td>29 °C</td><td>0,46</td></tr>
+    <tr><td>E-30/14</td><td>1,02</td><td>0,23 mm</td><td>21 / 3 / 4</td><td>1,42</td><td>32 °C</td><td>0,22</td></tr>
+    <tr><td>E-42/15</td><td>2,84</td><td>0,15 mm</td><td>14 / 2 / 3</td><td>2,79</td><td>44 °C</td><td>0,08</td></tr>
+  </table>
+  <ul style="margin-top:4mm">
+    <li>L<sub>p</sub> = 294 µH, B = 0,25 T, fio 1×23 AWG (prim.), 5×23 AWG (sec.), 1×28 AWG (aux.)</li>
+    <li>I<sub>p</sub> = 2,14 A; I<sub>s,pk</sub> = 12,9 A; I<sub>s,rms</sub> = 5,45 A; I<sub>c,rms</sub> = 4,54 A</li>
+    <li>V<sub>ds</sub> máx = 507 V (264 V, grampo 1,8·V<sub>r</sub>) → MOSFET 650 V (78 %)</li>
+    <li>V<sub>rev</sub> diodo = 74 V → Schottky 100 V</li>
+    <li>Saturação ≈ 3 A (B<sub>sat</sub> 0,35 T): limita na prática o transitório de curto, que o modelo linear não representa</li>
+  </ul></div>
+  <div class="fig"><img src="../06_Relatorio/assets/flyback_formas_de_onda.png"><div class="cap">Formas de onda teóricas em 90 e 264 VAC, plena carga</div></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>5 / 16</span></div>
+</section>
+
+<section>
+  <h2>5. Semicondutores, perdas e dissipadores [C]</h2>
+  <div class="cols"><div>
+  <table>
+    <tr><th>MOSFET 650 V</th><th>P 90 V</th><th>P 264 V</th><th>R<sub>θJC</sub></th><th>Isolado</th><th>T<sub>j</sub></th></tr>
+    <tr><td>IPA65R400CE (TO-220FP)</td><td>1,14 W</td><td>1,38 W</td><td>4,0</td><td>sim</td><td>79 °C</td></tr>
+    <tr><td>STP13N65M2 (TO-220)</td><td>1,04 W</td><td>1,15 W</td><td>1,14</td><td>não</td><td>69 °C</td></tr>
+    <tr><td><strong>STF13N65M2 (TO-220FP)</strong></td><td>1,04 W</td><td>1,15 W</td><td>3,5</td><td><strong>sim</strong></td><td><strong>72 °C</strong></td></tr>
+    <tr><td>FCPF190N65S3 (TO-220F)</td><td>0,83 W</td><td>1,40 W</td><td>3,5</td><td>sim</td><td>79 °C</td></tr>
+  </table>
+  <ul style="margin-top:4mm">
+    <li>Dissipadores <strong>necessários</strong> em Q1 (sem clip T<sub>j</sub> = 112 °C) e D1; ponte GBU4J sem dissipador (0,67 W, 53 °C)</li>
+    <li>Diodo <strong>STPS20H100CT</strong> (2 × 10 A em paralelo): 1,78 W, T<sub>j</sub> ≈ 84 °C com clip de 24 °C/W</li>
+    <li>Encapsulamento isolado: aleta sem potencial de dreno → clip sem mica, seguro para gabinete</li>
+    <li>Driver = saída totem-pole do UC3845 (±1 A), R<sub>g</sub> 10 Ω + 1N4148 + 10 kΩ</li>
+    <li>Orçamento: 7,4–7,9 W → <strong>η = 81,9–83,0 %</strong> (hipótese 82 % ✔)</li>
+  </ul></div>
+  <div class="fig"><img src="../06_Relatorio/assets/perdas_semicondutores.png"><div class="cap">Distribuição de perdas em plena carga</div></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>6 / 16</span></div>
+</section>
+
+<section>
+  <h2>6. Componentes do UC3845, proteção de curto e malha de controle [C]</h2>
+  <div class="cols"><div>
+  <ul>
+    <li>R<sub>T</sub> = 6,04 kΩ, C<sub>T</sub> = 2,2 nF → f<sub>sw</sub> = 64,7 kHz (D ≤ 50 %)</li>
+    <li>R<sub>sense</sub> = 0,34 Ω (2 × 0,68 Ω/1 W): limite 2,65–2,94 A; filtro <strong>330 Ω/100 pF no pino 3</strong></li>
+    <li>Partida 2 × 82 kΩ/1 W, C<sub>VCC</sub> 220 µF; auxiliar 15,4 V (9 esp., UF4004) + <strong>R13 = 100 Ω</strong></li>
+    <li><strong>Hiccup</strong>: no curto o auxiliar cai, VCC desce até o UVLO, o CI desliga e R<sub>start</sub> recarrega → 220 V: 151 ms até o UVLO, 133 ms de recarga, 15,5 ms ligado, ciclo de falha 10 % [C]</li>
+    <li>Realimentação: TL431 (R<sub>a</sub> 9,53 k / R<sub>b</sub> 2,49 k), PC817, pull-up 4,7 kΩ no COMP</li>
+    <li>Compensador tipo 2: R<sub>z</sub> = 21,5 kΩ, C<sub>z</sub> = 270 nF → f<sub>c</sub> = 0,79 kHz, <strong>MF = 88°</strong>, MG 13 dB; ≥ 86° em 10 % de carga e CTR 0,5–1,6 — planta com pós-filtro L2–C13 e polo do opto</li>
+    <li>Snubber RCD: 9 kΩ (2 × 18 kΩ/2 W), 22 nF/630 V, UF4007; P = 2,0 W (L<sub>lk</sub> 2 %)</li>
+    <li>EMI: f<sub>DM</sub> 43 kHz (58 dB em 195 kHz), f<sub>CM</sub> 24 kHz (26 dB em 150 kHz)</li>
+  </ul></div>
+  <div class="fig"><img src="../06_Relatorio/assets/compensador_bode.png"><div class="cap">Bode da malha aberta (revisão B)</div></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>7 / 16</span></div>
+</section>
+
+<section>
+  <h2>7. Simulação LTspice – regime permanente [S]</h2>
+  <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/regime_90V_100pct_ciclo.png"><div class="cap">Um ciclo em 90 VAC, plena carga</div></div>
+  <div class="fig"><img src="../06_Relatorio/assets/regime_264V_100pct_comut.png"><div class="cap">Comutação em 264 VAC: dreno com grampo RCD (482 V)</div></div></div>
+  <p style="margin-top:3mm">Modelo comportamental do UC3845 (oscilador, latch 50 %, comparador 1 V, UVLO 8,5/7,9 V, I<sub>start</sub> 0,5 mA), VDMOS do STP13N65M2, TL431/PC817, L<sub>lk</sub> e RSE explícitas; 6 ciclos de rede com medição nos 2 últimos; 12 pontos de regime + 11 casos especiais; .raw relidos para as janelas.</p>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>8 / 16</span></div>
+</section>
+
+<section>
+  <h2>8. Teoria [C] × simulação [S] – plena carga</h2>
+  <table>
+    <tr><th>V<sub>ac</sub> (100 %)</th><th>V<sub>o</sub> (V)</th><th>I<sub>p</sub> C / S (A)</th><th>I<sub>s,pk</sub> C / S (A)</th><th>I<sub>s,rms</sub> C / S (A)</th><th>V<sub>ds</sub> C / S (V)</th><th>η C / S (%)</th></tr>
+    <tr><td>90</td><td>12,06</td><td>2,14 / 2,06 (−3,7 %)</td><td>12,9 / 14,2 (+10 %)</td><td>5,45 / 4,89 (−10 %)</td><td>261 / 247 (−5 %)</td><td>81,9 / 82,8</td></tr>
+    <tr><td>127</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 14,0</td><td>5,45 / 4,89</td><td>314 / 296</td><td>83,0 / 84,8</td></tr>
+    <tr><td>220</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,8</td><td>5,45 / 4,89</td><td>445 / 422</td><td>83,0 / 85,3</td></tr>
+    <tr><td>264</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,8</td><td>5,45 / 4,89</td><td>507 / 482 (−5 %)</td><td>82,7 / 84,6</td></tr>
+  </table>
+  <ul style="margin-top:4mm">
+    <li>Regulação de linha e carga &lt; 0,1 % (12,058–12,062 V); ondulação de chaveamento ≤ 4,2 mV e excursão total em ciclos da rede ≤ 9,2 mV (meta 120 mV)</li>
+    <li>I<sub>p</sub> e V<sub>ds</sub> dentro de 10 %; I<sub>s,rms</sub> no limite (a teoria integra o triângulo ideal no vale de V<sub>bulk</sub>); em carga leve V<sub>ds</sub> e I<sub>s,pk</sub> ficam 11–22 % abaixo da teoria, a favor da segurança (grampo fixo em 1,8·V<sub>r</sub> no cálculo)</li>
+    <li>V<sub>ds</sub> = 482 V (74 % de 650 V) com L<sub>lk</sub> 2 %; 497 V com 3 %; <strong>856 V sem grampo</strong> → snubber obrigatório; η = 85,3 % em 220 V atende a meta</li>
+    <li>Tolerância do barramento (C1 = 120 µF, −20 %): vale 99,8 V em 90 V/50 Hz, V<sub>o</sub> 12,06 V, η 82,8 %</li>
+  </ul>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>9 / 16</span></div>
+</section>
+
+<section>
+  <h2>9. Partida a frio e degraus de carga [S]</h2>
+  <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/partida_90V_rede.png" style="max-height:70mm"><div class="cap">Partida a frio em 90 VAC após a pré-carga (barramento e fase da rede transferidos do cruzamento do UVLO)</div></div>
+  <div class="fig"><img src="../06_Relatorio/assets/degrau_90V_rede.png" style="max-height:70mm"><div class="cap">Degraus 50 → 100 % (80 ms) e 100 → 50 % (100 ms) em 90 VAC</div></div></div>
+  <ul style="margin-top:3mm" class="small">
+    <li>Pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo (0,5 mA): UVLO em 1,1 s (264 V) e <span class="warn">7,4 s (90 V)</span> — partida lenta em rede baixa; produto pediria 2 × 68 kΩ ou partida ativa</li>
+    <li>V<sub>o</sub> ≥ 11,4 V em 5,3 / 4,4 ms, sem sobretensão (máx 12,06 V); VCC mín 8,40 V; I<sub>p</sub> de pico 3,1–3,45 A por &lt; 1 ms (saída em zero, sem reset do núcleo); V<sub>ds</sub> 517 V em 264 V</li>
+    <li>Degraus em 90 e 264 V: −114/−116 mV na subida, +115/+113 mV na descida, sem sair de ±1 %, ±0,5 % em ≤ 4,5 ms; CTR = 0,5: ±200 mV, ±1 % em 4,1 ms, sem oscilação</li>
+  </ul>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>10 / 16</span></div>
+</section>
+
+<section>
+  <h2>10. Curto-circuito na saída: aplicação, sustentado com hiccup, recuperação [S]</h2>
+  <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/curto_220V_janelas.png" style="max-height:105mm"><div class="cap">220 VAC, curto de 60 a 380 ms: VCC desce até o UVLO, o CI desliga e religa (hiccup)</div></div>
+  <div class="small"><table>
+    <tr><th>Janela</th><th>I<sub>p</sub> máx</th><th>I(D1) máx / rms</th><th>V<sub>ds</sub> máx</th><th>VCC mín</th></tr>
+    <tr><td>aplicação (2 ms)</td><td>7,8 A</td><td>55 A / 21 A</td><td>555 V</td><td>14,2 V</td></tr>
+    <tr><td>sustentado</td><td>3,3 A</td><td>24 A / 12,5 A</td><td>422 V</td><td><strong>7,9 V</strong></td></tr>
+    <tr><td>recuperação</td><td>0</td><td>0</td><td>310 V</td><td>8,2 → 8,5 V</td></tr>
+  </table>
+  <ul style="margin-top:3mm">
+    <li>Aplicação: sem reset do núcleo com a saída em zero a corrente sobe por alguns ciclos (0,91 T no modelo linear; núcleo real satura em ≈ 3 A) — dentro dos limites pulsados (Q1 44 A, D1 I<sub>FSM</sub> 200 A, V<sub>ds</sub> &lt; 600 V)</li>
+    <li>Sustentado: 155 ms até o UVLO, 97 ms desligado, 15 ms ligado por tentativa → ciclo de falha 13 % (cálculo 10 %); I(D1) rms média ≈ 4,6 A</li>
+    <li>Recuperação: religamento na tentativa seguinte do hiccup (≤ 97 ms) com a partida normal, sem sobretensão</li>
+    <li>Revisão A: VCC ficava em 13 V e o curto era sustentado indefinidamente</li>
+  </ul></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>11 / 16</span></div>
+</section>
+
+<section>
+  <h2>11. Esquemático revisão B (KiCad 10, ERC 0 erros / 0 avisos) [CAD]</h2>
+  <div class="fig"><img src="../06_Relatorio/assets/esquematico.png" style="max-height:120mm"></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>12 / 16</span></div>
+</section>
+
+<section>
+  <h2>12. Layout da PCI – regras da Aula 08 e IPC-2221, verificáveis [CAD]</h2>
+  <div class="cols"><div>
+  <ul class="small">
+    <li>140 × 90 mm, 2 camadas, FR-4 1,6 mm, todos PTH; fluxo linear rede → saída; J1 e J2 abrindo para bordas opostas; filtro de entrada em coluna; laços JP1/JP2 para sonda de corrente; furos M3 a ≥ 8,5 mm do cobre da rede (parafuso pode ser PE)</li>
+    <li>Classes HV / SEC / SEC_PWR <strong>atribuídas</strong>: isolamento ≥ 1,0 mm (HV), <strong>≥ 6,4 mm primário–secundário</strong> (IEC 62368-1) + fendas sob T1 e opto; larguras 1,0 / 1,5 / 2,0 mm por corrente</li>
+    <li><strong>Sem cantos de 90°</strong>: 255 chanfros a 45° gerados pelo roteador; terras de potência e de sinal unidos num único ponto no R<sub>sense</sub>; 100 nF junto ao VCC</li>
+    <li>Térmico: Q1 isolado e D1 com clips (T<sub>j</sub> 72 / 84 °C), Q1 a 6 mm de C1 e D1 a 10 mm de C10–C12; R5/R6 (1 W cada) e NTC isolados</li>
+    <li>DRC: <span class="ok">0 erros, 0 não conectados, paridade com o esquemático OK</span>; 3 avisos de serigrafia justificados</li>
+    <li><strong>Ensaio de cobertura</strong>: cópia com 5 violações deliberadas → as 5 regras disparam (HV, 6,4 mm, larguras, borda)</li>
+    <li>Gerbers RS-274X + furação Excellon + mapa <strong>da mesma revisão</strong>, inspecionados com as fendas</li>
+  </ul></div>
+  <div class="fig"><img src="../06_Relatorio/assets/pcb_F.Cu.png"><div class="cap">Face superior (revisão B, placement de 05/11/2026)</div></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>13 / 16</span></div>
+</section>
+
+<section>
+  <h2>13. Placa – render 3D (revisão B)</h2>
+  <div class="fig"><img src="../06_Relatorio/assets/pcb_3d_iso.png" style="max-height:125mm"><div class="cap">Dissipadores clip e corpo de T1 não representados nos modelos 3D</div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>14 / 16</span></div>
+</section>
+
+<section>
+  <h2>14. Lista de materiais e custo (revisão B)</h2>
+  <div class="cols"><div>
+  <table>
+    <tr><th>Bloco</th><th>US$ (1 un.)</th><th>US$ (100 un.)</th><th>%</th></tr>
+    <tr><td>PCI (lote de 5 / 100)</td><td>9,60</td><td>1,90</td><td>22</td></tr>
+    <tr><td>Filtro EMI</td><td>6,01</td><td>3,87</td><td>14</td></tr>
+    <tr><td>Secundário</td><td>5,05</td><td>3,14</td><td>12</td></tr>
+    <tr><td>Transformador</td><td>4,50</td><td>3,00</td><td>10</td></tr>
+    <tr><td>Retificador e bulk</td><td>3,90</td><td>2,55</td><td>9</td></tr>
+    <tr><td>Entrada e proteções</td><td>3,90</td><td>2,43</td><td>9</td></tr>
+    <tr><td>Potência primária</td><td>3,10</td><td>2,08</td><td>7</td></tr>
+    <tr><td>Demais (mecânica, comando, realim., snubber)</td><td>7,57</td><td>3,95</td><td>17</td></tr>
+    <tr><td><strong>Total por fonte</strong></td><td><strong>42,73 (R$ 235)</strong></td><td><strong>22,37 (R$ 123)</strong></td><td>100</td></tr>
+  </table></div>
+  <div><ul>
+    <li>58 itens com part number, fabricante e código de distribuidor (BOM.xlsx, custo.xlsx)</li>
+    <li>Orçamento de engenharia: preços herdados da A (out/2026) e provisões para os itens trocados (porta-fusível 5 × 20, choke Schaffner, 150 µF, STF13N65M2); câmbio R$ 5,50</li>
+    <li>Para um exemplar comprando o lote mínimo de 5 placas: saída de caixa ≈ US$ 81 antes de fretes e impostos (parecer, item 11)</li>
+    <li>Kit de mica retirado (Q1 isolado); alternativas nacionais (Thornton, lojas BR) no guia de montagem</li>
+    <li>Guia de montagem B: ficha de T1 com pinagem única, montagem por blocos, instrumentação segura, ensaios com critério de aceite e origem C/S/M</li>
+  </ul></div></div>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>15 / 16</span></div>
+</section>
+
+<section>
+  <h2>15. Conclusões</h2>
+  <ul class="big">
+    <li>Projeto completo do Tema II em revisão B: parecer respondido item a item, referência elétrica única (cálculo → esquemático → netlist → BOM → guia)</li>
+    <li>Simulação confirma a teoria (I<sub>p</sub> e V<sub>ds</sub> dentro de 10 %), V<sub>o</sub> = 12,06 V, ondulação de mV, V<sub>ds</sub> = 482 V (74 % de 650 V), partida e degraus nos dois sentidos estáveis, η = 85,3 % em 220 V</li>
+    <li><strong>Curto-circuito agora protegido</strong>: limite ciclo a ciclo + desligamento por UVLO e hiccup (13 % de ciclo de falha); transitório de aplicação inerente ao flyback, dentro dos limites pulsados</li>
+    <li>Layout verificável: classes atribuídas, cobertura das regras comprovada, 45°, isolação 6,4 mm, DRC zero, pacote de fabricação da mesma revisão; placa pensada para gabinete (MOSFET isolado, furos e conectores)</li>
+    <li>Custo US$ 42,73 (1 un.) / US$ 22,37 (100 un.), PCI incluída; nenhuma medição física ainda — o guia prepara a Possibilidade II</li>
+    <li>Trabalho futuro: medir L<sub>lk</sub> e saturação do trafo real, emissões conduzidas com LISN, partida mais rápida em 90 V, montar o protótipo</li>
+  </ul>
+  <p style="margin-top:8mm"><strong>Obrigado.</strong> Arquivos: PROJETO_REV_B/ (scripts, LTspice, KiCad, Gerbers, BOM, relatório, guia) · revisão A preservada em PROJETO/</p>
+  <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>16 / 16</span></div>
+</section>
+
+</body>
+</html>

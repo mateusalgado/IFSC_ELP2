@@ -1,0 +1,338 @@
+[
+ {
+  "ref": "J1",
+  "value": "ENTRADA CA",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "lib_id": "Connector:Screw_Terminal_01x02"
+ },
+ {
+  "ref": "F1",
+  "value": "T 2A 250V 5x20",
+  "footprint": "Fuse:Fuseholder_Clip-5x20mm_Keystone_3517_Inline_P23.11x6.76mm_D1.70mm_Horizontal",
+  "lib_id": "Device:Fuse"
+ },
+ {
+  "ref": "JP1",
+  "value": "fio (I ca)",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Jumper:Jumper_2_Bridged"
+ },
+ {
+  "ref": "RT1",
+  "value": "NTC 10R",
+  "footprint": "Capacitor_THT:C_Disc_D9.0mm_W5.0mm_P7.50mm",
+  "lib_id": "Device:Thermistor_NTC"
+ },
+ {
+  "ref": "RV1",
+  "value": "S14K275",
+  "footprint": "Varistor:RV_Disc_D12mm_W4.2mm_P7.5mm",
+  "lib_id": "Device:Varistor"
+ },
+ {
+  "ref": "CX1",
+  "value": "220nF X2",
+  "footprint": "Capacitor_THT:C_Rect_L18.0mm_W8.0mm_P15.00mm_FKS3_FKP3",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "R1",
+  "value": "470k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R2",
+  "value": "470k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "L1",
+  "value": "10mH CM",
+  "footprint": "Inductor_THT:Choke_Schaffner_RN214-04-15.5x23.0mm",
+  "lib_id": "Device:L_Coupled"
+ },
+ {
+  "ref": "CX2",
+  "value": "100nF X2",
+  "footprint": "Capacitor_THT:C_Rect_L18.0mm_W8.0mm_P15.00mm_FKS3_FKP3",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "BR1",
+  "value": "GBU4J",
+  "footprint": "Diode_THT:Diode_Bridge_Vishay_GBU",
+  "lib_id": "Device:D_Bridge_+AA-"
+ },
+ {
+  "ref": "C1",
+  "value": "150uF 400V",
+  "footprint": "Capacitor_THT:CP_Radial_D18.0mm_P7.50mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "R3",
+  "value": "82k 1W",
+  "footprint": "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R4",
+  "value": "82k 1W",
+  "footprint": "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R5",
+  "value": "18k 2W",
+  "footprint": "Resistor_THT:R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R6",
+  "value": "18k 2W",
+  "footprint": "Resistor_THT:R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C2",
+  "value": "22nF 630V",
+  "footprint": "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P10.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "D2",
+  "value": "UF4007",
+  "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+  "lib_id": "Device:D"
+ },
+ {
+  "ref": "T1",
+  "value": "EE30/15/7 Np42 Ns7 Na9",
+  "footprint": "fonte:Trafo_EE30_10pin",
+  "lib_id": "fonte:T_Flyback"
+ },
+ {
+  "ref": "Q1",
+  "value": "STF13N65M2",
+  "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+  "lib_id": "Transistor_FET:Q_NMOS_GDS"
+ },
+ {
+  "ref": "R7",
+  "value": "10",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "D3",
+  "value": "1N4148",
+  "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+  "lib_id": "Device:D"
+ },
+ {
+  "ref": "R8",
+  "value": "10k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R9",
+  "value": "680m 1W",
+  "footprint": "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R10",
+  "value": "680m 1W",
+  "footprint": "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "D1",
+  "value": "STPS20H100CT",
+  "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+  "lib_id": "Device:D_Schottky_Dual_CommonCathode_AKA"
+ },
+ {
+  "ref": "JP2",
+  "value": "fio (I sec)",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Jumper:Jumper_2_Bridged"
+ },
+ {
+  "ref": "R15",
+  "value": "15",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C9",
+  "value": "2.2nF 100V",
+  "footprint": "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "C10",
+  "value": "1000u 25V",
+  "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "C11",
+  "value": "1000u 25V",
+  "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "C12",
+  "value": "1000u 25V",
+  "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "L2",
+  "value": "3.3uH",
+  "footprint": "Inductor_THT:L_Radial_D7.0mm_P3.00mm",
+  "lib_id": "Device:L"
+ },
+ {
+  "ref": "C13",
+  "value": "470uF 25V",
+  "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "J2",
+  "value": "SAIDA 12V",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "lib_id": "Connector:Screw_Terminal_01x02"
+ },
+ {
+  "ref": "U1",
+  "value": "UC3845",
+  "footprint": "Package_DIP:DIP-8_W7.62mm",
+  "lib_id": "Regulator_Controller:UC3845_DIP8"
+ },
+ {
+  "ref": "R12",
+  "value": "6.04k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C4",
+  "value": "2.2nF",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "C7",
+  "value": "1u",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "R14",
+  "value": "4.7k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C8",
+  "value": "1nF",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "U3",
+  "value": "PC817",
+  "footprint": "Package_DIP:DIP-4_W7.62mm",
+  "lib_id": "Isolator:PC817"
+ },
+ {
+  "ref": "R11",
+  "value": "330R",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C3",
+  "value": "100p",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "C5",
+  "value": "220uF 35V",
+  "footprint": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
+  "lib_id": "Device:C_Polarized"
+ },
+ {
+  "ref": "C6",
+  "value": "100n",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "R13",
+  "value": "100R",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "D4",
+  "value": "UF4004",
+  "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+  "lib_id": "Device:D"
+ },
+ {
+  "ref": "R16",
+  "value": "9.53k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R17",
+  "value": "2.49k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "U2",
+  "value": "TL431",
+  "footprint": "fonte:TL431_TI_LP",
+  "lib_id": "fonte:TL431_TI_LP"
+ },
+ {
+  "ref": "R18",
+  "value": "21.5k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "C14",
+  "value": "270nF",
+  "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+  "lib_id": "Device:C"
+ },
+ {
+  "ref": "R19",
+  "value": "2.74k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "R20",
+  "value": "1k",
+  "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "lib_id": "Device:R"
+ },
+ {
+  "ref": "CY1",
+  "value": "2.2nF Y1",
+  "footprint": "Capacitor_THT:C_Disc_D9.0mm_W5.0mm_P10.00mm",
+  "lib_id": "Device:C"
+ }
+]

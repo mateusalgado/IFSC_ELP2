@@ -1,0 +1,4 @@
+trilhas: 319  vias: 5  falhas: 2
+ilha de terra de sinal continua: sim
+  FALHA ('/DRV', 'U1.6', [('pad R9.2[PGND]', 228), ('pad BR1.3[Net-(BR1-Pad3)]', 176), ('pad R8.1[/GATE]', 56), ('pad D3.2[/GATE]', 36)])
+  FALHA ('/CS', 'R11.1', [('pad C6.1[/VCC]', 96), ('pad U1.4[Net-(U1-RC)]', 92), ('pad R14.1[/VREF]', 66), ('pad U1.1[/COMP]', 52)])

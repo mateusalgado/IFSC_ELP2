@@ -1,0 +1,46 @@
+LTspice 26.1.1 for Windows
+Circuit: C:\Users\mateu\OneDrive\Documentos\ELP2\PROJETO\03_Simulacao\runs\regime_127V_10pct.net
+Start Time: Mon Oct 19 21:24:34 2026
+Options:reltol=0.005 abstol=1e-8 vntol=1e-5 method=gear itl4=50 gmin=1e-10
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = Gear
+gmin = 1e-10
+abstol = 1e-08
+reltol = 0.005
+volttol = 1e-05
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 19.205 seconds.
+Total iterations: 4610201
+
+Files loaded:
+C:\Users\mateu\OneDrive\Documentos\ELP2\PROJETO\03_Simulacao\runs\regime_127V_10pct.net
+
+vo_avg: AVG(V(vo,sgnd))=12.0831258697 FROM 0.021667 TO 0.055
+vo_pp: PP(V(vo,sgnd))=0.00067019330163 FROM 0.054382 TO 0.055
+vo_min: MIN(V(vo,sgnd))=12.0639853326 FROM 0.021667 TO 0.055
+vo_max: MAX(V(vo,sgnd))=12.1468554402 FROM 0.021667 TO 0.055
+vbulk_min: MIN(V(bulk))=174.848007202 FROM 0.021667 TO 0.055
+vbulk_max: MAX(V(bulk))=177.666625977 FROM 0.021667 TO 0.055
+ip_pk: MAX(I(L_p))=0.707933306694 FROM 0.021667 TO 0.055
+ip_rms: RMS(I(L_p))=0.121385909645 FROM 0.021667 TO 0.055
+is_pk: MAX(I(D_out))=3.37317991257 FROM 0.021667 TO 0.055
+is_rms: RMS(I(D_out))=0.802570413018 FROM 0.021667 TO 0.055
+is_avg: AVG(I(D_out))=0.29647247109 FROM 0.021667 TO 0.055
+ic1_rms: RMS(I(C_o1))=0.763105757478 FROM 0.021667 TO 0.055
+vds_max: MAX(V(drain))=257.662689209 FROM 0.021667 TO 0.055
+vd_min: MIN(V(secn,vout))=-48.0782938004 FROM 0.021667 TO 0.055
+vcc_avg: AVG(V(vcc))=14.8642812835 FROM 0.021667 TO 0.055
+vcomp_avg: AVG(V(comp))=1.87127282263 FROM 0.021667 TO 0.055
+iin_rms: RMS(I(V_ac))=0.105755712398 FROM 0.021667 TO 0.055
+iin_pk: MAX(-I(V_ac))=0.515106916428 FROM 0.021667 TO 0.055
+pin: AVG(-V(L,N)*I(V_ac))=5.03844791124 FROM 0.021667 TO 0.055
+po: AVG(V(vo,sgnd)*I(Rload))=3.65005967351 FROM 0.021667 TO 0.055
+pmos: AVG(V(drain,sw)*Id(M1))=0.0784058227688 FROM 0.021667 TO 0.055
+pdiode: AVG(V(secn,vout)*I(D_out))=0.15018045757 FROM 0.021667 TO 0.055
+psnub: AVG(V(snub,bulk)*V(snub,bulk)/9100.0)=0.638071292294 FROM 0.021667 TO 0.055
+pbr: AVG(V(L2,bulk)*I(D_br1)+V(N,bulk)*I(D_br2)+-V(L2)*I(D_br3)-V(N)*I(D_br4))=0.0437016930666 FROM 0.021667 TO 0.055
+ic_bulk_rms: RMS(I(C_bulk))=0.147498438145 FROM 0.021667 TO 0.055
+vdrv_avg: AVG(V(drv))=0.984690006254 FROM 0.021667 TO 0.055

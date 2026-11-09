@@ -1,0 +1,15 @@
+# Saídas pesadas e regeneráveis da simulação LTspice (0,1-1,8 GB cada; ver 03_Simulacao/runs_dir.py)
+*.raw
+# Caches, bloqueios e temporários
+__pycache__/
+*.pyc
+*.lck
+~*
+*.kicad_prl
+*-backups/
+fp-info-cache
+Tarefa_01_Calculo_Termico_Dissipador/tmp/
+# Material de aula do professor (direitos autorais): não publicar em repositório público
+Apresentacao_Aula_*.pdf
+Plano_Ensino_Eletronica_Potencia_II.pdf
+Instalacao_PSIM.pdf

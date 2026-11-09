@@ -1,0 +1,63 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/mateu/OneDrive/Documentos/ELP2/PROJETO/03_Simulacao/plota.py", line 80, in <module>
+    d = read_raw(HERE / "runs" / f"{caso}.raw")
+  File "/mnt/c/Users/mateu/OneDrive/Documentos/ELP2/PROJETO/03_Simulacao/rawread.py", line 14, in read_raw
+    data = Path(path).read_bytes()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 778, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/c/Users/mateu/OneDrive/Documentos/ELP2/PROJETO/03_Simulacao/runs/sem_snubber_264V.raw'
+:33] rodando regime_127V_10pct ...
+    {'vo_avg': 12.0831258697, 'vo_pp': 0.00067019330163, 'ip_pk': 0.707933306694, 'is_rms': 0.802570413018, 'vds_max': 257.662689209, 'pin': 5.03844791124, 'po': 3.65005967351, '_erro': False, '_wall_s': 25.040443181991577}
+ok regime_127V_10pct
+[21:25:03] rodando regime_127V_50pct ...
+    {'vo_avg': 12.0816553676, 'vo_pp': 0.00187321259, 'ip_pk': 1.47511053085, 'is_rms': 2.87869286547, 'vds_max': 276.658599854, 'pin': 21.579441184, 'po': 18.2458554086, '_erro': False, '_wall_s': 30.1597638130188}
+ok regime_127V_50pct
+[21:25:38] rodando regime_127V_100pct ...
+    {'vo_avg': 12.0797601322, 'vo_pp': 0.00356866092261, 'ip_pk': 2.06845927238, 'is_rms': 4.88381843578, 'vds_max': 296.440948486, 'pin': 42.8286282591, 'po': 36.480254961, '_erro': False, '_wall_s': 30.160725831985474}
+ok regime_127V_100pct
+[21:26:13] rodando regime_220V_10pct ...
+    {'vo_avg': 12.0838287392, 'vo_pp': 0.00113768636947, 'ip_pk': 0.716715037823, 'is_rms': 0.795187890828, 'vds_max': 387.822814941, 'pin': 5.66730147951, 'po': 3.65048491251, '_erro': False, '_wall_s': 26.596900701522827}
+ok regime_220V_10pct
+[21:26:43] rodando regime_220V_50pct ...
+    {'vo_avg': 12.0822513925, 'vo_pp': 0.00256733221613, 'ip_pk': 1.47231292725, 'is_rms': 2.8748028193, 'vds_max': 403.304382324, 'pin': 21.9831543509, 'po': 18.247657155, '_erro': False, '_wall_s': 31.16044020652771}
+ok regime_220V_50pct
+[21:27:20] rodando regime_220V_100pct ...
+    {'vo_avg': 12.0803001671, 'vo_pp': 0.00395049645158, 'ip_pk': 2.07338309288, 'is_rms': 4.88182058062, 'vds_max': 422.272003174, 'pin': 42.6625496261, 'po': 36.483518646, '_erro': False, '_wall_s': 30.410380363464355}
+ok regime_220V_100pct
+[21:27:55] rodando regime_264V_10pct ...
+    {'vo_avg': 12.0843401281, 'vo_pp': 0.000978157120699, 'ip_pk': 0.701256334782, 'is_rms': 0.794168177768, 'vds_max': 449.684326172, 'pin': 6.1086360962, 'po': 3.65079429663, '_erro': False, '_wall_s': 28.00935125350952}
+ok regime_264V_10pct
+[21:28:27] rodando regime_264V_50pct ...
+    {'vo_avg': 12.0826765105, 'vo_pp': 0.00283987686271, 'ip_pk': 1.46824514866, 'is_rms': 2.87316569726, 'vds_max': 463.812835693, 'pin': 22.4048169983, 'po': 18.2489419426, '_erro': False, '_wall_s': 36.12790298461914}
+ok regime_264V_50pct
+[21:29:08] rodando regime_264V_100pct ...
+    {'vo_avg': 12.0806906461, 'vo_pp': 0.00376650191174, 'ip_pk': 2.06965970993, 'is_rms': 4.88092214867, 'vds_max': 482.323516846, 'pin': 43.0257327949, 'po': 36.4858787006, '_erro': False, '_wall_s': 63.8584189414978}
+ok regime_264V_100pct
+[21:30:16] rodando partida_90V ...
+    {'vo_avg': -6.13279628243e-17, 'vo_pp': 1.82112540263e-16, 'ip_pk': 6.33057106825e-06, 'is_rms': 5.41306978326e-13, 'vds_max': 125.891120911, 'pin': 0.104974263251, 'po': 2.54392179513e-31, '_erro': False, '_wall_s': 7.9389121532440186}
+ok partida_90V
+[21:30:26] rodando partida_264V ...
+    {'vo_avg': 12.0500769249, 'vo_pp': 0.0034230683741, 'ip_pk': 2.06881570816, 'is_rms': 4.88092422231, 'vds_max': 481.648223877, 'pin': 36.4393339436, 'po': 36.3010915681, '_erro': False, '_wall_s': 20.7801513671875}
+ok partida_264V
+[21:30:51] rodando degrau_90V ...
+    {'vo_avg': 12.0653452364, 'vo_pp': 0.00287519520862, 'ip_pk': 2.06478381157, 'is_rms': 4.88669014315, 'vds_max': 246.185165405, 'pin': 43.7255792766, 'po': 18.196569834, '_erro': False, '_wall_s': 18.471794843673706}
+ok degrau_90V
+[21:31:13] rodando degrau_264V ...
+    {'vo_avg': 12.0668219654, 'vo_pp': 0.00430658412733, 'ip_pk': 2.06602311134, 'is_rms': 4.8804382109, 'vds_max': 481.993591309, 'pin': 34.9927830065, 'po': 18.2010247979, '_erro': False, '_wall_s': 18.52262568473816}
+ok degrau_264V
+[21:31:35] rodando curto_220V ...
+    {'vo_avg': 5.17968924065, 'vo_pp': 0.0088520589652, 'ip_pk': 4.27526426315, 'is_rms': 17.4865396057, 'vds_max': 462.69720459, 'pin': 58.4804799633, 'po': 13.9535309606, '_erro': False, '_wall_s': 38.98329305648804}
+ok curto_220V
+[21:32:19] rodando sem_snubber_264V ...
+    {'_erro': True, '_wall_s': 0.6690473556518555}
+[21:32:20] rodando llk3pct_264V ...
+    {'vo_avg': 12.1346927482, 'vo_pp': 0.00689922047968, 'ip_pk': 2.07852888107, 'is_rms': 4.8726022684, 'vds_max': 496.391235352, 'pin': 69.9543502353, 'po': 36.8127330971, '_erro': False, '_wall_s': 13.755181789398193}
+ok llk3pct_264V
+[21:32:37] rodando ctr05_90V ...
+    {'vo_avg': 12.0852058846, 'vo_pp': 0.0036865244474, 'ip_pk': 2.0667579174, 'is_rms': 4.88900739214, 'vds_max': 246.3515625, 'pin': 43.75732792, 'po': 36.5130604751, '_erro': False, '_wall_s': 19.573447465896606}
+ok ctr05_90V
+BATCH DONE Mon Oct 19 21:33:00 -03 2026

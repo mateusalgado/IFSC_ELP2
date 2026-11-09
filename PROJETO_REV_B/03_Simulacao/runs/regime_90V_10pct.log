@@ -1,0 +1,47 @@
+LTspice 26.1.1 for Windows
+Circuit: C:\Users\mateu\ELP2_sim_runs\REV_B\regime_90V_10pct.net
+Start Time: Wed Nov  4 04:43:07 2026
+Options:reltol=0.005 abstol=1e-8 vntol=1e-5 method=gear itl4=50 gmin=1e-10
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = Gear
+gmin = 1e-10
+abstol = 1e-08
+reltol = 0.005
+volttol = 1e-05
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 170.655 seconds.
+Total iterations: 12941229
+
+Files loaded:
+C:\Users\mateu\ELP2_sim_runs\REV_B\regime_90V_10pct.net
+
+vo_avg: AVG(V(vo,sgnd))=12.0623086135 FROM 0.08 TO 0.12
+vo_pp: PP(V(vo,sgnd))=0.000369848255396 FROM 0.11938195 TO 0.12
+vo_min: MIN(V(vo,sgnd))=12.0610349119 FROM 0.08 TO 0.12
+vo_max: MAX(V(vo,sgnd))=12.0635717988 FROM 0.08 TO 0.12
+vbulk_min: MIN(V(bulk))=122.150398254 FROM 0.08 TO 0.12
+vbulk_max: MAX(V(bulk))=125.10622406 FROM 0.08 TO 0.12
+ip_pk: MAX(I(L_p))=0.707065582275 FROM 0.08 TO 0.12
+ip_rms: RMS(I(L_p))=0.143498466 FROM 0.08 TO 0.12
+is_pk: MAX(I(D_out))=3.54813933372 FROM 0.08 TO 0.12
+is_rms: RMS(I(D_out))=0.826262204594 FROM 0.08 TO 0.12
+is_avg: AVG(I(D_out))=0.304495106508 FROM 0.08 TO 0.12
+ic1_rms: RMS(I(C_o1))=0.778467951454 FROM 0.08 TO 0.12
+vds_max: MAX(V(drain,sw))=205.974232386 FROM 0.08 TO 0.12
+vd_min: MIN(V(secn,vout))=-37.7468614578 FROM 0.08 TO 0.12
+vcc_avg: AVG(V(vcc))=11.9674165599 FROM 0.08 TO 0.12
+vcomp_avg: AVG(V(comp))=2.0326779143 FROM 0.08 TO 0.12
+iin_rms: RMS(I(V_ac))=0.129911444465 FROM 0.08 TO 0.12
+iin_pk: MAX(-I(V_ac))=0.547053396702 FROM 0.08 TO 0.12
+pin: AVG(-V(L,N)*I(V_ac))=4.97837096633 FROM 0.08 TO 0.12
+po: AVG(V(vo,sgnd)*I(Rload))=3.63748223184 FROM 0.08 TO 0.12
+pmos: AVG(V(drain,sw)*Id(M1))=0.0513942883033 FROM 0.08 TO 0.12
+pdiode: AVG(V(secn,vout)*I(D_out))=0.154873393564 FROM 0.08 TO 0.12
+psnub: AVG(V(snub,bulk)*V(snub,bulk)/9000.0)=0.660510926286 FROM 0.08 TO 0.12
+pbr: AVG(V(L2,bulk)*I(D_br1)+V(N,bulk)*I(D_br2)+-V(L2)*I(D_br3)-V(N)*I(D_br4))=0.0613641459104 FROM 0.08 TO 0.12
+ic_bulk_rms: RMS(I(C_bulk))=0.17759369231 FROM 0.08 TO 0.12
+vdrv_avg: AVG(V(drv))=1.12187289443 FROM 0.08 TO 0.12
+ripple_total: PP(V(vo,sgnd))=0.00253688690876 FROM 0.08 TO 0.12

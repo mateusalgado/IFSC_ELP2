@@ -1,0 +1,130 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-19T22:46:03",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "fonte_flyback_12V3A.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "504faef6-1ec1-4097-a688-c18b21410f8f"
+                },
+                {
+                    "description": "Segmento de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 86.84,
+                        "y": 68.13
+                    },
+                    "uuid": "63819c39-0117-41da-9160-5f9988acc2dd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segmento no Edge.Cuts",
+                    "pos": {
+                        "x": 83.4,
+                        "y": 68.0
+                    },
+                    "uuid": "504faef6-1ec1-4097-a688-c18b21410f8f"
+                },
+                {
+                    "description": "Arco de U3 em F.Silkscreen",
+                    "pos": {
+                        "x": 84.19,
+                        "y": 73.33
+                    },
+                    "uuid": "64b4dd17-9d50-49bf-8aff-84b301fdb4c1"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Texto do footprint de D3 (K)",
+                    "pos": {
+                        "x": 38.2,
+                        "y": 49.9
+                    },
+                    "uuid": "00f672c7-2e61-43dd-9dcf-2321352569f5"
+                },
+                {
+                    "description": "Ilha PTH 1 [/GATE] de R8",
+                    "pos": {
+                        "x": 37.0,
+                        "y": 49.84
+                    },
+                    "uuid": "a3752816-68e6-4c8b-b791-8d9ab9d26116"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Círculo de L1 em F.Silkscreen",
+                    "pos": {
+                        "x": 12.5,
+                        "y": 48.0
+                    },
+                    "uuid": "bef6494c-f27a-48c3-9617-e7bb3dee4a83"
+                },
+                {
+                    "description": "Ilha PTH 1 [Net-(CX1-Pad1)] de L1",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 48.0
+                    },
+                    "uuid": "abb4e54c-53a0-4972-a3fe-f8e5f6aed390"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

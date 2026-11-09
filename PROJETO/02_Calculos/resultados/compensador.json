@@ -1,0 +1,100 @@
+{
+  "Ra": 9530.0,
+  "Rb": 2490.0,
+  "Rled": 2740.0,
+  "R_bias": 1000.0,
+  "Rz": 47500.0,
+  "Cz": 1.5e-07,
+  "Rpu": 4700.0,
+  "Cp": 1e-09,
+  "CTR": 1.0,
+  "fc_alvo": 1500.0,
+  "vo_real": 12.044136546184738,
+  "margens": {
+    "carga100_ctr1.0": {
+      "fc": 1493.0936330561237,
+      "pm": 99.29090612748746,
+      "gm": null
+    },
+    "carga10_ctr1.0": {
+      "fc": 463.8025868558258,
+      "pm": 90.86589907634111,
+      "gm": null
+    },
+    "carga100_ctr1.6": {
+      "fc": 2478.5466565722054,
+      "pm": 104.80713222113137,
+      "gm": null
+    },
+    "carga100_ctr0.5": {
+      "fc": 735.246924596224,
+      "pm": 94.89028627854255,
+      "gm": null
+    }
+  },
+  "componentes": [
+    {
+      "ref": "U2",
+      "valor": "TL431",
+      "descricao": "referência ajustável 2,495 V, TO-92",
+      "pn": "TI TL431ACLP / onsemi TL431BCLPG",
+      "qtd": 1
+    },
+    {
+      "ref": "U3",
+      "valor": "PC817",
+      "descricao": "optoacoplador CTR 80–160 % (rank B/C)",
+      "pn": "Sharp PC817X2 / Everlight EL817C",
+      "qtd": 1
+    },
+    {
+      "ref": "Ra",
+      "valor": "9.53 kΩ 1 %",
+      "descricao": "divisor superior",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "Rb",
+      "valor": "2.49 kΩ 1 %",
+      "descricao": "divisor inferior",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_led",
+      "valor": "2740 Ω",
+      "descricao": "série do LED do opto",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_bias",
+      "valor": "1 kΩ",
+      "descricao": "polarização mínima do TL431",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "Rz",
+      "valor": "47.50 kΩ",
+      "descricao": "compensador tipo 2",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "Cz",
+      "valor": "150 nF",
+      "descricao": "compensador tipo 2",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "C_p",
+      "valor": "1 nF",
+      "descricao": "polo no COMP",
+      "pn": "",
+      "qtd": 1
+    }
+  ]
+}

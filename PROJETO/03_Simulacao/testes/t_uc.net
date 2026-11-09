@@ -1,0 +1,36 @@
+* teste do subcircuito UC3845
+V_vcc vcc 0 PWL(0 0 200u 15 400u 15 450u 7 600u 7 650u 15 1m 15)
+V_is isns 0 PULSE(0 1.2 0 6u 0.1u 0.1u 15.4u)
+R_pu vref comp 4.7k
+C_pc comp 0 1n
+I_opto comp 0 0.5m
+X_uc comp isns vcc drv 0 vref UC3845B
+R_l drv 0 1k
+
+* ---- UC3845 comportamental ----
+.subckt UC3845B COMP ISENSE VCC OUT GND VREF
+* UVLO com histerese 8,4 V (liga) / 7,6 V (desliga)
+A_uvlo VCC 0 0 0 0 ON 0 0 SCHMITT vt=8.0 vh=0.4 vhigh=1 vlow=0 trise=10n tfall=10n
+* consumo: 0,3 mA antes da partida, 11 mA em operacao
+B_icc VCC GND I=if(V(ON)>0.5, 11m, 0.3m)
+D_z VCC GND DZ34
+* referencia 5 V quando ligado
+B_ref VREF GND V=if(V(ON)>0.5, 5, 0)
+R_ref VREF GND 1Meg
+* oscilador: clock estreito (tempo morto) a fosc; toggle flip-flop -> fsw = fosc/2, Dmax < 50 %
+V_clk CLK 0 PULSE(0 1 3.8628e-06 5n 5n 4.2410e-07 7.725581e-06)
+A_tff QB CLK 0 0 0 Q QB 0 DFLOP
+* limiar do comparador de corrente: (COMP - 1,4)/3 limitado a [0, 1] V
+B_th TH 0 V=limit((V(COMP)-1.4)/3, 0, 1.0)
+B_cmp RST 0 V=if(V(ISENSE) > V(TH), 1, 0)
+* latch PWM: set no clock (saida bloqueada durante o clock), reset pelo comparador
+A_latch CLK RST 0 0 0 QL QLB 0 SRFLOP
+B_drv DRV 0 V=if(V(ON)>0.5 & V(QL)>0.5 & V(Q)>0.5 & V(CLK)<0.5, 1, 0)
+* driver totem-pole: alto = VCC - 1,5 V, resistencia de saida ~10 ohm
+B_out OUTI 0 V=if(V(DRV)>0.5, V(VCC)-1.5, 0)
+R_out OUTI OUT 10
+.ends UC3845B
+
+.model DZ34 D(Is=1e-12 bv=34 Ibv=1m)
+.tran 0 1m 0 20n
+.end

@@ -1,0 +1,21 @@
+* Revisao B. C1 e C5 descarregados, CI antes do UVLO; Istartup maximo 0.5 mA
+Vac l n SINE(0 127.27922061357856 50)
+Rntc l a 10
+Cx1 a n 220n
+Ldm a b 200u Rser=0.390
+Cx2 b n 100n
+D1 b bus db
+D2 n bus db
+D3 0 b db
+D4 0 n db
+.model db D(Is=1n n=1.5 Rs=0.03 bv=600 Cjo=50p tt=1u)
+Rb bus bc 0.8
+Cb bc 0 0.00015 ic=0
+Rstart bus vcc 164k
+Cvcc vcc 0 220u ic=0
+Bicc vcc 0 I=0.5m*limit(V(vcc),0,1)
+.tran 0 15 0 100u uic
+.save V(vcc) V(bc) I(Vac)
+.meas tran t_uv WHEN V(vcc)=8.5 rise=1
+.meas tran b_uv FIND V(bc) WHEN V(vcc)=8.5 rise=1
+.end

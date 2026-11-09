@@ -1,0 +1,12 @@
+* teste de pinos dos dispositivos A
+V_in in 0 PWL(0 0 10u 10 20u 10 30u 0 40u 0)
+A_s in 0 0 0 0 s6 s7 0 SCHMITT vt=5 vh=1 vhigh=1 vlow=0
+* DFLOP: D=d7(realimentado de porta 7), CLK=clk
+V_clk clk 0 PULSE(0 1 1u 10n 10n 1u 5u)
+A_d d7 clk 0 0 0 d6 d7 0 DFLOP
+* SRFLOP: S pulso em 2us, R pulso em 12us
+V_s s 0 PULSE(0 1 2u 10n 10n 1u 100u)
+V_r r 0 PULSE(0 1 12u 10n 10n 1u 100u)
+A_sr s r 0 0 0 q6 q7 0 SRFLOP
+.tran 0 40u 0 10n
+.end

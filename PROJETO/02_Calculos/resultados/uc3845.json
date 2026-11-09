@@ -1,0 +1,185 @@
+{
+  "oscilador": {
+    "RT": 6040.0,
+    "CT": 2.2e-09,
+    "f_osc": 129440.09632751356,
+    "fsw": 64720.04816375678,
+    "t_dead_ns": 424.09638554216866
+  },
+  "sense": {
+    "RS": 0.33,
+    "i_lim_min": 2.727272727272727,
+    "i_lim_typ": 3.0303030303030303,
+    "P_RS": 0.21901825030690686,
+    "R_filt": 1000.0,
+    "C_filt": 2.2e-10,
+    "tau_ns": 219.99999999999997
+  },
+  "partida": {
+    "R_start": 164000.0,
+    "C_vcc": 0.00022,
+    "i_start_min": 0.000525350318487945,
+    "t_hold_ms": 9.166436723943315,
+    "V_aux": 15.428571428571429,
+    "tabela": [
+      [
+        "90",
+        "124",
+        "0,73",
+        "0,43",
+        "4,3",
+        "0,09"
+      ],
+      [
+        "127",
+        "177",
+        "1,05",
+        "0,75",
+        "2,5",
+        "0,19"
+      ],
+      [
+        "220",
+        "308",
+        "1,85",
+        "1,55",
+        "1,2",
+        "0,58"
+      ],
+      [
+        "264",
+        "370",
+        "2,23",
+        "1,93",
+        "1,0",
+        "0,84"
+      ]
+    ]
+  },
+  "driver": {
+    "R_G": 10.0,
+    "R_g_off": 1.0,
+    "R_drv_src": 20.0,
+    "R_drv_sink": 10.0,
+    "R_gs": 10000.0
+  },
+  "rampa": {
+    "m2": 85584.10230884097,
+    "m_osc": 219133.5047392456,
+    "R_slope": 5120.892755256691
+  },
+  "componentes": [
+    {
+      "ref": "U1",
+      "valor": "UC3845",
+      "descricao": "controlador PWM modo corrente, DIP-8",
+      "pn": "TI UC3845AN / onsemi UC3845BNG",
+      "qtd": 1
+    },
+    {
+      "ref": "RT",
+      "valor": "6.04 kΩ 1 %",
+      "descricao": "resistor do oscilador",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "CT",
+      "valor": "2.2 nF NP0",
+      "descricao": "capacitor do oscilador",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "Rs1,Rs2",
+      "valor": "0.66 Ω 1 W",
+      "descricao": "sensor de corrente (2 em paralelo)",
+      "pn": "",
+      "qtd": 2
+    },
+    {
+      "ref": "R_cs",
+      "valor": "1 kΩ",
+      "descricao": "filtro do ISENSE",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "C_cs",
+      "valor": "220 pF",
+      "descricao": "filtro do ISENSE",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_st1,R_st2",
+      "valor": "82 kΩ 1 W",
+      "descricao": "startup (série)",
+      "pn": "",
+      "qtd": 2
+    },
+    {
+      "ref": "C_vcc",
+      "valor": "220 µF 35 V",
+      "descricao": "capacitor de VCC",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "C_vcc2",
+      "valor": "100 nF 50 V",
+      "descricao": "desacoplamento VCC",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "C_ref",
+      "valor": "1 µF 50 V",
+      "descricao": "desacoplamento VREF",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "D_aux",
+      "valor": "UF4004",
+      "descricao": "retificador do auxiliar",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_aux",
+      "valor": "10 Ω",
+      "descricao": "série do auxiliar",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "Rg",
+      "valor": "10 Ω",
+      "descricao": "resistor de gate",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "D_g",
+      "valor": "1N4148",
+      "descricao": "desligamento rápido do gate",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_gs",
+      "valor": "10 kΩ",
+      "descricao": "pull-down gate-source",
+      "pn": "",
+      "qtd": 1
+    },
+    {
+      "ref": "R_pu",
+      "valor": "4,7 kΩ",
+      "descricao": "pull-up COMP–VREF",
+      "pn": "",
+      "qtd": 1
+    }
+  ]
+}

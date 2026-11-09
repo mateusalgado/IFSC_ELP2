@@ -1,0 +1,27 @@
+(version 1)
+# Regras de projeto da PCI - fonte flyback 12 V / 3 A (Aula 08 / IPC-2221)
+# Classe HV: redes do primario em alta tensao (ate ~520 V no dreno): isolamento minimo 1,0 mm (IPC-2221 B4, 301-500 V com mascara: 0,8 mm, com margem)
+(rule "HV_clearance"
+  (condition "A.NetClass == 'HV' || B.NetClass == 'HV'")
+  (constraint clearance (min 1.0mm)))
+# Excecao: pinos do mesmo componente (TO-220 passo 2,54 mm; ponte GBU passo 5,08 mm) - espacamento fixado pelo encapsulamento
+(rule "HV_pinos_mesmo_componente"
+  (condition "A.Type == 'Pad' && B.Type == 'Pad' && A.memberOfFootprint('Q1') && B.memberOfFootprint('Q1')")
+  (constraint clearance (min 0.3mm)))
+(rule "HV_pinos_mesmo_componente_BR1"
+  (condition "A.Type == 'Pad' && B.Type == 'Pad' && A.memberOfFootprint('BR1') && B.memberOfFootprint('BR1')")
+  (constraint clearance (min 0.3mm)))
+# Isolacao primario / secundario: >= 6 mm entre qualquer item do secundario e qualquer item do primario
+(rule "isolacao_prim_sec"
+  (condition "(A.NetClass == 'SEC' && B.NetClass != 'SEC') || (B.NetClass == 'SEC' && A.NetClass != 'SEC')")
+  (constraint clearance (min 6mm)))
+# Trilhas de potencia: largura minima 1,0 mm para HV e 1,5 mm para o secundario de potencia
+(rule "largura_HV"
+  (condition "A.NetClass == 'HV'")
+  (constraint track_width (min 1.0mm)))
+(rule "largura_SEC_potencia"
+  (condition "A.NetClass == 'SEC_PWR'")
+  (constraint track_width (min 1.5mm)))
+# Borda da placa: 0,5 mm
+(rule "borda"
+  (constraint edge_clearance (min 0.5mm)))

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefa 02 - Projeto do Conversor Estático</title>
+    <style>
+        @page { margin: 2cm; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fff;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 10px; }
+
+        h1 {
+            font-size: 1.9em;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .header-info p { margin: 3px 0; }
+        .header-info { margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid #ccc; }
+
+        h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 26px;
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        h3 {
+            font-size: 1.12em;
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        p { margin-bottom: 10px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.94em;
+        }
+
+        th {
+            border-bottom: 1.5px solid #333;
+            padding: 6px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td.num, th.num { text-align: right; }
+
+        .figure { margin: 18px 0; text-align: center; }
+        .figure img { max-width: 100%; height: auto; }
+        .figure-caption { font-style: italic; color: #555; font-size: 0.88em; margin-top: 6px; }
+
+        .equation { border-left: 2px solid #ccc; padding: 10px 0 10px 20px; margin: 14px 0; }
+        .equation img { max-height: 48px; height: auto; width: auto; max-width: 100%; }
+        .equation.tall img { max-height: 58px; }
+
+        ul, ol { margin-left: 20px; margin-bottom: 10px; }
+        li { margin-bottom: 4px; }
+
+        a { color: #1a1a1a; }
+
+        .page-break { page-break-after: always; height: 0; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tarefa 02 - Projeto do Conversor Estático (Escolha de Componentes e Perdas)</h1>
+
+        <div class="header-info">
+            <p><strong>Disciplina:</strong> Eletrônica de Potência II</p>
+            <p><strong>Aluno:</strong> Mateus Salgado Barboza Costa</p>
+            <p><strong>Professor:</strong> Joabel Moia</p>
+            <p><strong>Data:</strong> 26/08/2026</p>
+        </div>
+
+        <h2>1. Objetivo</h2>
+        <p>Aplicar a metodologia de projeto de conversores estáticos apresentada na Aula 3 (17/08/2026) ao conversor Buck especificado, realizando a pré-escolha e a escolha final do transistor, do diodo e do capacitor de saída, calculando as perdas no transistor e especificando dissipadores, quando necessário.</p>
+
+        <h2>2. Especificação e hipóteses</h2>
+        <table>
+            <tr><th>Grandeza</th><th class="num">Valor</th></tr>
+            <tr><td>Tensão de entrada, V<sub>in</sub></td><td class="num">36 V</td></tr>
+            <tr><td>Tensão de saída, V<sub>o</sub></td><td class="num">12 V</td></tr>
+            <tr><td>Potência de saída, P<sub>o</sub></td><td class="num">100 W</td></tr>
+            <tr><td>Frequência de comutação, f<sub>s</sub></td><td class="num">50 kHz</td></tr>
+            <tr><td>Indutância, L</td><td class="num">100 µH</td></tr>
+        </table>
+
+        <p>Adotou-se regime permanente, modo de condução contínua (MCC) e carga puramente resistiva. Seguindo a recomendação da aula de <strong>sempre fazer o projeto para pior caso</strong>, os semicondutores foram pré-selecionados com tensão de bloqueio mínima de <strong>2×V<sub>in</sub> = 72 V</strong> (classe comercial de 100 V) e correntes com margem sobre o pico calculado. Para o cálculo térmico foram adotados T<sub>a</sub> = 40 °C, meta conservadora T<sub>j,proj</sub> = 125 °C e interface cápsula-dissipador com pasta térmica, R<sub>θCS</sub> = 0,5 °C/W.</p>
+
+        <h2>3. Metodologia (Aula 3)</h2>
+        <p>A aula descreve a seguinte sequência para a pré-escolha dos semicondutores, seguida neste relatório:</p>
+        <ol>
+            <li><strong>Pré-escolha</strong> com base na corrente média, na corrente de pico e na tensão máxima de bloqueio (pior caso);</li>
+            <li>Redução da lista de candidatos e verificação das <strong>características estáticas</strong> (R<sub>DS(on)</sub>, V<sub>F</sub>, R<sub>D</sub>);</li>
+            <li>Verificação das <strong>características dinâmicas</strong> (t<sub>r</sub>, t<sub>f</sub>) e de recuperação reversa (Q<sub>rr</sub>, t<sub>rr</sub>);</li>
+            <li><strong>Cálculo térmico</strong> para escolher o dissipador, se necessário, avaliando a viabilidade técnica (tamanho, peso, volume);</li>
+            <li>Validação das perdas por <strong>simulação numérica</strong></li>
+        </ol>
+        <p>Para o capacitor de saída, a aula lista seis critérios de dimensionamento, capacitância mínima (a partir de ΔV<sub>o</sub> e Δi<sub>L</sub>), tensão máxima, corrente eficaz máxima, faixa de temperatura, perdas na resistência série equivalente (RSE) e custo/volume.</p>
+
+        <div class="page-break"></div>
+
+        <h2>4. Cálculos elétricos do conversor Buck</h2>
+        <div class="equation tall"><img src="assets/eq/eq_D_Ts_Ro.png" alt="D, Ts, Ro"></div>
+        <div class="equation tall"><img src="assets/eq/eq_Io.png" alt="Io"></div>
+        <div class="equation tall"><img src="assets/eq/eq_diL.png" alt="delta iL"></div>
+        <div class="equation"><img src="assets/eq/eq_ILminmax.png" alt="IL min max"></div>
+        <p>Como I<sub>L,min</sub> &gt; 0, confirma-se o MCC.</p>
+
+        <h3>4.1 Esforços de corrente e tensão</h3>
+        <table>
+            <tr><th>Componente</th><th class="num">Corrente média</th><th class="num">Corrente eficaz</th><th class="num">Corrente de pico</th><th class="num">Tensão de bloqueio</th></tr>
+            <tr><td>Transistor</td><td class="num">2,778 A</td><td class="num">4,819 A</td><td class="num">9,133 A</td><td class="num">36 V</td></tr>
+            <tr><td>Diodo</td><td class="num">5,556 A</td><td class="num">6,815 A</td><td class="num">9,133 A</td><td class="num">36 V</td></tr>
+            <tr><td>Capacitor</td><td class="num">0 A</td><td class="num">0,462 A</td><td class="num">±0,8 A</td><td class="num">—</td></tr>
+        </table>
+
+        <div class="figure">
+            <img src="assets/formas_de_onda_buck.png" alt="Formas de onda do Buck a 50 kHz">
+            <p class="figure-caption">Figura gerada por calculos_buck.py (numpy/matplotlib, mesmo padrão gráfico da Tarefa 01). O painel de v<sub>o</sub> já usa o capacitor escolhido na Seção 9 (1000 µF / 70 mΩ), evidenciando o formato de "dente de serra com degraus" típico de uma ondulação dominada pela RSE.</p>
+        </div>
+
+        <h2>5. Pré-escolha dos semicondutores (etapa 1 do método)</h2>
+        <p>Aplicando margem de pior caso (tensão ≥ 2×V<sub>in</sub>; corrente ≥ ~1,3× o valor de pico/médio calculado):</p>
+        <table>
+            <tr><th>Requisito</th><th>Transistor</th><th>Diodo</th></tr>
+            <tr><td>Tensão de bloqueio mínima</td><td>72 V → classe <strong>100 V</strong></td><td>72 V → classe <strong>100 V</strong></td></tr>
+            <tr><td>Corrente contínua mínima</td><td>&gt; 9,1 A (pico)</td><td>&gt; 7,2 A (médio, c/ margem)</td></tr>
+            <tr><td>Encapsulamento</td><td>TO-220, para reaproveitar o método térmico da Tarefa 01</td><td>TO-220</td></tr>
+        </table>
+        <p>Candidatos considerados (fabricantes recomendados pela Aula 3: Infineon, Vishay, ST, ON Semi):</p>
+        <ul>
+            <li><strong>Transistores:</strong> IRLZ44N (já usado na Tarefa 01), IRF540N (Vishay/Infineon), IPP039N10N5 (Infineon OptiMOS 5)</li>
+            <li><strong>Diodos:</strong> MUR860 (ultrarrápido, Tarefa 01), MBR20100CT (Schottky, Tarefa 01), STPS20H100C (Schottky, ST)</li>
+        </ul>
+        <p>O <strong>IRLZ44N é eliminado nesta etapa</strong>: seu V<sub>DS</sub> máximo é 55 V, abaixo dos 72 V exigidos pelo critério de pior caso (V<sub>in</sub> pode variar na prática). Ele é mantido nas tabelas apenas como referência comparativa com a Tarefa 01.</p>
+
+        <div class="page-break"></div>
+
+        <h2>6. Escolha do transistor (etapas 2 e 3 do método)</h2>
+        <h3>6.1 Características estáticas e dinâmicas</h3>
+        <table>
+            <tr><th>Parâmetro</th><th class="num">IRLZ44N¹</th><th class="num">IRF540N²</th><th class="num">IPP039N10N5³</th></tr>
+            <tr><td>V<sub>DS</sub> máx</td><td class="num">55 V ⚠</td><td class="num">100 V</td><td class="num">100 V</td></tr>
+            <tr><td>R<sub>DS(on)</sub> máx @ V<sub>GS</sub>=10 V</td><td class="num">22 mΩ</td><td class="num">44 mΩ</td><td class="num"><strong>3,9 mΩ</strong></td></tr>
+            <tr><td>I<sub>D</sub> máx</td><td class="num">47 A</td><td class="num">33 A</td><td class="num">100 A</td></tr>
+            <tr><td>Q<sub>g</sub> total</td><td class="num">63 nC</td><td class="num">71 nC</td><td class="num">76 nC</td></tr>
+            <tr><td>t<sub>r</sub> / t<sub>f</sub></td><td class="num">26 / 11 ns</td><td class="num">35 / 35 ns</td><td class="num"><strong>10 / 17 ns</strong></td></tr>
+            <tr><td>R<sub>θJC</sub></td><td class="num">1,4 °C/W</td><td class="num">1,15 °C/W</td><td class="num"><strong>0,5 °C/W</strong></td></tr>
+            <tr><td>Tecnologia</td><td>Planar (obsoleto)</td><td>Planar (HEXFET)</td><td>Trench (OptiMOS 5)</td></tr>
+        </table>
+        <p style="font-size: 0.85em; color: #555;">¹ Vishay S21-1045; ² Infineon PD-94812; ³ Infineon Rev. 2.0, 2016-11-22 — ver Referências.</p>
+
+        <p>O IPP039N10N5 é uma peça de corrente nominal bem acima da nossa aplicação (100 A vs. 9,1 A de pico); ainda assim foi escolhido porque sua <strong>tecnologia trench moderna reduz R<sub>DS(on)</sub> em 11× e os tempos de comutação em ~3×</strong> comparando ao IRF540N, sem custo relevante em Q<sub>g</sub>. Isso ilustra o ponto da Aula 3 de que a escolha não deve travar apenas na corrente nominal, mas nas figuras de mérito R<sub>DS(on)</sub>×Q<sub>g</sub> e no cálculo de perdas real (Seção 7).</p>
+
+        <h3>6.2 Componente escolhido</h3>
+        <p><strong>IPP039N10N5 (Infineon OptiMOS 5, TO-220)</strong> — atende com folga a tensão, corrente e apresenta a menor perda estimada entre os candidatos, como mostrado a seguir. O IRF540N é mantido como comparação por ser um padrão de mercado amplamente disponível.</p>
+
+        <h2>7. Cálculo de perdas no transistor (entregável da tarefa)</h2>
+        <p>Metodologia idêntica à Tarefa 01: fator térmico k<sub>T</sub> = 1,7 aplicado ao R<sub>DS(on)</sub> de datasheet (25 °C) para estimar a condução em T<sub>j,proj</sub> = 125 °C; comutação avaliada com a corrente de pico (pior caso) e tensão de bloqueio igual a V<sub>in</sub>.</p>
+
+        <div class="equation"><img src="assets/eq/eq_Pcond.png" alt="Pcond"></div>
+        <div class="equation tall"><img src="assets/eq/eq_Psw.png" alt="Psw"></div>
+        <div class="equation"><img src="assets/eq/eq_Pg.png" alt="Pg"></div>
+
+        <table>
+            <tr><th>Componente</th><th class="num">P<sub>cond</sub></th><th class="num">P<sub>sw</sub></th><th class="num">P<sub>g</sub></th><th class="num">P<sub>total</sub></th></tr>
+            <tr><td>IRLZ44N (referência, V<sub>DS</sub> insuficiente)</td><td class="num">0,868 W</td><td class="num">0,304 W</td><td class="num">0,032 W</td><td class="num">1,204 W</td></tr>
+            <tr><td>IRF540N</td><td class="num">1,737 W</td><td class="num">0,575 W</td><td class="num">0,036 W</td><td class="num"><strong>2,348 W</strong></td></tr>
+            <tr><td><strong>IPP039N10N5 (escolhido)</strong></td><td class="num">0,154 W</td><td class="num">0,222 W</td><td class="num">0,038 W</td><td class="num"><strong>0,414 W</strong></td></tr>
+        </table>
+
+        <p>A troca do IRF540N pelo IPP039N10N5 reduz a perda total em cerca de <strong>5,7×</strong> (2,35 W → 0,41 W), principalmente pela redução de R<sub>DS(on)</sub> (queda de 92% na perda de condução, o termo dominante neste conversor, já que D = 33% mantém o transistor conduzindo por um terço do período com corrente elevada).</p>
+
+        <div class="page-break"></div>
+
+        <h2>8. Escolha do diodo</h2>
+        <h3>8.1 Comparação de candidatos</h3>
+        <table>
+            <tr><th>Parâmetro</th><th class="num">MUR860¹</th><th class="num">MBR20100CT²</th><th class="num">STPS20H100C³</th></tr>
+            <tr><td>Tecnologia</td><td>Ultrarrápido (Si)</td><td>Schottky</td><td>Schottky</td></tr>
+            <tr><td>V<sub>RRM</sub></td><td class="num">600 V</td><td class="num">100 V</td><td class="num">100 V</td></tr>
+            <tr><td>I<sub>F(AV)</sub></td><td class="num">8 A</td><td class="num">2×10 A</td><td class="num">2×10 A</td></tr>
+            <tr><td>V<sub>F</sub> (10 A, 25 °C)</td><td class="num">~1,2 V (150 °C)</td><td class="num">0,65 V (típ.)</td><td class="num">0,77 V</td></tr>
+            <tr><td>Q<sub>rr</sub></td><td class="num">195 nC</td><td class="num">— (Schottky)</td><td class="num">— (Schottky)</td></tr>
+            <tr><td>R<sub>θJC</sub></td><td class="num">2,0 °C/W</td><td class="num">2,0 °C/W por perna</td><td class="num"><strong>0,9 °C/W por perna</strong></td></tr>
+            <tr><td>T<sub>j</sub> máx</td><td class="num">175 °C</td><td class="num">150 °C</td><td class="num"><strong>175 °C</strong></td></tr>
+        </table>
+        <p style="font-size: 0.85em; color: #555;">¹ dado usado na Tarefa 01; ² Vishay MBR20xxxCT-E3; ³ ST DS5386 Rev. 7 — ver Referências.</p>
+
+        <p>O diodo é o componente mais crítico termicamente no Buck: ele conduz <strong>66,7 % do período</strong> (1 − D), contra apenas 33,3 % do transistor, resultando em corrente eficaz maior (6,815 A vs. 4,819 A).</p>
+
+        <h3>8.2 Perdas de condução (modelo V<sub>F</sub> = V₀ + R<sub>d</sub>·I)</h3>
+        <table>
+            <tr><th>Diodo</th><th>Modelo</th><th class="num">P<sub>cond</sub></th><th class="num">R<sub>θJC</sub> efetivo</th></tr>
+            <tr><td>MUR860</td><td>V<sub>F</sub> constante + Q<sub>rr</sub>·V<sub>in</sub>·f<sub>s</sub></td><td class="num">6,667 + 0,351 = <strong>7,018 W</strong></td><td class="num">2,0 °C/W</td></tr>
+            <tr><td>MBR20100CT</td><td>V<sub>F</sub> constante (único ponto de datasheet)</td><td class="num"><strong>3,611 W</strong></td><td class="num">2,0 °C/W</td></tr>
+            <tr><td>STPS20H100C, um terminal</td><td>V₀=0,55 V, R<sub>d</sub>=9 mΩ (ajuste @125 °C)</td><td class="num"><strong>3,474 W</strong></td><td class="num">0,9 °C/W</td></tr>
+            <tr><td><strong>STPS20H100C, ânodos em paralelo</strong></td><td>idem, corrente dividida nas duas pernas internas</td><td class="num"><strong>3,265 W</strong></td><td class="num"><strong>0,45 °C/W</strong></td></tr>
+        </table>
+
+        <p>Seguindo a mesma prática adotada com o MBR20100CT na Tarefa 01, os dois ânodos internos do STPS20H100C (cátodo comum) foram ligados em paralelo. O ganho em perda é modesto (~6 %, pois só o termo resistivo R<sub>d</sub> é dividido), mas o <strong>R<sub>θJC</sub> efetivo cai pela metade</strong>, o que folga bastante o dimensionamento do dissipador (Seção 10).</p>
+
+        <h3>8.3 Componente escolhido</h3>
+        <p><strong>STPS20H100C (ST), com os dois ânodos internos em paralelo</strong>, menor perda total, menor R<sub>θJC</sub> efetivo e maior margem de temperatura de junção (175 °C) que as demais opções.</p>
+
+        <div class="page-break"></div>
+
+        <h2>9. Dimensionamento do capacitor de saída</h2>
+        <p>Seguindo os seis critérios da Aula 3 (capacitância mínima, tensão máxima, corrente eficaz máxima, faixa de temperatura, perdas na RSE, custo/volume):</p>
+
+        <h3>9.1 Capacitância mínima e RSE máxima</h3>
+        <p>Meta de ondulação de saída: ΔV<sub>o</sub> ≤ 1 % de V<sub>o</sub> = 120 mV.</p>
+        <div class="equation tall"><img src="assets/eq/eq_Cmin.png" alt="Cmin"></div>
+        <div class="equation tall"><img src="assets/eq/eq_RSEmax.png" alt="RSEmax"></div>
+
+        <h3>9.2 Corrente eficaz e tensão</h3>
+        <div class="equation tall"><img src="assets/eq/eq_ICrms.png" alt="ICrms"></div>
+        <p>Adotando margem de 1,5 a 2× V<sub>o</sub> para a tensão do capacitor: V<sub>C</sub> ≥ <strong>25 V</strong>.</p>
+
+        <h3>9.3 Componente escolhido</h3>
+        <p><strong>Nichicon UPW1E102MHD — 1000 µF / 25 V</strong>, série de baixa impedância (ESR = 70 mΩ típ. @ 100 kHz/20 °C, corrente de ripple 1,66 A @ 105 °C, vida útil 7000 h @ 105 °C).</p>
+
+        <table>
+            <tr><th>Grandeza</th><th class="num">Valor</th></tr>
+            <tr><td>ΔV<sub>o</sub> (parcela capacitiva, isolada)</td><td class="num">4,0 mV</td></tr>
+            <tr><td>ΔV<sub>o</sub> (parcela da RSE, isolada)</td><td class="num">112,0 mV</td></tr>
+            <tr><td>ΔV<sub>o</sub> total, soma das parcelas (estimativa conservadora)</td><td class="num">116,0 mV</td></tr>
+            <tr><td><strong>ΔV<sub>o</sub> total, forma de onda simulada</strong> (Fig. da Seção 4)</td><td class="num"><strong>112,0 mV (0,93 % de V<sub>o</sub>)</strong></td></tr>
+            <tr><td>Folga de corrente de ripple</td><td class="num">1,66 A / 0,462 A ≈ <strong>3,6×</strong></td></tr>
+            <tr><td>P<sub>RSE</sub></td><td class="num">14,9 mW (desprezível)</td></tr>
+        </table>
+
+        <p>O capacitor atende à meta de 1 % mesmo sem RSE dedicada abaixo de 15 mΩ, porque o valor de 1000 µF (muito acima do C<sub>min</sub> de 33,3 µF) já é suficiente para trazer a ESR típica da série para 70 mΩ. Como a temperatura ambiente de projeto (40 °C) e a corrente de ripple real estão bem abaixo dos valores nominais do capacitor (105 °C / 1,66 A), a vida útil esperada em operação é várias vezes maior que as 7000 h de catálogo.</p>
+
+        <div class="page-break"></div>
+
+        <h2>10. Dimensionamento térmico e dissipadores (etapa 4 do método)</h2>
+        <div class="equation tall"><img src="assets/eq/eq_RthSAmax_geral.png" alt="RthSAmax geral"></div>
+        <p>Com T<sub>j,proj</sub>=125 °C, T<sub>a</sub>=40 °C, R<sub>θCS</sub>=0,5 °C/W.</p>
+
+        <h3>10.1 Transistor — IPP039N10N5</h3>
+        <table>
+            <tr><th></th><th class="num">Valor</th></tr>
+            <tr><td>Perda total</td><td class="num">0,414 W</td></tr>
+            <tr><td>R<sub>θJA</sub> requerido (sem dissipador)</td><td class="num">205,4 °C/W</td></tr>
+            <tr><td>R<sub>θJA</sub> de catálogo (TO-220, ao ar livre)</td><td class="num">40–62 °C/W</td></tr>
+        </table>
+        <p>Como o R<sub>θJA</sub> natural do encapsulamento (40–62 °C/W) já é <strong>muito menor</strong> que o requerido (205,4 °C/W), <strong>o transistor dispensa dissipador</strong>.</p>
+
+        <h3>10.2 Diodo — STPS20H100C (ânodos em paralelo)</h3>
+        <table>
+            <tr><th></th><th class="num">Valor</th></tr>
+            <tr><td>Perda total</td><td class="num">3,265 W</td></tr>
+            <tr><td>R<sub>θJC</sub> efetivo</td><td class="num">0,45 °C/W</td></tr>
+            <tr><td><strong>R<sub>θSA,max</sub> requerida</strong></td><td class="num"><strong>25,1 °C/W</strong></td></tr>
+        </table>
+        <p>O diodo <strong>necessita de dissipador</strong>: R<sub>θSA,max</sub> = 25,1 °C/W é uma exigência moderada. A simulação no Power Stage Designer 5 (Seção 11.4) confirma essa exigência, com folga ligeiramente maior (27,3 °C/W).</p>
+
+        <p><strong>Dissipador recomendado: Same Sky HSE17-252525P</strong> (mesmo modelo avaliado na Tarefa 01 para o MBR20100CT):</p>
+        <ul>
+            <li>Tipo: alumínio extrudado, TO-220</li>
+            <li>Dimensões: 25 × 25 × 25 mm</li>
+            <li>R<sub>θSA</sub>: 12,6 °C/W @ 1 W (convecção natural) — mais de 2× de margem sobre os 25,1–27,3 °C/W requeridos</li>
+            <li>Montagem: clip ou parafuso</li>
+            <li>Aplicação: diodo Schottky STPS20H100C — dissipação principal do conversor</li>
+        </ul>
+        <div class="figure">
+            <img src="assets/dissipador_same_sky_hse17.png" alt="Same Sky HSE17-252525P" style="max-width: 260px;">
+            <p class="figure-caption">Figura 10.1: Same Sky HSE17-252525P, dissipador recomendado para o diodo STPS20H100C.</p>
+        </div>
+
+        <p><strong>Alternativa com mais margem: Same Sky HSE15-644225P:</strong></p>
+        <ul>
+            <li>Tipo: alumínio extrudado, TO-220</li>
+            <li>Dimensões: 64 × 42 × 25 mm</li>
+            <li>R<sub>θSA</sub>: 7 °C/W @ 1 W (convecção natural)</li>
+            <li>Montagem: clip ou parafuso</li>
+            <li>Aplicação: recomendado se a temperatura ambiente real superar os 40 °C de projeto</li>
+        </ul>
+        <div class="figure">
+            <img src="assets/dissipador_same_sky_hse15.png" alt="Same Sky HSE15-644225P" style="max-width: 260px;">
+            <p class="figure-caption">Figura 10.2: Same Sky HSE15-644225P, alternativa com maior margem térmica.</p>
+        </div>
+
+        <h3>10.3 Capacitor</h3>
+        <p>Perda de 14,9 mW, sem dissipador.</p>
+
+        <h3>10.4 Resumo</h3>
+        <table>
+            <tr><th>Componente</th><th class="num">Perda (W)</th><th>Dissipador necessário?</th></tr>
+            <tr><td>Transistor IPP039N10N5</td><td class="num">0,414</td><td><strong>Não</strong></td></tr>
+            <tr><td>Diodo STPS20H100C (paralelo)</td><td class="num">3,265</td><td><strong>Sim</strong> — Same Sky HSE17-252525P</td></tr>
+            <tr><td>Capacitor Nichicon UPW1E102MHD</td><td class="num">0,015</td><td>Não</td></tr>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>11. Validação por simulação (Power Stage Designer 5)</h2>
+        <h3>11.1 Ambiente de simulação</h3>
+        <ul>
+            <li>Software: Power Stage Designer, versão 5.0 (TI)</li>
+            <li>Topologia: Buck</li>
+            <li>Componentes: IPP039N10N5 (transistor, FET Losses Calculator), STPS20H100C (diodo, modelado por queda de tensão direta V<sub>f</sub> = 0,55 V), indutor 100 µH</li>
+            <li>Condição de operação: V<sub>in</sub> = 36 V, V<sub>out</sub> = 12 V, I<sub>out</sub> = 8,33 A, f<sub>s</sub> = 50 kHz</li>
+        </ul>
+
+        <div class="figure">
+            <img src="assets/CIRCUIT.png" alt="Topologia e valores de projeto no PSD5">
+            <p class="figure-caption">Figura 11.1: Topologia Buck e valores de projeto calculados pelo PSD5.</p>
+        </div>
+
+        <h3>11.2 Comparação teórico × simulado</h3>
+        <table>
+            <tr><th>Grandeza</th><th class="num">Teórico (Seção 4)</th><th class="num">PSD5</th><th class="num">Δ (%)</th></tr>
+            <tr><td>V<sub>o</sub> médio</td><td class="num">12,000 V</td><td class="num">12,00 V</td><td class="num">0,0 %</td></tr>
+            <tr><td>Duty cycle</td><td class="num">33,33 %</td><td class="num">34,34 %</td><td class="num">+3,0 % <em>(PSD5 inclui V<sub>f</sub> do diodo)</em></td></tr>
+            <tr><td>I<sub>L</sub> médio</td><td class="num">8,333 A</td><td class="num">8,33 A</td><td class="num">−0,04 %</td></tr>
+            <tr><td>Δi<sub>L</sub> pico a pico</td><td class="num">1,600 A</td><td class="num">1,65 A</td><td class="num">+3,1 %</td></tr>
+            <tr><td>I<sub>L,rms</sub></td><td class="num">8,346 A</td><td class="num">8,34 A</td><td class="num">−0,07 %</td></tr>
+            <tr><td>I<sub>T,rms</sub></td><td class="num">4,819 A</td><td class="num">4,89 A</td><td class="num">+1,5 %</td></tr>
+            <tr><td>I<sub>D,rms</sub></td><td class="num">6,815 A</td><td class="num">6,76 A</td><td class="num">−0,8 %</td></tr>
+            <tr><td>I<sub>C,rms</sub></td><td class="num">0,462 A</td><td class="num">0,476 A</td><td class="num">+3,0 %</td></tr>
+            <tr><td><strong>P_transistor (IPP039N10N5)</strong></td><td class="num">0,414 W</td><td class="num"><strong>0,50 W</strong></td><td class="num">+20,8 %</td></tr>
+            <tr><td><strong>P_diodo (STPS20H100C)</strong></td><td class="num">3,265 W</td><td class="num"><strong>3,01 W</strong></td><td class="num">−7,8 %</td></tr>
+            <tr><td>ΔV<sub>o</sub> pico a pico</td><td class="num">112,0 mV</td><td class="num"><em>não avaliável</em></td><td class="num">—</td></tr>
+        </table>
+
+        <div class="figure">
+            <img src="assets/Q1.png" alt="Corrente e tensão no transistor Q1">
+            <p class="figure-caption">Figura 11.2: Tensão e corrente no transistor Q1 (PSD5).</p>
+        </div>
+        <div class="figure">
+            <img src="assets/D1.png" alt="Corrente e tensão no diodo D1">
+            <p class="figure-caption">Figura 11.3: Tensão e corrente no diodo D1 (PSD5).</p>
+        </div>
+
+        <p>Todos os esforços de corrente/tensão (I<sub>L</sub>, I<sub>T,rms</sub>, I<sub>D,rms</sub>, I<sub>C,rms</sub>) ficaram a <strong>menos de 3,1 % de diferença</strong> do cálculo analítico da Seção 4.</p>
+
+        <div class="page-break"></div>
+
+        <h3>11.3 Perdas do transistor — detalhamento e comparação com o IRF540N</h3>
+        <p>O <strong>FET Losses Calculator</strong> do PSD5 permite comparar dois FETs lado a lado sob a mesma condição de acionamento (V<sub>GS</sub> = 10 V, R<sub>g,total</sub> = 5 Ω — mesma resistência de gate para os dois, para uma comparação justa):</p>
+
+        <div class="figure">
+            <img src="assets/FET-LOSES.png" alt="Comparação de perdas IPP039N10N5 x IRF540N">
+            <p class="figure-caption">Figura 11.4: FET Losses Calculator do PSD5 — IPP039N10N5 (esquerda) vs IRF540N (direita).</p>
+        </div>
+
+        <table>
+            <tr><th>Parcela de perda</th><th class="num">IPP039N10N5 (escolhido)</th><th class="num">IRF540N (comparação)</th></tr>
+            <tr><td>Condução</td><td class="num">93,3 mW</td><td class="num">1,05 W</td></tr>
+            <tr><td>Comutação</td><td class="num">0,38 W</td><td class="num">0,88 W</td></tr>
+            <tr><td>C<sub>oss</sub></td><td class="num">26,9 mW</td><td class="num">8,1 mW</td></tr>
+            <tr><td>Driver (gate)</td><td class="num">38,0 mW</td><td class="num">35,5 mW</td></tr>
+            <tr><td><strong>Total</strong></td><td class="num"><strong>0,50 W</strong></td><td class="num"><strong>1,94 W</strong></td></tr>
+        </table>
+
+        <p>Sob acionamento idêntico, o IPP039N10N5 dissipa <strong>≈3,9× menos</strong> que o IRF540N, confirma de forma independente, com outra ferramenta, a escolha de transistor justificada na Seção 6.</p>
+
+        <h3>11.4 Revisão do dimensionamento térmico com os valores do PSD5</h3>
+        <p>Repetindo o cálculo da Seção 10 com as perdas medidas no PSD5:</p>
+        <div class="equation tall"><img src="assets/eq/eq_RthJA_transistor.png" alt="RthJA transistor"></div>
+        <p>≫ 40–62 °C/W de catálogo ⇒ ainda dispensa dissipador.</p>
+        <div class="equation tall"><img src="assets/eq/eq_RthSA_diodo.png" alt="RthSA diodo"></div>
+        <p>vs. 25,1 °C/W calculado — exigência praticamente igual, levemente mais folgada.</p>
+
+        <p><strong>As conclusões da Seção 10 permanecem válidas</strong>: o transistor dispensa dissipador com folga ainda maior que a calculada, e o diodo continua exigindo um dissipador compacto (agora com ≈27 °C/W de margem em vez de 25 °C/W).</p>
+
+        <div class="page-break"></div>
+
+        <h2>12. Conclusão</h2>
+        <p>A aplicação da metodologia da Aula 3 (pré-escolha por tensão/corrente de pior caso → verificação de características estáticas e dinâmicas → cálculo de perdas → dimensionamento térmico) resultou na escolha do <strong>MOSFET IPP039N10N5</strong>, do <strong>diodo Schottky STPS20H100C</strong> (ânodos em paralelo) e do <strong>capacitor eletrolítico Nichicon UPW1E102MHD (1000 µF/25 V)</strong>.</p>
+
+        <p>O resultado mais relevante do projeto é a assimetria térmica entre transistor e diodo: como o diodo conduz o dobro do tempo do transistor (1 − D = 66,7 % contra D = 33,3 %) e não se beneficia da baixíssima queda resistiva de um MOSFET moderno, ele concentra a maior parte das perdas (3,01–3,27 W contra 0,41–0,50 W) e é o único semicondutor que <strong>exige dissipador</strong>. A escolha de um MOSFET de tecnologia trench moderna, por outro lado, eliminou completamente a necessidade de dissipador no transistor, um ganho direto de custo, volume e simplicidade de montagem frente à alternativa clássica (IRF540N), que teria quase 4× mais perdas e exigiria dissipador. O capacitor de saída, dimensionado pelo critério de RSE (e não apenas de capacitância, conforme ensinado na aula), atende à meta de 1 % de ondulação com folga de corrente de ripple superior a 3×.</p>
+
+        <p>A validação numérica prevista na etapa 5 do método (Seção 11) foi feita no <strong>Power Stage Designer 5</strong>, com todos os esforços de corrente e tensão confirmados a menos de 3,1 % do cálculo analítico, e as perdas dentro da mesma ordem de grandeza (diferenças de 8–21 %, explicadas pelos diferentes modelos de comutação empregados). As conclusões de dimensionamento térmico (Seção 10) permanecem válidas após a validação.</p>
+
+        <h2 style="border-bottom:none; margin-top: 30px;">Referências</h2>
+        <ul style="font-size: 0.92em;">
+            <li>Prof. Joabel Moia. <em>Apresentação Aula 03 — Metodologia de Projeto aplicada em conversores estáticos de potência</em>. IFSC, agosto de 2026.</li>
+            <li>Vishay. <em>IRLZ44 / IRLZ44N Power MOSFET Datasheet</em>, S21-1045. <a href="https://www.vishay.com/docs/91328/irlz44.pdf">https://www.vishay.com/docs/91328/irlz44.pdf</a></li>
+            <li>Infineon. <em>IRF540NPbF HEXFET Power MOSFET Datasheet</em>, PD-94812. <a href="https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf540n-datasheet-en.pdf">https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf540n-datasheet-en.pdf</a></li>
+            <li>Infineon. <em>IPP039N10N5 OptiMOS 5 Power-Transistor Datasheet</em>, Rev. 2.0, 2016-11-22. <a href="https://www.infineon.com/dgdl/Infineon-IPP039N10N5-DS-v02_00-EN.pdf">https://www.infineon.com/dgdl/Infineon-IPP039N10N5-DS-v02_00-EN.pdf</a></li>
+            <li>Vishay. <em>MBR20xxxCT-E3 / MBRF20xxxCT-E3 Schottky Rectifier Datasheet</em>. <a href="https://www.vishay.com/docs/89033/mbr20100.pdf">https://www.vishay.com/docs/89033/mbr20100.pdf</a></li>
+            <li>STMicroelectronics. <em>STPS20H100C / STPS20H100CT High-Junction-Temperature Power Schottky Rectifier</em>, DS5386 Rev. 7. <a href="https://www.st.com/resource/en/datasheet/stps20h100c.pdf">https://www.st.com/resource/en/datasheet/stps20h100c.pdf</a></li>
+            <li>ON Semiconductor. <em>MBR20100CT Schottky Rectifier Datasheet</em>. <a href="https://www.onsemi.com/pdf/datasheet/mbr20100ct-d.pdf">https://www.onsemi.com/pdf/datasheet/mbr20100ct-d.pdf</a></li>
+            <li>Nichicon. <em>UPW Series — Miniature Aluminum Electrolytic Capacitors (Low Impedance)</em>, datasheet UPW1E102MHD.</li>
+            <li>Texas Instruments. <em>Power Stage Designer User's Guide</em>, SLVUBB4B, novembro de 2017 (revisado fevereiro de 2023). <a href="https://www.ti.com/lit/pdf/slvubb4">https://www.ti.com/lit/pdf/slvubb4</a></li>
+            <li>Texas Instruments. <em>Power Stage Designer</em> (ferramenta de software), versão 5.0. <a href="https://www.ti.com/tool/POWERSTAGE-DESIGNER">https://www.ti.com/tool/POWERSTAGE-DESIGNER</a></li>
+            <li>Tarefa 01 — <em>Cálculo Térmico e Dissipador</em> (mesmo aluno/disciplina), para os dados do MUR860 e a metodologia térmica base, e para o precedente de uso do Power Stage Designer 5.</li>
+        </ul>
+    </div>
+</body>
+</html>
