@@ -1,29 +1,32 @@
-<div class="titlecard">
-<div class="small">INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE SANTA CATARINA · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica</div>
-
 # Projeto de uma fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845
 
-<div class="meta">
-<div><b>Disciplina:</b> ELP22109 – Eletrônica de Potência II (2026-2)</div><div><b>Trabalho:</b> Projeto Semestral – Tema II (Possibilidade II: protótipo)</div>
-<div><b>Aluno:</b> Mateus Salgado Barboza Costa</div><div><b>Professor:</b> Joabel Moia</div>
-<div><b>Revisão:</b> B – novembro de 2026 (placa revista em 05/11/2026)</div><div><b>Entrega:</b> 21/12/2026</div>
-</div>
-</div>
+**Instituto Federal de Educação, Ciência e Tecnologia de Santa Catarina** · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica
 
-<div class="kpis">
-<div class="kpi"><div class="l">Entrada</div><div class="v">90–264 V~</div><div class="d">50/60 Hz, universal</div></div>
-<div class="kpi"><div class="l">Saída</div><div class="v">12 V / 3 A</div><div class="d">36 W, isolada</div></div>
-<div class="kpi"><div class="l">Topologia</div><div class="v">Flyback MCD</div><div class="d">64,7 kHz, modo corrente de pico</div></div>
-<div class="kpi"><div class="l">Rendimento 220 V [S]</div><div class="v">85,3 %</div><div class="d">meta 85 %, cálculo 83 %</div></div>
-<div class="kpi"><div class="l">V<sub>ds</sub> máx. 264 V [S]</div><div class="v">482 V</div><div class="d">74 % de 650 V</div></div>
-<div class="kpi"><div class="l">Regulação [S]</div><div class="v">12,06–12,06 V</div><div class="d">ondulação ≤ 4,2 mV</div></div>
-<div class="kpi"><div class="l">Curto-circuito [S]</div><div class="v">hiccup</div><div class="d">UVLO em 155 ms, 13 % ligado</div></div>
-<div class="kpi"><div class="l">Placa [CAD]</div><div class="v">DRC 0 erros</div><div class="d">140 × 90 mm, isolação 6,4 mm</div></div>
-</div>
+| | |
+|---|---|
+| **Disciplina** | ELP22109 – Eletrônica de Potência II (2026-2) |
+| **Trabalho** | Projeto Semestral – Tema II (Possibilidade II: protótipo) |
+| **Aluno** | Mateus Salgado Barboza Costa |
+| **Professor** | Joabel Moia |
+| **Revisão** | B – novembro de 2026 (placa revista em 05/11/2026) |
+| **Entrega** | 21/12/2026 |
 
-**Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em 21 casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação e cobertura comprovada. A revisão B incorpora o parecer técnico sobre a revisão A e acrescenta a proteção de curto-circuito por hiccup; a placa foi enviada para fabricação (Possibilidade II) e os resultados experimentais entrarão na revisão C.
+**Indicadores do projeto**
 
-<div class="legend"><b>Como ler este relatório.</b> Cada número traz a etiqueta de origem: <span class="badge b-C">C</span> cálculo (scripts de <code>02_Calculos</code>), <span class="badge b-S">S</span> simulação LTspice da revisão B (<code>03_Simulacao</code>), <span class="badge b-CAD">CAD</span> verificação do projeto KiCad (ERC/DRC) e <span class="badge b-M">M</span> medição física. <b>Ainda não há medições:</b> o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.</div>
+| Indicador | Valor | Observação |
+|---|---|---|
+| Entrada | 90–264 V~ | 50/60 Hz, universal |
+| Saída | 12 V / 3 A | 36 W, isolada |
+| Topologia | Flyback MCD | 64,7 kHz, modo corrente de pico |
+| Rendimento em 220 V [S] | 85,3 % | meta 85 %, cálculo 83 % |
+| V<sub>ds</sub> máx. em 264 V [S] | 482 V | 74 % de 650 V |
+| Regulação [S] | 12,06–12,06 V | ondulação ≤ 4,2 mV |
+| Curto-circuito [S] | hiccup | UVLO em 155 ms, 13 % ligado |
+| Placa [CAD] | DRC 0 erros | 140 × 90 mm, isolação 6,4 mm |
+
+**Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em 23 casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação e cobertura comprovada. A revisão B incorpora o parecer técnico sobre a revisão A e acrescenta a proteção de curto-circuito por hiccup; a placa foi enviada para fabricação (Possibilidade II) e os resultados experimentais entrarão na revisão C.
+
+> **Como ler este relatório.** Cada número traz a etiqueta de origem: [C] cálculo (scripts de `02_Calculos`), [S] simulação LTspice da revisão B (`03_Simulacao`), [CAD] verificação do projeto KiCad (ERC/DRC) e [M] medição física. **Ainda não há medições:** o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.
 
 ## 1. Introdução
 
@@ -85,7 +88,7 @@ O projeto foi conduzido como uma cadeia reprodutível de scripts: cada etapa lê
 | Capacitores e snubber | Aula 03 (6 critérios), Aula 07 | `saida.py`, `snubber.py` | banco de saída, pós-filtro LC, grampo RCD | [C] |
 | Semicondutores | Aulas 02 e 03 (pré-escolha, perdas, dissipador) | `semicondutores.py` (+ Power Stage Designer 5 como contraprova) | MOSFET, diodo, ponte, T<sub>j</sub> | [C] |
 | CI, driver e malha | Aula 05 | `uc3845.py`, `compensador.py` | R<sub>T</sub>/C<sub>T</sub>, R<sub>sense</sub>, partida, hiccup, compensador | [C] |
-| Simulação | LTspice 26 em lote (21 casos) | `03_Simulacao/gera_netlist.py`, `executa_b.py`, `analisa_*.py`, `plota.py` | `medidas.json`, janelas, figuras | [S] |
+| Simulação | LTspice 26 em lote (23 casos) | `03_Simulacao/gera_netlist.py`, `executa_b.py`, `analisa_*.py`, `plota.py` | `medidas.json`, janelas, figuras | [S] |
 | Esquemático e placa | KiCad 10, Aula 08, IPC-2221 | `04_KiCad/gera_sch.py`, `placement.py`, `router.py`, `gera_pcb.py`, `kicad-cli` | ERC, DRC, Gerbers, 3D | [CAD] |
 | BOM e custo | distribuidores (out/nov 2026) | `05_BOM_Custo/bom.py` | `BOM.xlsx`, `custo.xlsx` | — |
 | Relatório | este documento | `06_Relatorio/gera_tabelas.py`, `preenche_relatorio.py`, `build.py` | HTML autossuficiente e PDF | — |
@@ -119,7 +122,7 @@ A tabela 3 reúne os requisitos: os que vêm do enunciado, os fixados pelo proje
 | Tensão e corrente de saída | 12,0 V ± 5 %, 0,3–3,0 A (36 W) | escolha do projetista (< 25 V) | simulação 10–100 % de carga | regulação < 0,1 % [S] |
 | Ondulação de saída | ≤ 120 mV p-p | prática para fontes de mesa | simulação (chaveamento e ciclos de rede) | ≤ 4,2 mV / ≤ 9,2 mV [S] |
 | Frequência de comutação | 65 kHz | compromisso tamanho × perdas; UC3845 D ≤ 0,5 | R<sub>T</sub>/C<sub>T</sub> | 64,7 kHz [C] |
-| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,3 % em 220 V, 82,8–85,3 % na faixa [S] |
+| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,3 % em 220 V, {{eta_min}}–{{eta_max}} % na faixa [S] |
 | Tensão no MOSFET | ≤ 80 % de 650 V (520 V) em regime; ≤ 600 V em falha | Aula 03 (margem de tensão) | simulação 264 V, L<sub>lk</sub> 2 e 3 %, curto | 482 V regime, 555 V na aplicação do curto [S] |
 | Proteções | fusível, NTC, varistor, limite ciclo a ciclo, **hiccup no curto**, grampo RCD | enunciado (surtos, snubber) + parecer (curto) | cálculo + simulação do curto | desligamento por UVLO em 155 ms [S] |
 | Filtro de EMI | X2 + choke MC + X2 + Y1 | enunciado | cálculo (curva ideal) | f<sub>DM</sub> 43 kHz, f<sub>CM</sub> 24 kHz [C]; LISN pendente |
@@ -367,7 +370,7 @@ A pré-escolha segue a Aula 03 (tensão de bloqueio com margem, corrente de pico
 
 ### 4.11 Simulação da revisão B e comparação com a teoria [S]
 
-A simulação cobre os 21 casos da tabela 14; cada caso tem um objetivo e uma janela de medição definidos antes de rodar, e as grandezas são extraídas automaticamente (`.meas` do LTspice e releitura dos `.raw`).
+A simulação cobre os 23 casos da tabela 14; cada caso tem um objetivo e uma janela de medição definidos antes de rodar, e as grandezas são extraídas automaticamente (`.meas` do LTspice e releitura dos `.raw`).
 
 **Tabela 14 – Casos simulados e o que cada um verifica.**
 

@@ -1,29 +1,32 @@
-<div class="titlecard">
-<div class="small">INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE SANTA CATARINA · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica</div>
-
 # Projeto de uma fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845
 
-<div class="meta">
-<div><b>Disciplina:</b> ELP22109 – Eletrônica de Potência II (2026-2)</div><div><b>Trabalho:</b> Projeto Semestral – Tema II (Possibilidade II: protótipo)</div>
-<div><b>Aluno:</b> Mateus Salgado Barboza Costa</div><div><b>Professor:</b> Joabel Moia</div>
-<div><b>Revisão:</b> B – novembro de 2026 (placa revista em 05/11/2026)</div><div><b>Entrega:</b> 21/12/2026</div>
-</div>
-</div>
+**Instituto Federal de Educação, Ciência e Tecnologia de Santa Catarina** · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica
 
-<div class="kpis">
-<div class="kpi"><div class="l">Entrada</div><div class="v">90–264 V~</div><div class="d">50/60 Hz, universal</div></div>
-<div class="kpi"><div class="l">Saída</div><div class="v">12 V / 3 A</div><div class="d">36 W, isolada</div></div>
-<div class="kpi"><div class="l">Topologia</div><div class="v">Flyback MCD</div><div class="d">{{fsw}} kHz, modo corrente de pico</div></div>
-<div class="kpi"><div class="l">Rendimento 220 V [S]</div><div class="v">{{eta_220}} %</div><div class="d">meta 85 %, cálculo 83 %</div></div>
-<div class="kpi"><div class="l">V<sub>ds</sub> máx. 264 V [S]</div><div class="v">{{vds_264}} V</div><div class="d">{{vds_264_pct}} % de 650 V</div></div>
-<div class="kpi"><div class="l">Regulação [S]</div><div class="v">{{vo_min}}–{{vo_max}} V</div><div class="d">ondulação ≤ {{vopp}} mV</div></div>
-<div class="kpi"><div class="l">Curto-circuito [S]</div><div class="v">hiccup</div><div class="d">UVLO em {{hic_uvlo_s}} ms, {{hic_duty_s}} % ligado</div></div>
-<div class="kpi"><div class="l">Placa [CAD]</div><div class="v">DRC 0 erros</div><div class="d">140 × 90 mm, isolação 6,4 mm</div></div>
-</div>
+| | |
+|---|---|
+| **Disciplina** | ELP22109 – Eletrônica de Potência II (2026-2) |
+| **Trabalho** | Projeto Semestral – Tema II (Possibilidade II: protótipo) |
+| **Aluno** | Mateus Salgado Barboza Costa |
+| **Professor** | Joabel Moia |
+| **Revisão** | B – novembro de 2026 (placa revista em 05/11/2026) |
+| **Entrega** | 21/12/2026 |
+
+**Indicadores do projeto**
+
+| Indicador | Valor | Observação |
+|---|---|---|
+| Entrada | 90–264 V~ | 50/60 Hz, universal |
+| Saída | 12 V / 3 A | 36 W, isolada |
+| Topologia | Flyback MCD | {{fsw}} kHz, modo corrente de pico |
+| Rendimento em 220 V [S] | {{eta_220}} % | meta 85 %, cálculo 83 % |
+| V<sub>ds</sub> máx. em 264 V [S] | {{vds_264}} V | {{vds_264_pct}} % de 650 V |
+| Regulação [S] | {{vo_min}}–{{vo_max}} V | ondulação ≤ {{vopp}} mV |
+| Curto-circuito [S] | hiccup | UVLO em {{hic_uvlo_s}} ms, {{hic_duty_s}} % ligado |
+| Placa [CAD] | DRC 0 erros | 140 × 90 mm, isolação 6,4 mm |
 
 **Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em {{n_casos}} casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação e cobertura comprovada. A revisão B incorpora o parecer técnico sobre a revisão A e acrescenta a proteção de curto-circuito por hiccup; a placa foi enviada para fabricação (Possibilidade II) e os resultados experimentais entrarão na revisão C.
 
-<div class="legend"><b>Como ler este relatório.</b> Cada número traz a etiqueta de origem: <span class="badge b-C">C</span> cálculo (scripts de <code>02_Calculos</code>), <span class="badge b-S">S</span> simulação LTspice da revisão B (<code>03_Simulacao</code>), <span class="badge b-CAD">CAD</span> verificação do projeto KiCad (ERC/DRC) e <span class="badge b-M">M</span> medição física. <b>Ainda não há medições:</b> o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.</div>
+> **Como ler este relatório.** Cada número traz a etiqueta de origem: [C] cálculo (scripts de `02_Calculos`), [S] simulação LTspice da revisão B (`03_Simulacao`), [CAD] verificação do projeto KiCad (ERC/DRC) e [M] medição física. **Ainda não há medições:** o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.
 
 ## 1. Introdução
 

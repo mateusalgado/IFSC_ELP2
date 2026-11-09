@@ -5,8 +5,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 W, H = 1040, 430
-PRIM, SEC = "#e8f1fa", "#e9f7ee"
-INK, MUTED, ACC = "#1b1f24", "#5b6470", "#0b5fa5"
+PRIM, SEC = "#f3f4f6", "#e3e6ea"
+INK, MUTED, ACC = "#111111", "#555b63", "#111111"
 els = []
 
 
@@ -50,7 +50,7 @@ for a, b in zip(xs, nxt):
 els.append(f'<line x1="800" y1="30" x2="800" y2="{H - 20}" stroke="{ACC}" stroke-width="1.6" stroke-dasharray="7 5"/>')
 text(800, 24, "isolação primário / secundário (T1, U3, CY1; 6,4 mm na PCI)", 11, fill=ACC)
 text(400, 24, "PRIMÁRIO (referência PGND)", 11.5, "bold", ACC)
-text(920, 46, "SECUNDÁRIO (SGND)", 11.5, "bold", "#1a7f37")
+text(920, 46, "SECUNDÁRIO (SGND)", 11.5, "bold", "#333333")
 
 # faixa de comando (y = 230..330)
 y2, h2 = 230, 100
@@ -65,10 +65,10 @@ arrow(539, y2 - 2, 539, y + h + 3, MUTED, 'stroke-dasharray="4 3"')      # bulk 
 text(548, y2 - 10, "V_bulk → R_start", 10.5, fill=MUTED, anchor="start")
 arrow(706, y2 + h2 + 2, 706, y2 + h2 + 40, MUTED, 'stroke-dasharray="4 3"')
 text(716, y2 + h2 + 30, "T1 aux (pinos 4–5)", 10.5, fill=MUTED, anchor="start")
-arrow(820 - 3, y2 + h2 / 2, 786 + 2, y2 + h2 / 2, "#1a7f37")            # opto -> COMP
-text(803, y2 + h2 / 2 - 8, "opto", 10, fill="#1a7f37")
-arrow(920, y + h + 2, 920, y2 - 3, "#1a7f37")                            # Vo -> divisor
-text(930, y + h + 40, "V_o → divisor", 10.5, fill="#1a7f37", anchor="start")
+arrow(820 - 3, y2 + h2 / 2, 786 + 2, y2 + h2 / 2, "#333333")            # opto -> COMP
+text(803, y2 + h2 / 2 - 8, "opto", 10, fill="#333333")
+arrow(920, y + h + 2, 920, y2 - 3, "#333333")                            # Vo -> divisor
+text(930, y + h + 40, "V_o → divisor", 10.5, fill="#333333", anchor="start")
 text(20, H - 8, "Pontos de medida: TP1 BULK, TP2 DRAIN, TP3 SW (R_sense), TP4 GATE, TP5 VCC, TP6 VREF, TP7 COMP, TP8 CS, TP9 PGND, TP10 VO, TP11 SGND; laços JP1 (I rede) e JP2 (I secundário).", 10.5, fill=MUTED, anchor="start")
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">'

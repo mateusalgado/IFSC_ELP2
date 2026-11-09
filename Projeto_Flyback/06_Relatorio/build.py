@@ -15,8 +15,8 @@ PANDOC = Path.home() / "AppData/Local/Pandoc/pandoc.exe"
 CHROME = Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe")
 CSS = """
 <style>
-  :root { --ink:#1b1f24; --muted:#5b6470; --line:#d9dee3; --soft:#f4f7fa; --accent:#0b5fa5; --accent2:#e8f1fa;
-          --ok:#1a7f37; --bad:#b42318; --warn:#9a6700; --c:#0b5fa5; --s:#1a7f37; --cad:#6f42c1; --m:#c2410c; }
+  :root { --ink:#111111; --muted:#555b63; --line:#d6d9dd; --soft:#f4f5f7; --accent:#111111; --accent2:#ececee;
+          --ok:#1a7f37; --bad:#b42318; --warn:#9a6700; --c:#3a3f45; --s:#1a7f37; --cad:#6f42c1; --m:#c2410c; }
   @page { size: A4; margin: 1.6cm 1.7cm 1.7cm 1.7cm; }
   * { box-sizing: border-box; }
   html, body { background: #fff; }
@@ -30,11 +30,13 @@ CSS = """
   p { margin: 0 0 7px 0; text-align: justify; }
   ul, ol { margin: 0 0 8px 20px; padding: 0; }
   li { margin-bottom: 2px; text-align: justify; }
-  a { color: var(--accent); }
+  a { color: var(--ink); }
   /* --- cabecalho --- */
   .titlecard { border: 1px solid var(--line); border-left: 6px solid var(--accent); border-radius: 6px; padding: 12px 16px; margin: 0 0 12px 0; background: var(--soft); }
-  .titlecard .meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px 18px; font-size: 0.92em; color: var(--muted); margin-top: 6px; }
-  .titlecard .meta b { color: var(--ink); font-weight: 600; }
+  .titlecard table.meta { width: auto; min-width: 70%; margin: 6px 0 0 0; font-size: 0.9em; }
+  .titlecard table.meta td { border: 0; padding: 1px 14px 1px 0; background: transparent; }
+  .titlecard table.meta td:first-child { white-space: nowrap; color: var(--muted); }
+  .titlecard p { margin: 2px 0; color: var(--muted); font-size: 0.9em; text-align: left; }
   .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 14px 0; }
   .kpi { border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; background: #fff; break-inside: avoid; }
   .kpi .l { font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
@@ -84,7 +86,28 @@ CSS = """
 """
 
 
+def monta_capa(h):
+    """h1 + instituicao + tabela de identificacao -> .titlecard; tabela 'Indicador | Valor | Observacao' -> painel .kpis"""
+    m = re.search(r"(<h1[^>]*>.*?</h1>)(\s*<p>.*?</p>)?(\s*<table>.*?</table>)", h, flags=re.S)
+    if m:
+        tab = re.sub(r"<table>", '<table class="meta">', m.group(3), count=1)
+        tab = re.sub(r"<thead>.*?</thead>", "", tab, flags=re.S)
+        h = h[:m.start()] + '<div class="titlecard">' + m.group(1) + (m.group(2) or "") + tab + "</div>" + h[m.end():]
+    k = re.search(r"<table>\s*<thead>\s*<tr[^>]*>\s*<th[^>]*>Indicador</th>.*?</table>", h, flags=re.S)
+    if k:
+        corpo = re.search(r"<tbody>(.*?)</tbody>", k.group(0), flags=re.S)
+        tiles = []
+        for row in re.findall(r"<tr[^>]*>(.*?)</tr>", corpo.group(1) if corpo else "", flags=re.S):
+            cels = re.findall(r"<td[^>]*>(.*?)</td>", row, flags=re.S)
+            if len(cels) >= 3:
+                tiles.append(f'<div class="kpi"><div class="l">{cels[0].strip()}</div><div class="v">{cels[1].strip()}</div><div class="d">{cels[2].strip()}</div></div>')
+        h = h[:k.start()] + '<div class="kpis">' + "".join(tiles) + "</div>" + h[k.end():]
+        h = re.sub(r"<p><strong>Indicadores do projeto</strong></p>\s*", "", h, count=1)
+    return h
+
+
 def pos_processa(h):
+    h = monta_capa(h)
     # etiquetas de origem: [C] [S] [CAD] [M] - so no texto, nunca dentro de tags (alt="..." das figuras)
     partes = re.split(r"(<[^>]+>)", h)
     for i in range(0, len(partes), 2):
