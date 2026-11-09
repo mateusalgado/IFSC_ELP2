@@ -1,4 +1,4 @@
-"""Tempos do hiccup no curto (releitura do .raw): instantes em que VCC cruza o UVLO (7,9 V descendo / 8,5 V subindo)
+"""Tempos do hiccup no curto (releitura do .raw): instantes em que VCC cruza o UVLO (7,6 V descendo / 8,4 V subindo)
 e intervalos ligado/desligado. Uso (WSL): python3 hiccup_tempos.py [raw] [t_on_ms] [t_off_ms]  -> runs/<caso>_hiccup.json"""
 import json, sys
 from pathlib import Path
@@ -11,10 +11,10 @@ t_on = float(sys.argv[2]) / 1e3 if len(sys.argv) > 2 else 60e-3
 t_off = float(sys.argv[3]) / 1e3 if len(sys.argv) > 3 else 380e-3
 d = read_raw(raw)
 t = np.asarray(d["time"]); v = np.asarray(d["v(vcc)"]); g = np.asarray(d["v(gate)"])
-# maquina de estados (histerese): desliga ao cruzar 7,9 V descendo, religa no primeiro pulso de gate (VCC atinge os 8,5 V do modelo e o CI passa a consumir)
+# maquina de estados (histerese): desliga ao cruzar 7,6 V descendo, religa no primeiro pulso de gate (VCC atinge os 8,4 V do modelo e o CI passa a consumir)
 estado = True; off = []; on = []
 for i in range(1, len(v), 1):
-    if estado and v[i] < 7.9: estado = False; off.append(t[i])
+    if estado and v[i] < 7.6: estado = False; off.append(t[i])
     elif (not estado) and g[i] > 5.0: estado = True; on.append(t[i])   # religamento = primeiro pulso de gate apos o desligamento
 off = np.array(off); on = np.array(on)
 ev = sorted([(x, "off") for x in off] + [(x, "on") for x in on])

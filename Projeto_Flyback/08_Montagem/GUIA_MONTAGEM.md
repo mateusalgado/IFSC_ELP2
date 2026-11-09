@@ -92,14 +92,14 @@ Origem de cada valor: **C** = cálculo (`RESULTADOS_TEORIA.md`), **S** = simula�
 | Grandeza | Onde medir | C | S (B) | Aceite |
 |---|---|---|---|---|
 | V<sub>o</sub> (0,3–3 A, 90–264 V) | J2 / TP10–TP11 | 12,04 V | 12,06–12,06 V | 11,4–12,6 V |
-| Ondulação de chaveamento (p-p, 20 MHz) | TP10 | 2,7 mV (após LC) | ≤ 4,2 mV | ≤ 120 mV |
-| Excursão total de V<sub>o</sub> em ciclos inteiros da rede | TP10 | — | ≤ 9,2 mV | ≤ 120 mV |
+| Ondulação de chaveamento (p-p, 20 MHz) | TP10 | 2,7 mV (após LC) | ≤ 4,8 mV | ≤ 120 mV |
+| Excursão total de V<sub>o</sub> em ciclos inteiros da rede | TP10 | — | ≤ 8,5 mV | ≤ 120 mV |
 | f<sub>sw</sub> | TP4 ou pino 6 | 64,7 kHz | 64,7 kHz | 60–70 kHz |
 | V<sub>bulk</sub> mín. (90 V, 3 A, 50 Hz) | TP1 | 104 V (150 µF) | 103,9 V | ≥ 95 V |
 | I<sub>p</sub> (90 V, 3 A) | TP3 ÷ 0,34 Ω | 2,14 A | 2,06 A | ≤ 2,5 A |
 | V<sub>ds</sub> máx (264 V, 3 A) | dreno (diferencial) | 507 V | 482 V | ≤ 520 V |
 | V<sub>rev</sub> máx em D1 | D1 (K–A) | 74 V | 86 V | ≤ 100 V |
-| Rendimento 220 V, 3 A (potência ativa) | wattímetro ou v(t)·i(t) | 83,0 % | 85,3 % | ≥ 85 % (meta); ≥ 83 % (cálculo) |
+| Rendimento 220 V, 3 A (potência ativa) | wattímetro ou v(t)·i(t) | 83,0 % | 85,2 % | ≥ 85 % (meta); ≥ 83 % (cálculo) |
 | VCC em regime | TP5 | 15,4 V | 14,1 V | 12–18 V |
 | Temperaturas a 40 °C (Q1 aleta, D1 aleta, T1) | IR/termopar | T<sub>j</sub> 72 / 84 °C; ΔT trafo 29 °C | — | ≤ 100 °C na aleta; trafo ≤ 80 °C |
 
@@ -107,23 +107,23 @@ Origem de cada valor: **C** = cálculo (`RESULTADOS_TEORIA.md`), **S** = simula�
 
 | Grandeza | C | S (B) | Aceite |
 |---|---|---|---|
-| Tempo até UVLO (8,4 V) em 90 / 264 V | 4,3 s / 1,0 s | 7,44 s / 1,07 s | < 10 s |
-| V<sub>o</sub> ≥ 11,4 V após o início do chaveamento | — | 5,3 ms / 4,4 ms | < 50 ms, sem sobretensão > 12,6 V |
-| V<sub>ds</sub> máx na partida em 264 V | 507 V | 517 V | ≤ 520 V |
-| Pico de I<sub>p</sub> na partida (primeiros ciclos, saída em zero → sem reset do núcleo) | 2,9 A (limite ciclo a ciclo) | 3,45 A por < 1 ms (modelo linear; núcleo real satura ≈ 3 A) | ≤ 3,5 A por < 1 ms; parar se > 4 A ou se durar > 2 ms |
+| Tempo até UVLO (8,4 V) em 90 / 264 V | 4,3 s / 1,0 s | 7,34 s / 1,05 s | < 10 s |
+| V<sub>o</sub> ≥ 11,4 V após o início do chaveamento | — | 5,3 ms / 4,3 ms | < 50 ms, sem sobretensão > 12,6 V |
+| V<sub>ds</sub> máx na partida em 264 V | 507 V | 515 V | ≤ 520 V |
+| Pico de I<sub>p</sub> na partida (primeiros ciclos, saída em zero → sem reset do núcleo) | 2,9 A (limite ciclo a ciclo) | 3,47 A por < 1 ms (modelo linear; núcleo real satura ≈ 3 A) | ≤ 3,5 A por < 1 ms; parar se > 4 A ou se durar > 2 ms |
 
 ### 5.3 Degraus de carga 50 ↔ 100 %
 
 | Grandeza | S (B) | Aceite |
 |---|---|---|
-| Afundamento / sobressinal de V<sub>o</sub> (90 V e 264 V) | 90 V: -114 mV na subida / +115 mV na descida; 264 V: -116 / +113 mV | dentro de 11,4–12,6 V |
-| Retorno à faixa ± 1 % / ± 0,5 % | não sai de ± 1 % (desvio máx. 116 mV); ± 0,5 % em 4,5 ms | < 5 ms, sem oscilação sustentada |
+| Afundamento / sobressinal de V<sub>o</sub> (90 V e 264 V) | 90 V: -114 mV na subida / +115 mV na descida; 264 V: -113 / +116 mV | dentro de 11,4–12,6 V |
+| Retorno à faixa ± 1 % / ± 0,5 % | não sai de ± 1 % (desvio máx. 116 mV); ± 0,5 % em 4,4 ms | < 5 ms, sem oscilação sustentada |
 
 ### 5.4 Curto-circuito na saída – limites para liberar o ensaio
 
-Comportamento previsto (simulação B, 220 V): ao aplicar o curto o primário sobe por alguns ciclos acima do limite (não há reset do núcleo com a saída em zero) até 7,8 A e V<sub>ds</sub> = 555 V; em seguida a limitação ciclo a ciclo segura I<sub>p</sub> em 3,3 A, D1 conduz 12,5 A eficazes e, com R13 = 100 Ω, o VCC cai e o CI **desliga por UVLO em ≈ 151 ms** (cálculo; simulação B: 155 ms até o UVLO, 97 ms desligado, 15 ms ligado por tentativa, ciclo de trabalho 13 % em 220 V). Ao remover o curto a fonte religa na tentativa seguinte do hiccup (até 97 ms) com a partida normal. O núcleo real satura acima de ≈ 3 A (B ≈ 0,35 T), o que **encurta** o transitório; os picos ficam dentro dos limites pulsados (Q1: 44 A; D1: I<sub>FSM</sub> 200 A).
+Comportamento previsto (simulação B, 220 V): ao aplicar o curto o primário sobe por alguns ciclos acima do limite (não há reset do núcleo com a saída em zero) até 8,0 A e V<sub>ds</sub> = 560 V; em seguida a limitação ciclo a ciclo segura I<sub>p</sub> em 3,4 A, D1 conduz 13,1 A eficazes e, com R13 = 100 Ω, o VCC cai e o CI **desliga por UVLO em ≈ 151 ms** (cálculo; simulação B: 163 ms até o UVLO, 130 ms desligado, 20 ms ligado por tentativa, ciclo de trabalho 14 % em 220 V). Ao remover o curto a fonte religa na tentativa seguinte do hiccup (até 130 ms) com a partida normal. O núcleo real satura acima de ≈ 3 A (B ≈ 0,35 T), o que **encurta** o transitório; os picos ficam dentro dos limites pulsados (Q1: 44 A; D1: I<sub>FSM</sub> 200 A).
 
-Liberação do ensaio físico de curto **somente** se: (a) a simulação B mostrar o desligamento por UVLO e a recuperação (documentado em `06_Relatorio` §4.11); (b) o ensaio for feito com isolador, carga por chave de curto com resistência ≤ 50 mΩ e fio curto, a 127 V primeiro; (c) duração máxima de **2 s** no primeiro ensaio, com osciloscópio em TP3 (corrente) e VCC (TP5); (d) critério de parada: I<sub>p</sub> sustentada > 3,5 A, VCC não cair abaixo de 8 V em 300 ms (simulação: 155 ms), ou aquecimento de D1 > 100 °C. Só depois de confirmado o hiccup, estender para 30 s.
+Liberação do ensaio físico de curto **somente** se: (a) a simulação B mostrar o desligamento por UVLO e a recuperação (documentado em `06_Relatorio` §4.11); (b) o ensaio for feito com isolador, carga por chave de curto com resistência ≤ 50 mΩ e fio curto, a 127 V primeiro; (c) duração máxima de **2 s** no primeiro ensaio, com osciloscópio em TP3 (corrente) e VCC (TP5); (d) critério de parada: I<sub>p</sub> sustentada > 3,5 A, VCC não cair abaixo de 8 V em 300 ms (simulação: 163 ms), ou aquecimento de D1 > 100 °C. Só depois de confirmado o hiccup, estender para 30 s.
 
 ## 6. Diagnóstico rápido
 

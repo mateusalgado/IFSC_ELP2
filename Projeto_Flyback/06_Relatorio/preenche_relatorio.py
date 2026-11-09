@@ -108,6 +108,7 @@ val = {
     "iq_aplic": f(c["iq_aplic"], 1), "b_aplic": f(0.25 * c["ip_aplic"] / fb["Ip_max"]), "id1_aplic": f(c["id1_aplic"], 0), "vds_aplic": f(c["vds_aplic"], 0),
     "iq_sust": f(c["iq_sust"], 1), "id1rms_sust": f(c["id1rms_sust"], 1), "pd1_sust": f(c["pd1_sust"], 1), "vccmin_sust": f(c["vccmin_sust"], 1),
     "hic_uvlo_s": f(hic_s.get("t_ate_uvlo_ms"), 0), "hic_rec_s": f(hic_s.get("t_recarga_ms"), 0), "hic_on_s": f(hic_s.get("t_ligado_ms"), 0), "hic_duty_s": f(hic_s.get("duty_falha_pct"), 0), "vcc_fim_rec": f(hic_s.get("vcc_fim"), 2),
+    "t_relig_rec": f(max([e[0] for e in hic_s.get("eventos", []) if e[1] == "off"] or [hic_s.get("t_off_ms", 380)]) + (hic_s.get("t_recarga_ms") or 0) - hic_s.get("t_off_ms", 380), 0),
     "t_uv_90": f(med["partida_90V"].get("t_uv"), 1), "t_uv_264": f(med["partida_264V"].get("t_uv"), 1), "b_uv_90": f(med["partida_90V"].get("b_uv"), 0),
     "analise_regime": analise, "eta_220": f(100 * m220["po"] / m220["pin"], 1), "eta_90": f(100 * m90["po"] / m90["pin"], 1), "psnub_220": f(m220["psnub"]), "pdiode_220": f(m220["pdiode"]),
     "vo_min": f(min(vo)), "vo_max": f(max(vo)), "vopp": f(1e3 * max(v["vo_pp"] for v in reg.values()), 1), "ripple_tot": f(1e3 * max(v.get("ripple_total", 0) for v in reg.values()), 1),

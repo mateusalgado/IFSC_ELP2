@@ -1,5 +1,5 @@
 <!--
-ESTE É O TEMPLATE. Os trechos entre chaves duplas, como 64,7 ou 85,3, são MARCADORES preenchidos automaticamente
+ESTE É O TEMPLATE. Os trechos entre chaves duplas, como 64,7 ou 85,2, são MARCADORES preenchidos automaticamente
 por preenche_relatorio.py com os resultados dos scripts (02_Calculos/resultados/*.json, 03_Simulacao/runs/*.json, 05_BOM_Custo/custo.json).
 Edite o texto à vontade, mas não apague nem altere os marcadores. O arquivo gerado (RELATORIO.md) é sobrescrito a cada geração:
   python 06_Relatorio/preenche_relatorio.py  →  python 06_Relatorio/build.py  (HTML autossuficiente + PDF)
@@ -15,7 +15,6 @@ Edite o texto à vontade, mas não apague nem altere os marcadores. O arquivo ge
 | **Trabalho** | Projeto Semestral – Tema II (Possibilidade II: protótipo) |
 | **Aluno** | Mateus Salgado Barboza Costa |
 | **Professor** | Joabel Moia |
-| **Revisão** | B – novembro de 2026 (placa revista em 05/11/2026) |
 | **Entrega** | 21/12/2026 |
 
 **Indicadores do projeto**
@@ -25,13 +24,13 @@ Edite o texto à vontade, mas não apague nem altere os marcadores. O arquivo ge
 | Entrada | 90–264 V~ | 50/60 Hz, universal |
 | Saída | 12 V / 3 A | 36 W, isolada |
 | Topologia | Flyback MCD | 64,7 kHz, modo corrente de pico |
-| Rendimento em 220 V [S] | 85,3 % | meta 85 %, cálculo 83 % |
+| Rendimento em 220 V [S] | 85,2 % | meta 85 %, cálculo 83 % |
 | V<sub>ds</sub> máx. em 264 V [S] | 482 V | 74 % de 650 V |
-| Regulação [S] | 12,06–12,06 V | ondulação ≤ 4,2 mV |
-| Curto-circuito [S] | hiccup | UVLO em 155 ms, 13 % ligado |
+| Regulação [S] | 12,06–12,06 V | ondulação ≤ 4,8 mV |
+| Curto-circuito [S] | hiccup | UVLO em 163 ms, 14 % ligado |
 | Placa [CAD] | DRC 0 erros | 140 × 90 mm, isolação 6,4 mm |
 
-**Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em 23 casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação e cobertura comprovada. A revisão B incorpora o parecer técnico sobre a revisão A e acrescenta a proteção de curto-circuito por hiccup; a placa foi enviada para fabricação (Possibilidade II) e os resultados experimentais entrarão na revisão C.
+**Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em 23 casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação.
 
 > **Como ler este relatório.** Cada número traz a etiqueta de origem: [C] cálculo (scripts de `02_Calculos`), [S] simulação LTspice da revisão B (`03_Simulacao`), [CAD] verificação do projeto KiCad (ERC/DRC) e [M] medição física. **Ainda não há medições:** o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.
 
@@ -43,7 +42,6 @@ A figura 1 mostra a arquitetura: no primário, proteções (fusível, varistor, 
 
 ![Figura 1 – Diagrama de blocos da fonte, com os valores adotados na revisão B.](assets/diagrama_blocos.svg)
 
-A revisão A (19/10/2026) foi submetida a um parecer técnico independente, que manteve a arquitetura e devolveu o projeto para correção antes de encomendar a placa ou energizar o primário, apontando: esforços em curto-circuito maiores que os publicados (9 A no MOSFET, 596 V no dreno) e ausência de desligamento; o grampo RCD com os resistores em série na placa (36,4 kΩ) em vez de em paralelo (9 kΩ) como no modelo; o filtro do sensor de corrente no lado errado do resistor; o choke de modo comum abaixo da corrente eficaz de entrada; classes de rede não atribuídas no projeto KiCad (regras de 1 mm e 6 mm sem efeito); instruções incompatíveis para o secundário do transformador no guia; e janelas de medição que omitiam os transitórios. Esta **revisão B** corrige cada item, refaz todas as simulações com janelas antes/durante/depois de cada evento, acrescenta a **proteção de curto-circuito por hiccup**, torna o DRC verificável e reorganiza a placa para um protótipo de teste confiável e para um produto com gabinete. Com a B fechada optou-se pela **Possibilidade II** (protótipo): pedido de compra, cronograma até 21/12 e registro de medições estão em `08_Montagem`.
 
 ## 2. Fundamentação teórica
 
@@ -100,7 +98,7 @@ O projeto foi conduzido como uma cadeia reprodutível de scripts: cada etapa lê
 | BOM e custo | distribuidores (out/nov 2026) | `05_BOM_Custo/bom.py` | `BOM.xlsx`, `custo.xlsx` | — |
 | Relatório | este documento | `06_Relatorio/gera_tabelas.py`, `preenche_relatorio.py`, `build.py` | HTML autossuficiente e PDF | — |
 
-**Modelo de simulação.** UC3845 comportamental (oscilador, latch, comparador de 1 V, UVLO 8,5/7,9 V no modelo, I<sub>start</sub> 0,5 mA), MOSFET VDMOS do STP13N65M2 (mesmo *die* do STF13N65M2), TL431 e PC817 comportamentais, transformador com L<sub>lk</sub> = 2 % e RSE explícitas. Casos: regime 90/127/220/264 V × 10/50/100 % (6 ciclos de rede, medição nos 2 últimos); partida a frio em 90 e 264 V (pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo até o UVLO, transferindo tensão de barramento e fase da rede); degraus 50 → 100 % e 100 → 50 % em 90 e 264 V e com CTR = 0,5; curto de 60 a 380 ms em 220 V com janelas de aplicação (2 ms), sustentado e recuperação; tolerância do barramento (C1 = 120 µF); sem grampo; L<sub>lk</sub> = 3 %.
+**Modelo de simulação.** UC3845 comportamental com os parâmetros do datasheet (oscilador 1,72/R<sub>T</sub>C<sub>T</sub>, latch com D ≤ 50 %, comparador de 1 V com ganho (V<sub>COMP</sub> − 1,4)/3 e atraso de 150 ns, UVLO 8,4/7,6 V, I<sub>start</sub> 0,5 mA máximo, I<sub>CC</sub> 11 mA, zener de 34 V); MOSFET VDMOS do STP13N65M2 (mesmo *die* do STF13N65M2) com C<sub>iss</sub>, R<sub>g</sub> e V<sub>th</sub> do datasheet e R<sub>DS(on)</sub> na temperatura de junção prevista (0,36 Ω típico a 25 °C × 1,47 para T<sub>j</sub> ≈ 72 °C); Schottky, UF4007/UF4004 e ponte com V<sub>F</sub>, C<sub>j</sub> e t<sub>rr</sub> de catálogo; TL431 (2,495 V) e PC817 (CTR 1,0, polo de 10 kHz) comportamentais; transformador linear com L<sub>lk</sub> = 2 % e RSE dos capacitores de catálogo. Os modelos foram conferidos contra os datasheets em 09/11/2026 e os casos rodados de novo. Casos: regime 90/127/220/264 V × 10/50/100 % (6 ciclos de rede, medição nos 2 últimos); partida a frio em 90 e 264 V (pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo até o UVLO, transferindo tensão de barramento e fase da rede); degraus 50 → 100 % e 100 → 50 % em 90 e 264 V e com CTR = 0,5; curto de 60 a 380 ms em 220 V com janelas de aplicação (2 ms), sustentado e recuperação; tolerância do barramento (C1 = 120 µF); sem grampo; L<sub>lk</sub> = 3 %.
 
 **Tabela 2 – Hipóteses de projeto.**
 
@@ -127,11 +125,11 @@ A tabela 3 reúne os requisitos: os que vêm do enunciado, os fixados pelo proje
 |---|---|---|---|---|
 | Tensão de entrada | 90–264 V~, 50/60 Hz | enunciado (multi-tensão); 127/220 V validados | cálculo + simulação em 90/127/220/264 V | V<sub>o</sub> 12,06–12,06 V em toda a faixa [S] |
 | Tensão e corrente de saída | 12,0 V ± 5 %, 0,3–3,0 A (36 W) | escolha do projetista (< 25 V) | simulação 10–100 % de carga | regulação < 0,1 % [S] |
-| Ondulação de saída | ≤ 120 mV p-p | prática para fontes de mesa | simulação (chaveamento e ciclos de rede) | ≤ 4,2 mV / ≤ 9,2 mV [S] |
+| Ondulação de saída | ≤ 120 mV p-p | prática para fontes de mesa | simulação (chaveamento e ciclos de rede) | ≤ 4,8 mV / ≤ 8,5 mV [S] |
 | Frequência de comutação | 65 kHz | compromisso tamanho × perdas; UC3845 D ≤ 0,5 | R<sub>T</sub>/C<sub>T</sub> | 64,7 kHz [C] |
-| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,3 % em 220 V, 82,8–85,3 % na faixa [S] |
-| Tensão no MOSFET | ≤ 80 % de 650 V (520 V) em regime; ≤ 600 V em falha | Aula 03 (margem de tensão) | simulação 264 V, L<sub>lk</sub> 2 e 3 %, curto | 482 V regime, 555 V na aplicação do curto [S] |
-| Proteções | fusível, NTC, varistor, limite ciclo a ciclo, **hiccup no curto**, grampo RCD | enunciado (surtos, snubber) + parecer (curto) | cálculo + simulação do curto | desligamento por UVLO em 155 ms [S] |
+| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,2 % em 220 V, 82,6–85,2 % na faixa [S] |
+| Tensão no MOSFET | ≤ 80 % de 650 V (520 V) em regime; ≤ 600 V em falha | Aula 03 (margem de tensão) | simulação 264 V, L<sub>lk</sub> 2 e 3 %, curto | 482 V regime, 560 V na aplicação do curto [S] |
+| Proteções | fusível, NTC, varistor, limite ciclo a ciclo, **hiccup no curto**, grampo RCD | enunciado (surtos, snubber) + parecer (curto) | cálculo + simulação do curto | desligamento por UVLO em 163 ms [S] |
 | Filtro de EMI | X2 + choke MC + X2 + Y1 | enunciado | cálculo (curva ideal) | f<sub>DM</sub> 43 kHz, f<sub>CM</sub> 24 kHz [C]; LISN pendente |
 | Isolação | transformador + opto; ≥ 6,4 mm na PCI | IEC 62368-1 (reforçada, 250 V) | DRC com classes de rede | 0 violações [CAD] |
 | Estabilidade | margem de fase ≥ 45° | Aula 05 | modelo de pequenos sinais + degraus simulados | MF 88° (mín. 86°) [C]; degraus sem oscilação [S] |
@@ -317,7 +315,7 @@ A pré-escolha segue a Aula 03 (tensão de bloqueio com margem, corrente de pico
 <div class="step"><div class="n">6</div><div class="eq">Driver: saída totem-pole de ±1 A do próprio CI (Q<sub>g</sub> = 17 nC) → R<sub>g</sub> = <span class="res">10 Ω</span> + 1N4148 antiparalelo + 10 kΩ gate–source. Compensação de rampa: MCD e D &lt; 0,5 → <span class="res">não necessária</span> (m<sub>2</sub> = 88,2 mV/µs; provisão R ≈ 1,6 kΩ)</div></div>
 </div>
 
-**Tabela 11 – Tempo de partida por resistor (I<sub>CC,start</sub> típico 0,3 mA) [C]; a simulação com o máximo de 0,5 mA dá 7,4 s em 90 V~ e 1,1 s em 264 V~ [S].**
+**Tabela 11 – Tempo de partida por resistor (I<sub>CC,start</sub> típico 0,3 mA) [C]; a simulação com o máximo de 0,5 mA dá 7,3 s em 90 V~ e 1,1 s em 264 V~ [S].**
 
 | V<sub>ac</sub> | V<sub>bulk</sub> pico (V) | I em R<sub>start</sub> (mA) | I líquida para C<sub>VCC</sub> (mA) | t até o UVLO (s) | P em R<sub>start</sub> (W) |
 |---|---|---|---|---|---|
@@ -326,7 +324,7 @@ A pré-escolha segue a Aula 03 (tensão de bloqueio com margem, corrente de pico
 | 220 | 307 | 1,85 | 1,55 | 1,2 | 0,58 |
 | 264 | 370 | 2,23 | 1,93 | 1,0 | 0,83 |
 
-<div class="note"><b>Partida lenta em rede baixa.</b> Com o I<sub>start</sub> máximo do CI a partida em 90 V~ leva 7,4 s — aceitável para fonte de mesa, mas um produto pediria 2 × 68 kΩ (mais dissipação em 264 V~) ou partida ativa. Documentado como limitação da revisão B.</div>
+<div class="note"><b>Partida lenta em rede baixa.</b> Com o I<sub>start</sub> máximo do CI a partida em 90 V~ leva 7,3 s — aceitável para fonte de mesa, mas um produto pediria 2 × 68 kΩ (mais dissipação em 264 V~) ou partida ativa. Documentado como limitação da revisão B.</div>
 
 <div class="calc"><div class="t">Memória de cálculo 10 – proteção de curto-circuito por hiccup <span>uc3845.py; confirmada por simulação em §4.11</span></div>
 <div class="step"><div class="n">1</div><div class="eq">Com a saída em curto V<sub>aux</sub> ≈ 0,9 V: o auxiliar não alimenta o CI → C<sub>VCC</sub> descarrega de 15,4 V a 7,6 V com I<sub>CC</sub> − I<sub>start</sub> = 13 − 1,85 mA (220 V~) → t<sub>UVLO</sub> = C·ΔV/I ≈ <span class="res">151 ms</span></div></div>
@@ -388,7 +386,7 @@ A simulação cobre os 23 casos da tabela 14; cada caso tem um objetivo e uma ja
 | Degraus de carga | 50 ↔ 100 % em 90 e 264 V~; CTR = 0,5 (3) | desvio, tempo de retorno, ausência de oscilação | 70–120 ms (degraus em 80 e 100 ms) |
 | Curto-circuito | 220 V~, 60–380 ms (1) | aplicação (2 ms), sustentado (hiccup), recuperação | janelas separadas + releitura do .raw |
 | Tolerâncias | C1 = 120 µF; sem grampo; L<sub>lk</sub> = 3 % (3) | vale do barramento; V<sub>ds</sub> sem snubber; sensibilidade à dispersão | regime, 264 V~ |
-| Pré-carga | 90 e 264 V~ (2) | tempo até o UVLO com I<sub>start</sub> máximo | até VCC = 8,5 V |
+| Pré-carga | 90 e 264 V~ (2) | tempo até o UVLO com I<sub>start</sub> máximo | até VCC = 8,4 V |
 
 **Regime permanente.** A tabela 15 compara, ponto a ponto, a teoria da §4.3 com a simulação; a ondulação aparece como ondulação de chaveamento (20 períodos) e como excursão total em ciclos inteiros da rede.
 
@@ -418,11 +416,11 @@ A simulação cobre os 23 casos da tabela 14; cada caso tem um objetivo e uma ja
 
 ![Figura 12 – Partida a frio em 90 V~: barramento, VCC e saída; V<sub>o</sub> atinge 11,4 V em 5,3 ms sem sobretensão [S].](assets/partida_90V_rede.png)
 
-![Figura 13 – Degraus de carga 50 → 100 → 50 % em 90 V~: desvio ≤ 116 mV e retorno a ±0,5 % em ≤ 4,5 ms [S].](assets/degrau_90V_rede.png)
+![Figura 13 – Degraus de carga 50 → 100 → 50 % em 90 V~: desvio ≤ 116 mV e retorno a ±0,5 % em ≤ 4,4 ms [S].](assets/degrau_90V_rede.png)
 
 </div>
 
-**Curto-circuito (tabela 18, figuras 14 e 15).** O curto é aplicado em 60 ms e mantido até 380 ms. Na **aplicação**, a corrente do primário sobe por alguns ciclos acima do limite — não há *reset* do núcleo com a saída em zero — até 7,8 A (0,91 T no modelo linear; o núcleo real satura em ≈ 3 A, o que encurta o transitório), I(D1) chega a 55 A e V<sub>ds</sub> a 555 V (margem de falha fixada em 600 V, 92 % de 650 V, para pulsos). No **curto sustentado** a limitação ciclo a ciclo segura I<sub>p</sub> em 3,3 A e D1 conduz 12,5 A eficazes com 5,7 W; com R13 = 100 Ω o VCC cai e o CI **desliga por UVLO** (VCC mínimo 7,9 V), religando após a recarga: 155 ms até o primeiro desligamento, 97 ms desligado, 15 ms ligado por tentativa (ciclo de trabalho 13 %; cálculo da §4.8: 151 / 133 / 15,5 ms, 10,4 %). Na **recuperação** o curto é removido (380 ms) com o CI desligado no hiccup: a saída permanece em zero até o próximo cruzamento do UVLO (VCC = 8,48 V no fim dos 40 ms simulados, religamento ≈ 4 ms depois) e a sequência seguinte é a partida normal da figura 12, sem sobretensão; o tempo de recuperação é, portanto, até um período de recarga (97 ms em 220 V~).
+**Curto-circuito (tabela 18, figuras 14 e 15).** O curto é aplicado em 60 ms e mantido até 380 ms. Na **aplicação**, a corrente do primário sobe por alguns ciclos acima do limite — não há *reset* do núcleo com a saída em zero — até 8,0 A (0,94 T no modelo linear; o núcleo real satura em ≈ 3 A, o que encurta o transitório), I(D1) chega a 57 A e V<sub>ds</sub> a 560 V (margem de falha fixada em 600 V, 92 % de 650 V, para pulsos). No **curto sustentado** a limitação ciclo a ciclo segura I<sub>p</sub> em 3,4 A e D1 conduz 13,1 A eficazes com 6,2 W; com R13 = 100 Ω o VCC cai e o CI **desliga por UVLO** (VCC mínimo 7,6 V), religando após a recarga: 163 ms até o primeiro desligamento, 130 ms desligado, 20 ms ligado por tentativa (ciclo de trabalho 14 %; cálculo da §4.8: 151 / 133 / 15,5 ms, 10,4 %). Na **recuperação** o curto é removido (380 ms) com o CI desligado no hiccup: a saída permanece em zero até o próximo cruzamento do UVLO (VCC = 7,90 V no fim dos 40 ms simulados; pela taxa de recarga o religamento ocorre ≈ 123 ms após a remoção do curto) e a sequência seguinte é a partida normal da figura 12, sem sobretensão; o tempo de recuperação é, portanto, no máximo um período de recarga (130 ms em 220 V~).
 
 **Tabela 18 – Curto-circuito em 220 V~ por janelas [S].**
 
@@ -438,7 +436,7 @@ A simulação cobre os 23 casos da tabela 14; cada caso tem um objetivo e uma ja
 
 </div>
 
-**Análise.** A tensão de saída fica entre 12,06 e 12,06 V em toda a faixa (regulação de linha e carga < 0,1 %). Em plena carga a corrente de pico do primário difere -3,7 % da teoria (limiar efetivo do comparador e atraso do filtro), I<sub>s,pk</sub> +10,1 %, I<sub>s,rms</sub> -10,2 % (a teoria integra o triângulo ideal no vale de V<sub>bulk</sub>) e V<sub>ds</sub> -4,9 % em 264 V (grampo real abaixo de 1,8·V<sub>r</sub>). Em carga leve a diferença de V<sub>ds</sub> (grampo mais baixo com menos energia de dispersão) e de I<sub>s,pk</sub> excede 10 % a favor da segurança: os casos excedidos estão listados na tabela 19 com as hipóteses do cálculo (triângulo ideal no vale de V<sub>bulk</sub>, grampo fixo em 1,8·V<sub>r</sub>). O rendimento simulado em 220 V~/3 A é 85,3 % (meta 85 %; cálculo 83,0 %), com o grampo (1,32 W) e o diodo (1,72 W) como maiores parcelas — o mesmo que o orçamento de perdas da §4.7 indicava.
+**Análise.** A tensão de saída fica entre 12,06 e 12,06 V em toda a faixa (regulação de linha e carga < 0,1 %). Em plena carga a corrente de pico do primário difere -3,7 % da teoria (limiar efetivo do comparador e atraso do filtro), I<sub>s,pk</sub> +10,1 %, I<sub>s,rms</sub> -10,2 % (a teoria integra o triângulo ideal no vale de V<sub>bulk</sub>) e V<sub>ds</sub> -4,9 % em 264 V (grampo real abaixo de 1,8·V<sub>r</sub>). Em carga leve a diferença de V<sub>ds</sub> (grampo mais baixo com menos energia de dispersão) e de I<sub>s,pk</sub> excede 10 % a favor da segurança: os casos excedidos estão listados na tabela 19 com as hipóteses do cálculo (triângulo ideal no vale de V<sub>bulk</sub>, grampo fixo em 1,8·V<sub>r</sub>). O rendimento simulado em 220 V~/3 A é 85,2 % (meta 85 %; cálculo 83,0 %), com o grampo (1,33 W) e o diodo (1,72 W) como maiores parcelas — o mesmo que o orçamento de perdas da §4.7 indicava.
 
 **Tabela 19 – Verificação dos critérios de projeto.**
 
@@ -513,7 +511,7 @@ O guia `08_Montagem/GUIA_MONTAGEM.md` traz a ficha de fabricação de T1 com pin
 
 ## 5. Conclusão
 
-A revisão B responde ao parecer técnico com uma referência elétrica única (esquemático, netlist, BOM e desenho do transformador descrevendo a mesma peça e ligação), simulações refeitas com janelas antes/durante/depois de cada evento e uma proteção de curto-circuito efetiva: o transitório de aplicação do curto permanece (é inerente ao flyback sem *reset* com saída em zero e fica dentro dos limites pulsados dos semicondutores — 7,8 A e 555 V no modelo, menos no núcleo real por saturação), mas o curto sustentado agora termina em **desligamento por UVLO e hiccup** graças ao resistor de 100 Ω no auxiliar. Em regime a simulação dá V<sub>o</sub> = 12,06–12,06 V, ondulação ≤ 4,2 mV, V<sub>ds</sub> = 482 V em 264 V~ (74 % de 650 V), partida a frio e degraus nos dois sentidos estáveis e rendimento de 85,3 % em 220 V~ — números coerentes com o orçamento de perdas e com os esforços calculados pelo método da Aula 04C, com desvios explicados pelas hipóteses conservadoras do cálculo. A placa tem DRC com classes atribuídas, isolação reforçada de 6,4 mm e cobertura comprovada das regras, dissipadores dimensionados (necessários em Q1 e D1), MOSFET isolado, conectores e distâncias pensados para gabinete e pacote de fabricação da mesma revisão. Permanecem como trabalho da revisão C: medir L<sub>lk</sub> e a saturação do transformador real, as temperaturas de Q1, D1 e C1, o ruído nas trilhas de controle (TP7/TP8) e as emissões conduzidas, e decidir com esses dados as melhorias de layout já identificadas.
+A revisão B responde ao parecer técnico com uma referência elétrica única (esquemático, netlist, BOM e desenho do transformador descrevendo a mesma peça e ligação), simulações refeitas com janelas antes/durante/depois de cada evento e uma proteção de curto-circuito efetiva: o transitório de aplicação do curto permanece (é inerente ao flyback sem *reset* com saída em zero e fica dentro dos limites pulsados dos semicondutores — 8,0 A e 560 V no modelo, menos no núcleo real por saturação), mas o curto sustentado agora termina em **desligamento por UVLO e hiccup** graças ao resistor de 100 Ω no auxiliar. Em regime a simulação dá V<sub>o</sub> = 12,06–12,06 V, ondulação ≤ 4,8 mV, V<sub>ds</sub> = 482 V em 264 V~ (74 % de 650 V), partida a frio e degraus nos dois sentidos estáveis e rendimento de 85,2 % em 220 V~ — números coerentes com o orçamento de perdas e com os esforços calculados pelo método da Aula 04C, com desvios explicados pelas hipóteses conservadoras do cálculo. A placa tem DRC com classes atribuídas, isolação reforçada de 6,4 mm e cobertura comprovada das regras, dissipadores dimensionados (necessários em Q1 e D1), MOSFET isolado, conectores e distâncias pensados para gabinete e pacote de fabricação da mesma revisão. Permanecem como trabalho da revisão C: medir L<sub>lk</sub> e a saturação do transformador real, as temperaturas de Q1, D1 e C1, o ruído nas trilhas de controle (TP7/TP8) e as emissões conduzidas, e decidir com esses dados as melhorias de layout já identificadas.
 
 ## 6. Referências bibliográficas
 

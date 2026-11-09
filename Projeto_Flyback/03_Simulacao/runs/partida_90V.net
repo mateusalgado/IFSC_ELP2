@@ -2,7 +2,7 @@
 * VAC = 90 V, 50 Hz, carga = 100 %, Llk = 2 % de Lp, snubber = True
 .param VPK=127.28
 * ---- rede, protecoes, EMI (modo diferencial) e retificador ----
-V_ac L N SINE(0 {VPK} 50 0 0 21.86681382000097)
+V_ac L N SINE(0 {VPK} 50 0 0 340.5796759799996)
 R_ntc L L1 2.00
 L_dm L1 L2 2.000e-04 Rser=0.390
 C_x2 L2 N 100n
@@ -54,7 +54,11 @@ D_431 sgnd ka DIDEAL
 R_led vo ledk 2740.0
 D_led ledk ka DLED
 R_bias ledk ka 1000.0
-G_opto comp 0 VALUE={1.0*I(D_led)}
+* PC817: polo do fototransistor ~10 kHz (tau 15,9 us) com a carga de 4,7 kohm
+B_if uc_if 0 V=I(D_led)
+R_if uc_if uc_iff 1k
+C_if uc_iff 0 15.9n
+G_opto comp 0 VALUE={1.0*V(uc_iff)}
 D_oc 0 comp DIDEAL
 C_pc comp 0 1.000e-09
 R_pu vref comp 4700.0
@@ -70,7 +74,7 @@ C_ref vref 0 1u
 
 * ---- UC3845 comportamental (nos uc_*) ----
 * UVLO com histerese: liga em 8,4 V, desliga em 7,6 V (porta 7 do dispositivo A = saida verdadeira)
-A_uvlo vcc 0 0 0 0 0 uc_on 0 SCHMITT vt=8.2 vh=0.3 vhigh=1 vlow=0 trise=10n tfall=10n
+A_uvlo vcc 0 0 0 0 0 uc_on 0 SCHMITT vt=8.0 vh=0.4 vhigh=1 vlow=0 trise=10n tfall=10n
 * consumo: 0,3 mA antes da partida, 11 mA em operacao; zener de 34 V
 B_icc vcc 0 I=if(V(uc_on)>0.5, 11m, 0.5m)
 D_z 0 vcc DZ34
@@ -83,8 +87,9 @@ V_half uc_half 0 PULSE(0 1 4.2969e-06 5n 5n 7.705581e-06 1.545116e-05)
 * limiar do comparador de corrente: (COMP - 1,4)/3 limitado a [0, 1] V
 B_th uc_th 0 V=limit((V(comp)-1.4)/3, 0, 1.0)
 B_cmp uc_cmp 0 V=0.5+0.5*tanh((V(isns)-V(uc_th)-0.01)*2000)
+* atraso comparador -> saida: ~150 ns tipico (datasheet UC3845)
 R_cmp uc_cmp uc_rst 1k
-C_cmp uc_rst 0 100p
+C_cmp uc_rst 0 150p
 * latch PWM: set no pulso de clock (saida bloqueada durante o clock), reset pelo comparador
 A_latch uc_clk uc_rst 0 0 0 0 uc_ql 0 SRFLOP
 B_drv uc_drv 0 V=if(V(uc_on)>0.5 & V(uc_ql)>0.5 & V(uc_half)>0.5 & V(uc_clk)<0.5, 1, 0)
@@ -93,7 +98,8 @@ B_out uc_outi 0 V=if(V(uc_drv)>0.5, V(vcc)-1.5, 0)
 R_out uc_outi drv 10
 
 * ---- modelos ----
-.model STP13N65M2 VDMOS(Rg=6.5 Vto=3.5 Kp=6 Lambda=0.001 Rd=0.30 Rs=0.01 Cgdmax=150p Cgdmin=15p a=0.5 Cgs=560p Cjo=400p m=0.6 Vj=0.8 Is=1e-12 n=1.2 Rds=2e7 mtriode=1.2 ksubthres=0.1)
+* RDS(on): 0,36 ohm tipico a 25 C (datasheet) x 1,47 (Tj ~ 72 C prevista, k_T = 2,0 a 125 C) ~ 0,53 ohm -> Rd = 0,51 ohm + canal
+.model STP13N65M2 VDMOS(Rg=6.5 Vto=3.5 Kp=6 Lambda=0.001 Rd=0.51 Rs=0.01 Cgdmax=150p Cgdmin=15p a=0.5 Cgs=560p Cjo=400p m=0.6 Vj=0.8 Is=1e-12 n=1.2 Rds=2e7 mtriode=1.2 ksubthres=0.1)
 .model STPS20H100 D(Is=2e-8 n=1.05 Rs=0.0045 Cjo=1.2n m=0.5 Vj=0.6 bv=100 Ibv=1u)
 .model DBR D(Is=1e-9 n=1.5 Rs=0.03 bv=600 Cjo=50p tt=1u)
 .model UF4007 D(Is=1e-9 n=1.6 Rs=0.05 Cjo=20p tt=50n bv=1000)
@@ -105,7 +111,7 @@ R_out uc_outi drv 10
 
 .model SW SW(Ron=1m Roff=1Meg Vt=0.5 Vh=0.1)
 .model SWSHORT SW(Ron=10m Roff=1Meg Vt=0.5 Vh=0.1)
-.ic V(bulk)=125.7153824 V(bulkc)=125.7153824 V(vcc)=8.501 V(vccc)=8.501 V(vo)=0 V(vout)=0 V(voutc)=0 V(voc)=0 V(sgnd)=0
+.ic V(bulk)=125.7260919 V(bulkc)=125.7260919 V(vcc)=8.401 V(vccc)=8.401 V(vo)=0 V(vout)=0 V(voutc)=0 V(voc)=0 V(sgnd)=0
 .options reltol=0.005 abstol=1e-8 vntol=1e-5 method=gear itl4=50 gmin=1e-10
 .save V(drv) V(l2) I(D_br1) I(D_br2) I(D_br3) I(D_br4) V(vo) V(sgnd) V(vout) V(bulk) V(drain) V(gate) V(sw) V(isns) V(uc_th) V(comp) V(vcc) V(vref) V(l) V(n) V(secn) V(snub) V(ref) V(ka) I(V_ac) I(L_p) I(D_out) I(C_o1) I(C_bulk) I(Rload) I(D_led) Id(M1) I(D_sn) I(L_pos)
 .tran 0 1.0000e-01 0 1e-07

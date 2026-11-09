@@ -16,6 +16,6 @@ Cvcc vcc 0 220u ic=0
 Bicc vcc 0 I=0.5m*limit(V(vcc),0,1)
 .tran 0 15 0 100u uic
 .save V(vcc) V(bc) I(Vac)
-.meas tran t_uv WHEN V(vcc)=8.5 rise=1
-.meas tran b_uv FIND V(bc) WHEN V(vcc)=8.5 rise=1
+.meas tran t_uv WHEN V(vcc)=8.4 rise=1
+.meas tran b_uv FIND V(bc) WHEN V(vcc)=8.4 rise=1
 .end

@@ -1,6 +1,6 @@
 LTspice 26.1.1 for Windows
 Circuit: C:\Users\mateu\ELP2_sim_runs\REV_B\llk3pct_264V.net
-Start Time: Wed Nov  4 06:47:29 2026
+Start Time: Mon Nov  9 20:50:38 2026
 Options:reltol=0.005 abstol=1e-8 vntol=1e-5 method=gear itl4=50 gmin=1e-10
 solver = Normal
 Maximum thread count: 20
@@ -12,36 +12,36 @@ abstol = 1e-08
 reltol = 0.005
 volttol = 1e-05
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 94.418 seconds.
-Total iterations: 3617371
+Total elapsed time: 13.941 seconds.
+Total iterations: 3516495
 
 Files loaded:
 C:\Users\mateu\ELP2_sim_runs\REV_B\llk3pct_264V.net
 
-vo_avg: AVG(V(vo,sgnd))=12.1936798053 FROM 0.02 TO 0.025
-vo_pp: PP(V(vo,sgnd))=0.0111724495582 FROM 0.024381953 TO 0.025
-vo_min: MIN(V(vo,sgnd))=12.1564861693 FROM 0.02 TO 0.025
-vo_max: MAX(V(vo,sgnd))=12.2365452938 FROM 0.02 TO 0.025
-vbulk_min: MIN(V(bulk))=361.65536499 FROM 0.02 TO 0.025
-vbulk_max: MAX(V(bulk))=369.496032715 FROM 0.02 TO 0.025
-ip_pk: MAX(I(L_p))=2.07337236404 FROM 0.02 TO 0.025
-ip_rms: RMS(I(L_p))=0.414357696865 FROM 0.02 TO 0.025
-is_pk: MAX(I(D_out))=13.4957361221 FROM 0.02 TO 0.025
-is_rms: RMS(I(D_out))=4.87231025308 FROM 0.02 TO 0.025
-is_avg: AVG(I(D_out))=3.00031138861 FROM 0.02 TO 0.025
-ic1_rms: RMS(I(C_o1))=3.85102480842 FROM 0.02 TO 0.025
-vds_max: MAX(V(drain,sw))=497.374070031 FROM 0.02 TO 0.025
-vd_min: MIN(V(secn,vout))=-88.9300994873 FROM 0.02 TO 0.025
-vcc_avg: AVG(V(vcc))=14.8258368624 FROM 0.02 TO 0.025
-vcomp_avg: AVG(V(comp))=3.30626172996 FROM 0.02 TO 0.025
-iin_rms: RMS(I(V_ac))=0.512898344742 FROM 0.02 TO 0.025
-iin_pk: MAX(-I(V_ac))=1.67504644394 FROM 0.02 TO 0.025
-pin: AVG(-V(L,N)*I(V_ac))=70.0986840796 FROM 0.02 TO 0.025
-po: AVG(V(vo,sgnd)*I(Rload))=37.1715778758 FROM 0.02 TO 0.025
-pmos: AVG(V(drain,sw)*Id(M1))=0.965330293199 FROM 0.02 TO 0.025
-pdiode: AVG(V(secn,vout)*I(D_out))=1.71079295851 FROM 0.02 TO 0.025
-psnub: AVG(V(snub,bulk)*V(snub,bulk)/9000.0)=1.64617394136 FROM 0.02 TO 0.025
-pbr: AVG(V(L2,bulk)*I(D_br1)+V(N,bulk)*I(D_br2)+-V(L2)*I(D_br3)-V(N)*I(D_br4))=0.339400799706 FROM 0.02 TO 0.025
-ic_bulk_rms: RMS(I(C_bulk))=0.608198993852 FROM 0.02 TO 0.025
-vdrv_avg: AVG(V(drv))=1.41359160067 FROM 0.02 TO 0.025
-ripple_total: PP(V(vo,sgnd))=0.0800591244551 FROM 0.02 TO 0.025
+vo_avg: AVG(V(vo,sgnd))=12.1930274843 FROM 0.02 TO 0.025
+vo_pp: PP(V(vo,sgnd))=0.00842636602829 FROM 0.024381953 TO 0.025
+vo_min: MIN(V(vo,sgnd))=12.15603756 FROM 0.02 TO 0.025
+vo_max: MAX(V(vo,sgnd))=12.2381660792 FROM 0.02 TO 0.025
+vbulk_min: MIN(V(bulk))=361.674041748 FROM 0.02 TO 0.025
+vbulk_max: MAX(V(bulk))=369.49420166 FROM 0.02 TO 0.025
+ip_pk: MAX(I(L_p))=2.09410381317 FROM 0.02 TO 0.025
+ip_rms: RMS(I(L_p))=0.414264365122 FROM 0.02 TO 0.025
+is_pk: MAX(I(D_out))=13.6542634964 FROM 0.02 TO 0.025
+is_rms: RMS(I(D_out))=4.87078906333 FROM 0.02 TO 0.025
+is_avg: AVG(I(D_out))=2.99912922887 FROM 0.02 TO 0.025
+ic1_rms: RMS(I(C_o1))=3.85006144591 FROM 0.02 TO 0.025
+vds_max: MAX(V(drain,sw))=497.392463203 FROM 0.02 TO 0.025
+vd_min: MIN(V(secn,vout))=-88.8322544098 FROM 0.02 TO 0.025
+vcc_avg: AVG(V(vcc))=14.8269256786 FROM 0.02 TO 0.025
+vcomp_avg: AVG(V(comp))=3.26710535342 FROM 0.02 TO 0.025
+iin_rms: RMS(I(V_ac))=0.51312746375 FROM 0.02 TO 0.025
+iin_pk: MAX(-I(V_ac))=1.67510271072 FROM 0.02 TO 0.025
+pin: AVG(-V(L,N)*I(V_ac))=70.144033033 FROM 0.02 TO 0.025
+po: AVG(V(vo,sgnd)*I(Rload))=37.1676163202 FROM 0.02 TO 0.025
+pmos: AVG(V(drain,sw)*Id(M1))=0.986546312 FROM 0.02 TO 0.025
+pdiode: AVG(V(secn,vout)*I(D_out))=1.70990368893 FROM 0.02 TO 0.025
+psnub: AVG(V(snub,bulk)*V(snub,bulk)/9000.0)=1.64013613644 FROM 0.02 TO 0.025
+pbr: AVG(V(L2,bulk)*I(D_br1)+V(N,bulk)*I(D_br2)+-V(L2)*I(D_br3)-V(N)*I(D_br4))=0.339613816299 FROM 0.02 TO 0.025
+ic_bulk_rms: RMS(I(C_bulk))=0.608440514371 FROM 0.02 TO 0.025
+vdrv_avg: AVG(V(drv))=1.41408561955 FROM 0.02 TO 0.025
+ripple_total: PP(V(vo,sgnd))=0.0821285192287 FROM 0.02 TO 0.025

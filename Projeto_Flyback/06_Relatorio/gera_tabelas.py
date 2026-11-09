@@ -80,7 +80,7 @@ md = ["| Caso (S) | Resultado |", "|---|---|"]
 for nome, desc in (("partida_90V", "Partida a frio em 90 VAC, plena carga (C1 e C5 descarregados, fase da rede do cruzamento do UVLO)"), ("partida_264V", "Partida a frio em 264 VAC, plena carga")):
     m = med.get(nome); tr_ = tra.get(nome, {})
     if m:
-        md.append(f"| {desc} | pré-carga até 8,5 V em {f(m.get('t_uv'), 2)} s com V<sub>bulk</sub> = {f(m.get('b_uv'), 0)} V; VCC mínimo após o UVLO {f(tr_.get('vcc_min'))} V; V<sub>o</sub> ≥ 11,4 V em {f(tr_.get('t_vo_11v4_ms'), 1)} ms; V<sub>o</sub> máx {f(tr_.get('vo_max'))} V; I<sub>p</sub> máx {f(m['ip_pk'])} A; V<sub>ds</sub> máx {f(m['vds_max'], 0)} V |")
+        md.append(f"| {desc} | pré-carga até 8,4 V em {f(m.get('t_uv'), 2)} s com V<sub>bulk</sub> = {f(m.get('b_uv'), 0)} V; VCC mínimo após o UVLO {f(tr_.get('vcc_min'))} V; V<sub>o</sub> ≥ 11,4 V em {f(tr_.get('t_vo_11v4_ms'), 1)} ms; V<sub>o</sub> máx {f(tr_.get('vo_max'))} V; I<sub>p</sub> máx {f(m['ip_pk'])} A; V<sub>ds</sub> máx {f(m['vds_max'], 0)} V |")
 for nome, desc in (("degrau_90V", "Degraus 50 → 100 % (80 ms) e 100 → 50 % (100 ms) em 90 VAC"), ("degrau_264V", "Degraus 50 → 100 % e 100 → 50 % em 264 VAC"), ("ctr05_90V", "Degraus em 90 VAC com CTR = 0,5 (pior opto)")):
     tr_ = tra.get(nome); m = med.get(nome)
     if tr_ and m:
@@ -139,7 +139,7 @@ crit = [
     ("Δ teoria × simulação ≤ 10 % nos esforços (critério estrito) [C×S]", ("todos dentro" if not excedidos else resumo_excedidos(excedidos)), "atende" if not excedidos else "atende com ressalva (hipóteses do cálculo: triângulo ideal no vale de Vbulk, grampo a 1,8·Vr)"),
     ("Margem de fase ≥ 45° com pós-filtro LC e polo do opto no modelo [C]; degraus sem oscilação [S]", "MF = " + " / ".join(f"{v['pm']:.0f}°" for v in cp["margens"].values()) + f" (fc {f(min(v['fc'] for v in cp['margens'].values())/1e3)}–{f(max(v['fc'] for v in cp['margens'].values())/1e3)} kHz); degraus: desvio ≤ {f(max(abs(x[s]['desvio_mV']) for n in ('degrau_90V', 'degrau_264V') for x in (tra.get(n, {}),) if x for s in ('subida', 'descida')), 0)} mV, dentro de ±1 %, retorno a ±0,5 % em ≤ {f(max(x[s]['t_retorno_0p5pct_ms'] for n in ('degrau_90V', 'degrau_264V') for x in (tra.get(n, {}),) if x for s in ('subida', 'descida')), 1)} ms sem oscilação", "atende" if min(v["pm"] for v in cp["margens"].values()) >= 45 else "NÃO atende"),
     ("Partida a frio sem sobretensão [S]", f"Vo máx {f(tra.get('partida_90V', {}).get('vo_max'))} / {f(tra.get('partida_264V', {}).get('vo_max'))} V; VCC mín {f(tra.get('partida_90V', {}).get('vcc_min'))} V > 7,6 V", "atende"),
-    ("Curto sustentado: desligamento por UVLO (hiccup) [C e S]", f"VCC mín no curto {f(m.get('vccmin_sust'))} V (C: UVLO em {hic[2][1] if len(hic) > 2 else '-'} ms a 220 V); I(D1) rms sustentado {f(m.get('id1rms_sust'), 1)} A", "atende" if m.get("vccmin_sust", 99) <= 7.95 else "NÃO atende – ver §4.11"),
+    ("Curto sustentado: desligamento por UVLO (hiccup) [C e S]", f"VCC mín no curto {f(m.get('vccmin_sust'))} V (C: UVLO em {hic[2][1] if len(hic) > 2 else '-'} ms a 220 V); I(D1) rms sustentado {f(m.get('id1rms_sust'), 1)} A", "atende" if m.get("vccmin_sust", 99) <= 7.65 else "NÃO atende – ver §4.11"),
     ("Rendimento em 220 V: meta 85 % / cálculo 83 % [S]", f"{f(eta100.get(220), 1)} % (90 V: {f(eta100.get(90), 1)} %)", "atende a meta" if eta100.get(220, 0) >= 85 else "atende o cálculo, não a meta"),
 ]
 md = ["| Critério | Resultado | Situação |", "|---|---|---|"] + [f"| {a} | {b} | {c} |" for a, b, c in crit]

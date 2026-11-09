@@ -3,11 +3,12 @@
 Modelo:
   - rede senoidal + fusivel/NTC (R serie) + dispersao do choke (DM) + X2 + ponte + bulk;
   - transformador: Lp, Ls, Laux acoplados (K -> Llk = (1-K^2) Lp);
-  - MOSFET VDMOS parametrizado pelo datasheet (STP13N65M2), diodos com modelos SPICE;
+  - MOSFET VDMOS parametrizado pelo datasheet (STP13N65M2; RDS(on) na Tj prevista de 72 C), diodos com modelos SPICE;
   - UC3845 comportamental: UVLO com histerese, oscilador (clock) + flip-flop toggle (fsw = fosc/2,
     Dmax < 50 %), latch PWM (set no clock, reset pelo comparador de corrente), limiar (COMP-1,4)/3
     limitado a 1 V, driver totem-pole, VREF 5 V, consumo;
-  - realimentacao: divisor + TL431 (transcondutancia ideal) + PC817 (CTR) + pull-up no COMP.
+  - realimentacao: divisor + TL431 (transcondutancia ideal) + PC817 (CTR, polo de 10 kHz) + pull-up no COMP.
+  Revisao dos modelos em 09/11/2026: UVLO 8,4/7,6 V, RDS(on) a Tj ~ 72 C, atraso do comparador 150 ns, polo do opto.
 Casos: regime (VAC x carga), partida, degrau de carga, curto, snubber on/off.
 """
 import json
@@ -45,7 +46,8 @@ VO = 12.0; PO = 36.0
 
 MODELOS = f"""
 * ---- modelos ----
-.model STP13N65M2 VDMOS(Rg=6.5 Vto=3.5 Kp=6 Lambda=0.001 Rd=0.30 Rs=0.01 Cgdmax=150p Cgdmin=15p a=0.5 Cgs=560p Cjo=400p m=0.6 Vj=0.8 Is=1e-12 n=1.2 Rds=2e7 mtriode=1.2 ksubthres=0.1)
+* RDS(on): 0,36 ohm tipico a 25 C (datasheet) x 1,47 (Tj ~ 72 C prevista, k_T = 2,0 a 125 C) ~ 0,53 ohm -> Rd = 0,51 ohm + canal
+.model STP13N65M2 VDMOS(Rg=6.5 Vto=3.5 Kp=6 Lambda=0.001 Rd=0.51 Rs=0.01 Cgdmax=150p Cgdmin=15p a=0.5 Cgs=560p Cjo=400p m=0.6 Vj=0.8 Is=1e-12 n=1.2 Rds=2e7 mtriode=1.2 ksubthres=0.1)
 .model STPS20H100 D(Is=2e-8 n=1.05 Rs=0.0045 Cjo=1.2n m=0.5 Vj=0.6 bv=100 Ibv=1u)
 .model DBR D(Is=1e-9 n=1.5 Rs=0.03 bv=600 Cjo=50p tt=1u)
 .model UF4007 D(Is=1e-9 n=1.6 Rs=0.05 Cjo=20p tt=50n bv=1000)
@@ -63,7 +65,7 @@ def uc3845_sub():
     return f"""
 * ---- UC3845 comportamental (nos uc_*) ----
 * UVLO com histerese: liga em 8,4 V, desliga em 7,6 V (porta 7 do dispositivo A = saida verdadeira)
-A_uvlo vcc 0 0 0 0 0 uc_on 0 SCHMITT vt=8.2 vh=0.3 vhigh=1 vlow=0 trise=10n tfall=10n
+A_uvlo vcc 0 0 0 0 0 uc_on 0 SCHMITT vt=8.0 vh=0.4 vhigh=1 vlow=0 trise=10n tfall=10n
 * consumo: 0,3 mA antes da partida, 11 mA em operacao; zener de 34 V
 B_icc vcc 0 I=if(V(uc_on)>0.5, 11m, 0.5m)
 D_z 0 vcc DZ34
@@ -76,8 +78,9 @@ V_half uc_half 0 PULSE(0 1 {t_osc*0.5 + T_DEAD + 10e-9:.4e} 5n 5n {t_osc - 20e-9
 * limiar do comparador de corrente: (COMP - 1,4)/3 limitado a [0, 1] V
 B_th uc_th 0 V=limit((V(comp)-1.4)/3, 0, 1.0)
 B_cmp uc_cmp 0 V=0.5+0.5*tanh((V(isns)-V(uc_th)-0.01)*2000)
+* atraso comparador -> saida: ~150 ns tipico (datasheet UC3845)
 R_cmp uc_cmp uc_rst 1k
-C_cmp uc_rst 0 100p
+C_cmp uc_rst 0 150p
 * latch PWM: set no pulso de clock (saida bloqueada durante o clock), reset pelo comparador
 A_latch uc_clk uc_rst 0 0 0 0 uc_ql 0 SRFLOP
 B_drv uc_drv 0 V=if(V(uc_on)>0.5 & V(uc_ql)>0.5 & V(uc_half)>0.5 & V(uc_clk)<0.5, 1, 0)
@@ -99,7 +102,7 @@ def netlist(nome, vac=220.0, fline=60.0, carga=1.0, tstop=40e-3, startup=False, 
     ic_start = ""
     if startup:
         assert handoff, "Gerar a pré-carga e fornecer as condições no cruzamento UVLO"
-        ic_start = f".ic V(bulk)={handoff:.7f} V(bulkc)={handoff:.7f} V(vcc)=8.501 V(vccc)=8.501 V(vo)=0 V(vout)=0 V(voutc)=0 V(voc)=0 V(sgnd)=0\n"
+        ic_start = f".ic V(bulk)={handoff:.7f} V(bulkc)={handoff:.7f} V(vcc)=8.401 V(vccc)=8.401 V(vo)=0 V(vout)=0 V(voutc)=0 V(voc)=0 V(sgnd)=0\n"
     # carga: resistor fixo + degrau opcional (resistor chaveado) + curto opcional
     load = f"Rload vo sgnd {rload:.4f}\n"
     if step_load:
@@ -163,7 +166,11 @@ D_431 sgnd ka DIDEAL
 R_led vo ledk {RLED:.1f}
 D_led ledk ka DLED
 R_bias ledk ka {RBIAS:.1f}
-G_opto comp 0 VALUE={{{ctr}*I(D_led)}}
+* PC817: polo do fototransistor ~10 kHz (tau 15,9 us) com a carga de 4,7 kohm
+B_if uc_if 0 V=I(D_led)
+R_if uc_if uc_iff 1k
+C_if uc_iff 0 15.9n
+G_opto comp 0 VALUE={{{ctr}*V(uc_iff)}}
 D_oc 0 comp DIDEAL
 C_pc comp 0 {CPC:.3e}
 R_pu vref comp {RPU:.1f}

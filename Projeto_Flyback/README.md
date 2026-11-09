@@ -12,7 +12,7 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 | **Apresentação B** (16 slides) | `07_Apresentacao/APRESENTACAO_MATEUS_SALGADO_PROJETO.pdf` (`slides.html`) | C/S/CAD |
 | Especificação e aplicações | `01_Especificacao/requisitos.md` (nota da revisão B) | — |
 | Cálculos teóricos (scripts + resultados + figuras) | `02_Calculos/*.py`, `resultados/RESULTADOS_TEORIA.md`, `resultados/*.json`, `assets/*.png` | C |
-| Simulação LTspice B (23 casos, janelas, figuras) | `03_Simulacao/` (`gera_netlist.py`, `executa_b.py`, `runs_dir.py`, `analisa_curto.py`, `analisa_transitorios.py`, `hiccup_tempos.py`, `plota.py`, `plota_curto.py`, `runs/medidas.json`, `runs/*.log/.net`, `analise/*.png`) | S |
+| Simulação LTspice B (23 casos, modelos conferidos contra os datasheets em 09/11, janelas, figuras) | `03_Simulacao/` (`gera_netlist.py`, `executa_b.py`, `runs_dir.py`, `analisa_curto.py`, `analisa_transitorios.py`, `hiccup_tempos.py`, `plota.py`, `plota_curto.py`, `runs/medidas.json`, `runs/*.log/.net`, `analise/*.png`) | S |
 | Esquemático KiCad 10 (ERC 0 erros / 0 avisos) | `04_KiCad/fonte_flyback_12V3A.kicad_sch`, `fonte_flyback_12V3A_esquematico.pdf` | CAD |
 | Layout B (DRC 0 erros, 0 não conectados, paridade OK, cobertura das regras) | `04_KiCad/fonte_flyback_12V3A.kicad_pcb`, `drc_B.json`, `teste_regras/`, `gerbers/`, `imagens/`, `3d/`, `VERIFICACAO_LAYOUT.md`, `ANALISE_PLACEMENT.md` (placement como produto; melhorias para a revisão C); utilitários em `04_KiCad/utils/` | CAD |
 | BOM B com part numbers e custo (1 e 100 un., PCI incluída) | `05_BOM_Custo/BOM.xlsx`, `custo.xlsx`, `custo.md` (`bom.py`) | — |
@@ -22,7 +22,7 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 ## Resultados em uma linha
 
-12 V / 3 A, 90–264 VAC, 65 kHz, MCD; **STF13N65M2 (TO-220FP isolado)** + STPS20H100CT; trafo E-30/7 42:7:9, L<sub>p</sub> 294 µH; C1 150 µF; V<sub>o</sub> [S] 12,06 V em toda a faixa, ondulação ≤ 4,2 mV (excursão total ≤ 9,2 mV), V<sub>ds</sub> máx 482 V (74 % de 650 V), η 82,8–85,3 % (85,3 % em 220 V), MF 88° [C]; partida a frio e degraus nos dois sentidos estáveis; **curto-circuito com desligamento por UVLO e hiccup** (155 ms até o UVLO, 13 % de ciclo de falha em 220 V) [S]; placa 140 × 90 mm 2 camadas com classes atribuídas, isolação 6,4 mm e DRC verificável, placement revisto em 05/11 antes do pedido (entrada em linha, porta-fusível, laços JP1/JP2 para sonda de corrente, Q1 afastado de C1) [CAD]; custo US$ 42,73 (1 un.) / 22,37 (100 un.).
+12 V / 3 A, 90–264 VAC, 65 kHz, MCD; **STF13N65M2 (TO-220FP isolado)** + STPS20H100CT; trafo E-30/7 42:7:9, L<sub>p</sub> 294 µH; C1 150 µF; V<sub>o</sub> [S] 12,06 V em toda a faixa, ondulação ≤ 4,8 mV (excursão total ≤ 8,5 mV), V<sub>ds</sub> máx 482 V (74 % de 650 V), η 82,6–85,2 % (85,2 % em 220 V), MF 88° [C]; partida a frio e degraus nos dois sentidos estáveis; **curto-circuito com desligamento por UVLO e hiccup** (163 ms até o UVLO, 13,5 % de ciclo de falha em 220 V) [S]; placa 140 × 90 mm 2 camadas com classes atribuídas, isolação 6,4 mm e DRC verificável, placement revisto em 05/11 antes do pedido (entrada em linha, porta-fusível, laços JP1/JP2 para sonda de corrente, Q1 afastado de C1) [CAD]; custo US$ 42,73 (1 un.) / 22,37 (100 un.).
 
 ## O que mudou da A para a B (parecer técnico)
 
@@ -62,8 +62,8 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 ## Limitações conhecidas (B)
 
-- Partida a frio em 90 VAC leva 7,4 s até o UVLO com I<sub>start</sub> máximo (1,1 s em 264 V) [S]; para produto, 2 × 68 kΩ ou partida ativa.
-- O modelo do transformador é linear: o transitório de aplicação do curto (7,8 A) é um limite superior; o núcleo real satura em ≈ 3 A. Medir L<sub>lk</sub> e saturação no trafo real.
+- Partida a frio em 90 VAC leva 7,3 s até o UVLO com I<sub>start</sub> máximo (1,1 s em 264 V) [S]; para produto, 2 × 68 kΩ ou partida ativa.
+- O modelo do transformador é linear: o transitório de aplicação do curto (8,0 A) é um limite superior; o núcleo real satura em ≈ 3 A. Medir L<sub>lk</sub> e saturação no trafo real.
 - Em carga leve a simulação fica 11–22 % abaixo da teoria em V<sub>ds</sub> e I<sub>s,pk</sub> (hipóteses conservadoras do cálculo); listado na tabela 10 do relatório.
 - A BOM é orçamento de engenharia (preços da A + provisões), não cotação de compra.
 - Nenhum ensaio de emissões conduzidas; filtro de EMI dimensionado por curva ideal.

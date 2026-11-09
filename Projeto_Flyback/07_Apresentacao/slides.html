@@ -160,7 +160,7 @@
   <h2>7. Simulação LTspice – regime permanente [S]</h2>
   <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/regime_90V_100pct_ciclo.png"><div class="cap">Um ciclo em 90 VAC, plena carga</div></div>
   <div class="fig"><img src="../06_Relatorio/assets/regime_264V_100pct_comut.png"><div class="cap">Comutação em 264 VAC: dreno com grampo RCD (482 V)</div></div></div>
-  <p style="margin-top:3mm">Modelo comportamental do UC3845 (oscilador, latch 50 %, comparador 1 V, UVLO 8,5/7,9 V, I<sub>start</sub> 0,5 mA), VDMOS do STP13N65M2, TL431/PC817, L<sub>lk</sub> e RSE explícitas; 6 ciclos de rede com medição nos 2 últimos; 12 pontos de regime + 11 casos especiais; .raw relidos para as janelas.</p>
+  <p style="margin-top:3mm">Modelo comportamental do UC3845 (oscilador, latch 50 %, comparador 1 V, UVLO 8,4/7,6 V, I<sub>start</sub> 0,5 mA), VDMOS do STP13N65M2, TL431/PC817, L<sub>lk</sub> e RSE explícitas; 6 ciclos de rede com medição nos 2 últimos; 12 pontos de regime + 11 casos especiais; .raw relidos para as janelas.</p>
   <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>8 / 16</span></div>
 </section>
 
@@ -168,16 +168,16 @@
   <h2>8. Teoria [C] × simulação [S] – plena carga</h2>
   <table>
     <tr><th>V<sub>ac</sub> (100 %)</th><th>V<sub>o</sub> (V)</th><th>I<sub>p</sub> C / S (A)</th><th>I<sub>s,pk</sub> C / S (A)</th><th>I<sub>s,rms</sub> C / S (A)</th><th>V<sub>ds</sub> C / S (V)</th><th>η C / S (%)</th></tr>
-    <tr><td>90</td><td>12,06</td><td>2,14 / 2,06 (−3,7 %)</td><td>12,9 / 14,2 (+10 %)</td><td>5,45 / 4,89 (−10 %)</td><td>261 / 247 (−5 %)</td><td>81,9 / 82,8</td></tr>
-    <tr><td>127</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 14,0</td><td>5,45 / 4,89</td><td>314 / 296</td><td>83,0 / 84,8</td></tr>
-    <tr><td>220</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,8</td><td>5,45 / 4,89</td><td>445 / 422</td><td>83,0 / 85,3</td></tr>
-    <tr><td>264</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,8</td><td>5,45 / 4,89</td><td>507 / 482 (−5 %)</td><td>82,7 / 84,6</td></tr>
+    <tr><td>90</td><td>12,06</td><td>2,14 / 2,06 (−3,7 %)</td><td>12,9 / 14,2 (+10 %)</td><td>5,45 / 4,89 (−10 %)</td><td>261 / 247 (−5 %)</td><td>81,9 / 82,6</td></tr>
+    <tr><td>127</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 14,0</td><td>5,45 / 4,89</td><td>314 / 296</td><td>83,0 / 84,7</td></tr>
+    <tr><td>220</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,8</td><td>5,45 / 4,89</td><td>445 / 422</td><td>83,0 / 85,2</td></tr>
+    <tr><td>264</td><td>12,06</td><td>2,14 / 2,07</td><td>12,9 / 13,7</td><td>5,45 / 4,89</td><td>507 / 482 (−5 %)</td><td>82,7 / 84,6</td></tr>
   </table>
   <ul style="margin-top:4mm">
-    <li>Regulação de linha e carga &lt; 0,1 % (12,058–12,062 V); ondulação de chaveamento ≤ 4,2 mV e excursão total em ciclos da rede ≤ 9,2 mV (meta 120 mV)</li>
+    <li>Regulação de linha e carga &lt; 0,1 % (12,058–12,062 V); ondulação de chaveamento ≤ 4,8 mV e excursão total em ciclos da rede ≤ 8,5 mV (meta 120 mV)</li>
     <li>I<sub>p</sub> e V<sub>ds</sub> dentro de 10 %; I<sub>s,rms</sub> no limite (a teoria integra o triângulo ideal no vale de V<sub>bulk</sub>); em carga leve V<sub>ds</sub> e I<sub>s,pk</sub> ficam 11–22 % abaixo da teoria, a favor da segurança (grampo fixo em 1,8·V<sub>r</sub> no cálculo)</li>
-    <li>V<sub>ds</sub> = 482 V (74 % de 650 V) com L<sub>lk</sub> 2 %; 497 V com 3 %; <strong>856 V sem grampo</strong> → snubber obrigatório; η = 85,3 % em 220 V atende a meta</li>
-    <li>Tolerância do barramento (C1 = 120 µF, −20 %): vale 99,8 V em 90 V/50 Hz, V<sub>o</sub> 12,06 V, η 82,8 %</li>
+    <li>V<sub>ds</sub> = 482 V (74 % de 650 V) com L<sub>lk</sub> 2 %; 497 V com 3 %; <strong>854 V sem grampo</strong> → snubber obrigatório; η = 85,2 % em 220 V atende a meta</li>
+    <li>Tolerância do barramento (C1 = 120 µF, −20 %): vale 99,7 V em 90 V/50 Hz, V<sub>o</sub> 12,06 V, η 82,6 %</li>
   </ul>
   <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>9 / 16</span></div>
 </section>
@@ -187,9 +187,9 @@
   <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/partida_90V_rede.png" style="max-height:70mm"><div class="cap">Partida a frio em 90 VAC após a pré-carga (barramento e fase da rede transferidos do cruzamento do UVLO)</div></div>
   <div class="fig"><img src="../06_Relatorio/assets/degrau_90V_rede.png" style="max-height:70mm"><div class="cap">Degraus 50 → 100 % (80 ms) e 100 → 50 % (100 ms) em 90 VAC</div></div></div>
   <ul style="margin-top:3mm" class="small">
-    <li>Pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo (0,5 mA): UVLO em 1,1 s (264 V) e <span class="warn">7,4 s (90 V)</span> — partida lenta em rede baixa; produto pediria 2 × 68 kΩ ou partida ativa</li>
-    <li>V<sub>o</sub> ≥ 11,4 V em 5,3 / 4,4 ms, sem sobretensão (máx 12,06 V); VCC mín 8,40 V; I<sub>p</sub> de pico 3,1–3,45 A por &lt; 1 ms (saída em zero, sem reset do núcleo); V<sub>ds</sub> 517 V em 264 V</li>
-    <li>Degraus em 90 e 264 V: −114/−116 mV na subida, +115/+113 mV na descida, sem sair de ±1 %, ±0,5 % em ≤ 4,5 ms; CTR = 0,5: ±200 mV, ±1 % em 4,1 ms, sem oscilação</li>
+    <li>Pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo (0,5 mA): UVLO em 1,1 s (264 V) e <span class="warn">7,3 s (90 V)</span> — partida lenta em rede baixa; produto pediria 2 × 68 kΩ ou partida ativa</li>
+    <li>V<sub>o</sub> ≥ 11,4 V em 5,3 / 4,3 ms, sem sobretensão (máx 12,06 V); VCC mín 8,30 V; I<sub>p</sub> de pico 3,1–3,47 A por &lt; 1 ms (saída em zero, sem reset do núcleo); V<sub>ds</sub> 517 V em 264 V</li>
+    <li>Degraus em 90 e 264 V: −114/−113 mV na subida, +115/+116 mV na descida, sem sair de ±1 %, ±0,5 % em ≤ 4,5 ms; CTR = 0,5: ±200 mV, ±1 % em 4,1 ms, sem oscilação</li>
   </ul>
   <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>10 / 16</span></div>
 </section>
@@ -199,14 +199,14 @@
   <div class="cols"><div class="fig"><img src="../06_Relatorio/assets/curto_220V_janelas.png" style="max-height:105mm"><div class="cap">220 VAC, curto de 60 a 380 ms: VCC desce até o UVLO, o CI desliga e religa (hiccup)</div></div>
   <div class="small"><table>
     <tr><th>Janela</th><th>I<sub>p</sub> máx</th><th>I(D1) máx / rms</th><th>V<sub>ds</sub> máx</th><th>VCC mín</th></tr>
-    <tr><td>aplicação (2 ms)</td><td>7,8 A</td><td>55 A / 21 A</td><td>555 V</td><td>14,2 V</td></tr>
-    <tr><td>sustentado</td><td>3,3 A</td><td>24 A / 12,5 A</td><td>422 V</td><td><strong>7,9 V</strong></td></tr>
-    <tr><td>recuperação</td><td>0</td><td>0</td><td>310 V</td><td>8,2 → 8,5 V</td></tr>
+    <tr><td>aplicação (2 ms)</td><td>8,0 A</td><td>57 A / 21,5 A</td><td>560 V</td><td>14,2 V</td></tr>
+    <tr><td>sustentado</td><td>3,4 A</td><td>24 A / 13,1 A</td><td>423 V</td><td><strong>7,6 V</strong></td></tr>
+    <tr><td>recuperação</td><td>0</td><td>0</td><td>309 V</td><td>7,7 → 7,9 V</td></tr>
   </table>
   <ul style="margin-top:3mm">
     <li>Aplicação: sem reset do núcleo com a saída em zero a corrente sobe por alguns ciclos (0,91 T no modelo linear; núcleo real satura em ≈ 3 A) — dentro dos limites pulsados (Q1 44 A, D1 I<sub>FSM</sub> 200 A, V<sub>ds</sub> &lt; 600 V)</li>
-    <li>Sustentado: 155 ms até o UVLO, 97 ms desligado, 15 ms ligado por tentativa → ciclo de falha 13 % (cálculo 10 %); I(D1) rms média ≈ 4,6 A</li>
-    <li>Recuperação: religamento na tentativa seguinte do hiccup (≤ 97 ms) com a partida normal, sem sobretensão</li>
+    <li>Sustentado: 163 ms até o UVLO, 130 ms desligado, 20 ms ligado por tentativa → ciclo de falha 13,5 % (cálculo 151 / 133 / 15,5 ms, 10 %); I(D1) rms média ≈ 4,8 A</li>
+    <li>Recuperação: religamento na tentativa seguinte do hiccup (≤ 130 ms) com a partida normal, sem sobretensão</li>
     <li>Revisão A: VCC ficava em 13 V e o curto era sustentado indefinidamente</li>
   </ul></div></div>
   <div class="foot"><span>Fonte flyback 12 V / 3 A – UC3845 – Rev. B</span><span>11 / 16</span></div>
@@ -270,7 +270,7 @@
   <ul class="big">
     <li>Projeto completo do Tema II em revisão B: parecer respondido item a item, referência elétrica única (cálculo → esquemático → netlist → BOM → guia)</li>
     <li>Simulação confirma a teoria (I<sub>p</sub> e V<sub>ds</sub> dentro de 10 %), V<sub>o</sub> = 12,06 V, ondulação de mV, V<sub>ds</sub> = 482 V (74 % de 650 V), partida e degraus nos dois sentidos estáveis, η = 85,3 % em 220 V</li>
-    <li><strong>Curto-circuito agora protegido</strong>: limite ciclo a ciclo + desligamento por UVLO e hiccup (13 % de ciclo de falha); transitório de aplicação inerente ao flyback, dentro dos limites pulsados</li>
+    <li><strong>Curto-circuito agora protegido</strong>: limite ciclo a ciclo + desligamento por UVLO e hiccup (13,5 % de ciclo de falha); transitório de aplicação inerente ao flyback, dentro dos limites pulsados</li>
     <li>Layout verificável: classes atribuídas, cobertura das regras comprovada, 45°, isolação 6,4 mm, DRC zero, pacote de fabricação da mesma revisão; placa pensada para gabinete (MOSFET isolado, furos e conectores)</li>
     <li>Custo US$ 42,73 (1 un.) / US$ 22,37 (100 un.), PCI incluída; nenhuma medição física ainda — o guia prepara a Possibilidade II</li>
     <li>Trabalho futuro: medir L<sub>lk</sub> e saturação do trafo real, emissões conduzidas com LISN, partida mais rápida em 90 V, montar o protótipo</li>
