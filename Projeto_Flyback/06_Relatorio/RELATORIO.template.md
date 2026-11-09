@@ -1,218 +1,475 @@
-# Projeto de uma fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845 — Revisão B
+<div class="titlecard">
+<div class="small">INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE SANTA CATARINA · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica</div>
 
-**Disciplina:** ELP22109 – Eletrônica de Potência II (2026-2) · **Projeto Semestral – Tema II**
-**Aluno:** Mateus Salgado Barboza Costa · **Professor:** Joabel Moia · **Instituição:** IFSC – Campus Florianópolis, Engenharia Eletrônica
-**Revisão B – novembro de 2026** (revisão A de 19/10/2026 preservada em `PROJETO/`; parecer técnico V1 de 04/11/2026 em `REVISAO_TECNICA_V1.pdf`)
+# Projeto de uma fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845
 
-> **Origem de cada resultado.** Neste relatório cada número é marcado por **[C]** cálculo (`02_Calculos`), **[S]** simulação LTspice da revisão B (`03_Simulacao/runs/medidas.json` e releitura dos `.raw`), **[CAD]** verificação de CAD (ERC/DRC do KiCad, `04_KiCad/drc_B.json`) ou **[M]** medição física. **Não há medições físicas nesta revisão**: o protótipo não foi montado.
+<div class="meta">
+<div><b>Disciplina:</b> ELP22109 – Eletrônica de Potência II (2026-2)</div><div><b>Trabalho:</b> Projeto Semestral – Tema II (Possibilidade II: protótipo)</div>
+<div><b>Aluno:</b> Mateus Salgado Barboza Costa</div><div><b>Professor:</b> Joabel Moia</div>
+<div><b>Revisão:</b> B – novembro de 2026 (placa revista em 05/11/2026)</div><div><b>Entrega:</b> 21/12/2026</div>
+</div>
+</div>
+
+<div class="kpis">
+<div class="kpi"><div class="l">Entrada</div><div class="v">90–264 V~</div><div class="d">50/60 Hz, universal</div></div>
+<div class="kpi"><div class="l">Saída</div><div class="v">12 V / 3 A</div><div class="d">36 W, isolada</div></div>
+<div class="kpi"><div class="l">Topologia</div><div class="v">Flyback MCD</div><div class="d">{{fsw}} kHz, modo corrente de pico</div></div>
+<div class="kpi"><div class="l">Rendimento 220 V [S]</div><div class="v">{{eta_220}} %</div><div class="d">meta 85 %, cálculo 83 %</div></div>
+<div class="kpi"><div class="l">V<sub>ds</sub> máx. 264 V [S]</div><div class="v">{{vds_264}} V</div><div class="d">{{vds_264_pct}} % de 650 V</div></div>
+<div class="kpi"><div class="l">Regulação [S]</div><div class="v">{{vo_min}}–{{vo_max}} V</div><div class="d">ondulação ≤ {{vopp}} mV</div></div>
+<div class="kpi"><div class="l">Curto-circuito [S]</div><div class="v">hiccup</div><div class="d">UVLO em {{hic_uvlo_s}} ms, {{hic_duty_s}} % ligado</div></div>
+<div class="kpi"><div class="l">Placa [CAD]</div><div class="v">DRC 0 erros</div><div class="d">140 × 90 mm, isolação 6,4 mm</div></div>
+</div>
+
+**Resumo.** Este relatório documenta o projeto completo de uma fonte CA-CC de 36 W (12 V / 3 A, entrada universal 90–264 V~) na topologia flyback em condução descontínua, controlada pelo UC3845 em modo corrente de pico e regulada por TL431 + optoacoplador. Seguindo a metodologia das Aulas 02 a 08, o trabalho parte da especificação, dimensiona o estágio de entrada e as proteções, o transformador (Aula 04C), os capacitores (Aula 03), o grampo RCD, os semicondutores com suas perdas e dissipadores (Aula 02), os componentes do CI e a malha de controle (Aula 05) e o filtro de EMI; valida cada escolha por simulação LTspice em {{n_casos}} casos (regime, partida, degraus, curto-circuito e tolerâncias) e termina no esquemático, na lista de materiais com custo e no layout da placa (Aula 08), verificado por DRC com regras de isolação e cobertura comprovada. A revisão B incorpora o parecer técnico sobre a revisão A e acrescenta a proteção de curto-circuito por hiccup; a placa foi enviada para fabricação (Possibilidade II) e os resultados experimentais entrarão na revisão C.
+
+<div class="legend"><b>Como ler este relatório.</b> Cada número traz a etiqueta de origem: <span class="badge b-C">C</span> cálculo (scripts de <code>02_Calculos</code>), <span class="badge b-S">S</span> simulação LTspice da revisão B (<code>03_Simulacao</code>), <span class="badge b-CAD">CAD</span> verificação do projeto KiCad (ERC/DRC) e <span class="badge b-M">M</span> medição física. <b>Ainda não há medições:</b> o protótipo está em fabricação. Os quadros "Memória de cálculo" mostram, para cada bloco, a equação, a substituição numérica e o resultado adotado, com a justificativa da escolha; as tabelas comparam teoria e simulação ponto a ponto.</div>
 
 ## 1. Introdução
 
-O objetivo deste trabalho é realizar o projeto completo de um conversor estático segundo o Tema II do projeto semestral: retificador em ponte completa a diodos com filtro capacitivo seguido de uma fonte chaveada **flyback**, com o circuito integrado dedicado **UC3845**, proteções contra surtos da rede, filtro de EMI, grampeamento de tensão sobre o transistor (snubber) e malha fechada da tensão de saída. O produto idealizado é uma fonte CA-CC de **36 W (12 V / 3 A)** com entrada universal **90–264 VAC**, da classe das fontes de mesa de roteadores, câmeras de CFTV, fitas de LED e automação. O enunciado prevê validação em 127 V e 220 V.
+O objetivo deste trabalho é projetar um conversor estático segundo o Tema II do projeto semestral: retificador em ponte completa a diodos com filtro capacitivo seguido de uma fonte chaveada **flyback** com o circuito integrado dedicado **UC3845**, proteções contra surtos da rede, filtro de EMI, grampeamento de tensão sobre o transistor (snubber) e malha fechada da tensão de saída. O produto idealizado é uma fonte de mesa de **36 W (12 V / 3 A)** com entrada universal **90–264 V~**, da classe das fontes de roteadores, câmeras de CFTV, fitas de LED e pequenos equipamentos de automação. O enunciado prevê validação em 127 V e 220 V; a faixa universal cobre as duas redes com a mesma placa.
 
-A revisão A foi submetida a um parecer técnico independente, que manteve a arquitetura e devolveu o projeto para correção antes de encomendar a placa ou energizar o primário, apontando: esforços em curto-circuito maiores que os publicados (9 A no MOSFET, 596 V no dreno) e ausência de desligamento; o grampo RCD com os resistores em série na placa (36,4 kΩ) em vez de em paralelo (9 kΩ) como no modelo; o filtro do sensor de corrente no lado errado do resistor; o choke de modo comum abaixo da corrente eficaz de entrada; classes de rede não atribuídas no projeto KiCad (regras de 1 mm e 6 mm sem efeito); instruções incompatíveis para o secundário do transformador no guia; e janelas de medição que omitiam os transitórios. Esta **revisão B** corrige cada item, refaz todas as simulações com janelas antes/durante/depois de cada evento, acrescenta a **proteção de curto-circuito por hiccup**, torna o DRC verificável (classes atribuídas e ensaio de cobertura das regras) e reorganiza a placa para um protótipo de teste confiável e para um produto com gabinete.
+A figura 1 mostra a arquitetura: no primário, proteções (fusível, varistor, NTC), filtro de EMI, ponte e capacitor de *bulk*, transformador com o MOSFET e o grampo RCD; no secundário, o diodo Schottky, o banco de capacitores e o pós-filtro LC. O comando fica no primário (UC3845 alimentado por um enrolamento auxiliar após a partida por resistor) e a realimentação cruza a barreira de isolação pelo optoacoplador.
 
-Com a revisão B fechada, optou-se pela **Possibilidade II** (protótipo): o pedido de compra, o cronograma até 21/12 e o registro de medições estão em `08_Montagem`; os resultados experimentais entrarão na revisão C. Este relatório ainda não contém medições.
+![Figura 1 – Diagrama de blocos da fonte, com os valores adotados na revisão B.](assets/diagrama_blocos.svg)
+
+A revisão A (19/10/2026) foi submetida a um parecer técnico independente, que manteve a arquitetura e devolveu o projeto para correção antes de encomendar a placa ou energizar o primário, apontando: esforços em curto-circuito maiores que os publicados (9 A no MOSFET, 596 V no dreno) e ausência de desligamento; o grampo RCD com os resistores em série na placa (36,4 kΩ) em vez de em paralelo (9 kΩ) como no modelo; o filtro do sensor de corrente no lado errado do resistor; o choke de modo comum abaixo da corrente eficaz de entrada; classes de rede não atribuídas no projeto KiCad (regras de 1 mm e 6 mm sem efeito); instruções incompatíveis para o secundário do transformador no guia; e janelas de medição que omitiam os transitórios. Esta **revisão B** corrige cada item, refaz todas as simulações com janelas antes/durante/depois de cada evento, acrescenta a **proteção de curto-circuito por hiccup**, torna o DRC verificável e reorganiza a placa para um protótipo de teste confiável e para um produto com gabinete. Com a B fechada optou-se pela **Possibilidade II** (protótipo): pedido de compra, cronograma até 21/12 e registro de medições estão em `08_Montagem`.
 
 ## 2. Fundamentação teórica
 
 ### 2.1 Flyback em condução descontínua com controle por corrente de pico
 
-Durante a condução do MOSFET (D·T) o primário recebe a tensão de *bulk* V<sub>b</sub> e a corrente cresce até I<sub>p</sub> = V<sub>b</sub>·D·T/L<sub>p</sub>, armazenando W = ½·L<sub>p</sub>·I<sub>p</sub>²; com o transistor bloqueado a energia é entregue ao secundário pelo diodo com I<sub>s,pk</sub> = n·I<sub>p</sub>, que decresce com (V<sub>o</sub>+V<sub>f</sub>)/L<sub>s</sub> durante D<sub>2</sub>·T. O projeto em **MCD** na pior condição (V<sub>b,mín</sub>, plena carga) segue a Aula 04C (Barbi): I<sub>p</sub> = 2·P<sub>o</sub>/(η·V<sub>b,mín</sub>·D<sub>máx</sub>), L<sub>p</sub> = V<sub>b,mín</sub>·D<sub>máx</sub>/(I<sub>p</sub>·f<sub>s</sub>), V<sub>r</sub> = D<sub>máx</sub>/(1−D<sub>máx</sub>)·V<sub>b,mín</sub> e n = V<sub>r</sub>/(V<sub>o</sub>+V<sub>f</sub>). No controle por **corrente de pico** o comparador do UC3845 encerra cada ciclo quando a tensão no resistor de sensoriamento atinge o limiar (COMP−1,4)/3 ≤ 1 V: a planta fica de primeira ordem e o limite de corrente é inerente — **mas só enquanto o núcleo é reiniciado a cada ciclo**. Com a saída em curto a tensão refletida cai a poucos volts, a corrente magnetizante não se extingue no bloqueio e cresce a cada ciclo pelo tempo mínimo de condução do CI (atraso do comparador, do driver e do filtro RC) até que as quedas resistivas do secundário forneçam o reset: é esse o mecanismo do transitório observado no curto e a razão de a proteção precisar de um segundo nível (desligamento por UVLO).
+Durante a condução do MOSFET o primário recebe a tensão de *bulk* V<sub>b</sub> e a corrente cresce linearmente; no bloqueio a energia armazenada no entreferro é entregue ao secundário pelo diodo. Em **condução descontínua (MCD)** a corrente do secundário zera antes do fim do período, o que elimina a recuperação reversa do diodo e torna a planta de primeira ordem para o controle por corrente de pico (Aula 04C, método de Barbi):
+
+<div class="eq">I<sub>p</sub> = V<sub>b</sub>·D·T / L<sub>p</sub> &nbsp;&nbsp;&nbsp; W = ½·L<sub>p</sub>·I<sub>p</sub>² &nbsp;&nbsp;&nbsp; P<sub>o</sub> = η·W·f<sub>s</sub></div>
+<div class="eq">I<sub>p</sub> = 2·P<sub>o</sub> / (η·V<sub>b,mín</sub>·D<sub>máx</sub>) &nbsp;&nbsp;&nbsp; L<sub>p</sub> = V<sub>b,mín</sub>·D<sub>máx</sub> / (I<sub>p</sub>·f<sub>s</sub>) &nbsp;&nbsp;&nbsp; V<sub>r</sub> = D<sub>máx</sub>/(1−D<sub>máx</sub>)·V<sub>b,mín</sub> &nbsp;&nbsp;&nbsp; n = V<sub>r</sub>/(V<sub>o</sub>+V<sub>f</sub>)</div>
+
+No controle por **corrente de pico** o comparador do UC3845 encerra cada ciclo quando a tensão no resistor de sensoriamento atinge o limiar (V<sub>COMP</sub> − 1,4)/3 ≤ 1 V: o limite de corrente é inerente, **mas só enquanto o núcleo é reiniciado a cada ciclo**. Com a saída em curto a tensão refletida cai a poucos volts, a corrente magnetizante não se extingue no bloqueio e cresce a cada ciclo pelo tempo mínimo de condução do CI até que as quedas resistivas do secundário forneçam o *reset*. É esse o mecanismo do transitório observado no curto e a razão de a proteção precisar de um segundo nível (desligamento por UVLO).
 
 ### 2.2 Estágio de entrada, proteções e qualidade de energia
 
-A ponte com filtro capacitivo conduz perto do pico da rede (Aula 06): corrente pulsada, fator de potência 0,4–0,6 e THD elevada, aceitáveis para 36 W (abaixo dos 75 W da IEC 61000-3-2 classe D). O capacitor de *bulk* define a tensão mínima no vale (critério de 90 V do guia com margem para tolerância de −20 % e ESR) e as correntes eficazes nos diodos e no próprio capacitor. Proteções (Aula 07): fusível de ação lenta com tensão nominal igual ou superior à máxima da rede (500 V), NTC para o *inrush*, varistor 275 VAC, grampo RCD. Filtro de EMI (Aula 08): X2 (modo diferencial), choke de modo comum dimensionado para a corrente eficaz de entrada e Y1 entre os terras.
+A ponte com filtro capacitivo conduz perto do pico da rede (Aula 06): corrente pulsada, fator de potência 0,4–0,6 e THD elevada, aceitáveis para 36 W (abaixo dos 75 W da IEC 61000-3-2 classe D). O capacitor de *bulk* define a tensão mínima no vale e as correntes eficazes nos diodos e nele próprio. Proteções (Aula 07): fusível de ação lenta dimensionado em 2 a 3 vezes a corrente eficaz máxima; NTC para o *inrush*; varistor 275 V~; grampo RCD no MOSFET. Filtro de EMI (Aula 08): capacitor X2 (modo diferencial), choke de modo comum dimensionado para a corrente eficaz de entrada e capacitor Y1 entre os terras.
 
 ### 2.3 Transformador em alta frequência (Aula 04C)
 
-A<sub>e</sub>A<sub>w</sub> = 1,1·P<sub>o</sub>·10⁴/(k<sub>w</sub>·k<sub>p</sub>·J·f<sub>s</sub>·B<sub>máx</sub>); l<sub>g</sub> = 2·µ<sub>0</sub>·W/(B²·A<sub>e</sub>); N<sub>p</sub> = B·l<sub>g</sub>/(µ<sub>0</sub>·I<sub>p</sub>); bitola limitada por Δ = 7,5/√f<sub>s</sub>; J = 450 A/cm²; K<sub>ocup</sub> ≤ 0,7; perdas no núcleo (IP12R) e no cobre; ΔT = P·R<sub>t</sub>, R<sub>t</sub> = 23·(A<sub>e</sub>A<sub>w</sub>)<sup>−0,37</sup>. O núcleo com entreferro satura em I<sub>sat</sub> ≈ I<sub>p</sub>·B<sub>sat</sub>/B<sub>máx</sub> (≈ 3 A para B<sub>sat</sub> = 0,35 T), o que limita, na prática, o transitório de curto (o modelo de simulação usa indutores lineares e portanto **não** representa a saturação).
+<div class="eq">A<sub>e</sub>A<sub>w</sub> = 1,1·P<sub>o</sub>·10⁴ / (k<sub>w</sub>·k<sub>p</sub>·J·f<sub>s</sub>·B<sub>máx</sub>) &nbsp;&nbsp;&nbsp; l<sub>g</sub> = 2·µ<sub>0</sub>·W / (B<sub>máx</sub>²·A<sub>e</sub>) &nbsp;&nbsp;&nbsp; N<sub>p</sub> = B<sub>máx</sub>·l<sub>g</sub> / (µ<sub>0</sub>·I<sub>p</sub>)</div>
+<div class="eq">Δ = 7,5/√f<sub>s</sub> (cm) &nbsp;&nbsp;&nbsp; S<sub>fio</sub> = I<sub>rms</sub>/J &nbsp;&nbsp;&nbsp; ΔT = (P<sub>núcleo</sub>+P<sub>cobre</sub>)·R<sub>t</sub>, R<sub>t</sub> = 23·(A<sub>e</sub>A<sub>w</sub>)<sup>−0,37</sup> &nbsp;&nbsp;&nbsp; K<sub>ocup</sub> = A<sub>w,nec</sub>/A<sub>w</sub> ≤ 0,7</div>
+
+O núcleo com entreferro satura em I<sub>sat</sub> ≈ I<sub>p</sub>·B<sub>sat</sub>/B<sub>máx</sub> (≈ 3 A para B<sub>sat</sub> = 0,35 T), o que limita na prática o transitório de curto; o modelo de simulação usa indutores lineares e portanto **não** representa a saturação.
 
 ### 2.4 Perdas e dissipadores (Aula 02)
 
-Condução R<sub>DS(on)</sub>(T<sub>j</sub>)·I<sub>rms</sub>²; comutação ½·V·I·t<sub>f,ef</sub>·f<sub>s</sub> (ligação com corrente nula em MCD, só a descarga de C<sub>oss</sub>); diodo Schottky V<sub>0</sub>·I<sub>méd</sub> + R<sub>d</sub>·I<sub>rms</sub>². R<sub>θSA</sub> = (T<sub>j</sub>−T<sub>a</sub>)/P − R<sub>θJC</sub> − R<sub>θCS</sub>, com T<sub>j</sub> = 125 °C e T<sub>a</sub> = 40 °C (Tarefas 1 e 2). Em um encapsulamento isolado (TO-220FP) a aleta fica sem tensão, ao custo de R<sub>θJC</sub> maior.
+<div class="eq">P<sub>cond</sub> = R<sub>DS(on)</sub>(T<sub>j</sub>)·I<sub>rms</sub>² &nbsp;&nbsp;&nbsp; P<sub>off</sub> = ½·V<sub>ds</sub>·I<sub>p</sub>·t<sub>f,ef</sub>·f<sub>s</sub> &nbsp;&nbsp;&nbsp; P<sub>on</sub> = ½·C<sub>oss</sub>·V<sub>ds</sub>²·f<sub>s</sub> (ligação com corrente nula em MCD) &nbsp;&nbsp;&nbsp; P<sub>diodo</sub> = V<sub>0</sub>·I<sub>méd</sub> + R<sub>d</sub>·I<sub>rms</sub>²</div>
+<div class="eq">R<sub>θSA</sub> ≤ (T<sub>j</sub> − T<sub>a</sub>)/P − R<sub>θJC</sub> − R<sub>θCS</sub>, com T<sub>j</sub> = 125 °C e T<sub>a</sub> = 40 °C (mesmas hipóteses das Tarefas 1 e 2)</div>
+
+Em um encapsulamento isolado (TO-220FP) a aleta fica sem tensão, ao custo de R<sub>θJC</sub> maior; o dissipador é necessário sempre que a temperatura de junção sem ele (R<sub>θJA</sub> ≈ 62,5 °C/W) ultrapassa a meta.
 
 ### 2.5 Comando com o UC3845 (Aula 05)
 
-Oscilador f<sub>osc</sub> ≈ 1,72/(R<sub>T</sub>·C<sub>T</sub>), flip-flop (f<sub>sw</sub> = f<sub>osc</sub>/2, D ≤ 50 %), comparador de corrente (1 V), UVLO 8,4/7,6 V, saída totem-pole de 1 A, partida por resistor do *bulk* e alimentação pelo auxiliar. **Hiccup:** se o auxiliar não sustenta o VCC (saída em curto), C<sub>VCC</sub> descarrega com I<sub>CC</sub> − I<sub>start</sub> até o UVLO, o CI desliga, R<sub>start</sub> recarrega até 8,4 V e o CI tenta de novo; o ciclo de trabalho da falha é t<sub>run</sub>/(t<sub>run</sub>+t<sub>recarga</sub>) e independe de C<sub>VCC</sub>. Para isso o resistor série do auxiliar precisa filtrar os picos de dispersão que, com 10 Ω, mantinham o VCC em 13 V no curto. Malha: TL431 + PC817, compensador tipo 2; o modelo de pequenos sinais inclui o banco de capacitores com ESR, o pós-filtro L2–C13 e o polo do optoacoplador (parecer, item 08).
+Oscilador f<sub>osc</sub> ≈ 1,72/(R<sub>T</sub>·C<sub>T</sub>); o flip-flop interno divide por dois (f<sub>sw</sub> = f<sub>osc</sub>/2, D ≤ 50 %); comparador de corrente com limiar de 1 V; UVLO 8,4/7,6 V; saída *totem-pole* de 1 A; partida por resistor do *bulk* e alimentação pelo enrolamento auxiliar. **Hiccup:** se o auxiliar não sustenta o VCC (saída em curto), C<sub>VCC</sub> descarrega com I<sub>CC</sub> − I<sub>start</sub> até o UVLO, o CI desliga, R<sub>start</sub> recarrega até 8,4 V e o CI tenta de novo; o ciclo de trabalho da falha é t<sub>run</sub>/(t<sub>run</sub>+t<sub>recarga</sub>). Para isso o resistor série do auxiliar precisa filtrar os picos de dispersão que, com 10 Ω, mantinham o VCC em 13 V no curto. Malha: TL431 + PC817 com compensador tipo 2; o modelo de pequenos sinais inclui o banco de capacitores com RSE, o pós-filtro L2–C13 e o polo do optoacoplador.
 
 ### 2.6 Layout (Aula 08 e IPC-2221)
 
-Fluxo linear, agrupamento por função, laços curtos, trilhas a 45°, terras de sinal e de potência unidos num único ponto, 100 nF junto ao VCC, larguras e isolamentos por corrente e tensão (IPC-2221), isolação primário–secundário ≥ 6,4 mm (IEC 62368-1) com fendas, planos de terra, pontos de teste e DFM. Na revisão B as regras passaram a ser **verificáveis**: classes atribuídas a todas as redes e ensaio de cobertura com violações deliberadas numa cópia.
+Fluxo linear da entrada para a saída, agrupamento por função, laços de alta di/dt curtos, trilhas a 45°, terras de sinal e de potência unidos num único ponto, 100 nF junto ao VCC do CI, larguras e isolamentos por corrente e tensão (IPC-2221), isolação primário–secundário ≥ 6,4 mm (IEC 62368-1) com fendas, planos de terra, pontos de teste e regras de manufatura (DFM). Na revisão B as regras passaram a ser **verificáveis**: classes atribuídas a todas as redes e ensaio de cobertura com violações deliberadas numa cópia da placa.
 
 ## 3. Materiais e métodos
 
-Mesma cadeia automatizada da revisão A (Python/numpy, LTspice em lote, KiCad 10 por `kicad-cli` e `pcbnew`), com as alterações da B:
+O projeto foi conduzido como uma cadeia reprodutível de scripts: cada etapa lê os resultados da anterior, de modo que esquemático, netlist, lista de materiais, simulação e relatório descrevem a mesma peça e os mesmos valores (tabela 1).
 
-1. **Referência elétrica única** (parecer, passo 1): `02_Calculos` → `04_KiCad/gera_sch.py` → `netlist.net` → `05_BOM_Custo/bom.py`. Valores da B: C1 150 µF/400 V (18 × 40 mm), fusível axial T2A/500 V (Littelfuse 477), choke Schaffner RN214 2 × 10 mH / 1,2 A (pinos 1-2 e 3-4), R5 ∥ R6 = 9 kΩ (2 × 18 kΩ 2 W em paralelo no esquemático e na placa), filtro do ISENSE R11 = 330 Ω / C3 = 100 pF **no pino 3** (τ = 33 ns), R9 ∥ R10 = 2 × 0,68 Ω = 0,34 Ω, compensador R<sub>z</sub> = 21,5 kΩ / C<sub>z</sub> = 270 nF (f<sub>c</sub> ≈ 0,8 kHz), TL431 com footprint próprio K-A-REF (1-2-3, TI tabela 5-1), Y1 com passo 10 mm, **R13 = 100 Ω** no auxiliar (hiccup), **Q1 = STF13N65M2** (TO-220FP isolado; mesmo die do STP13N65M2 usado no modelo).
-2. **Simulação** (`03_Simulacao/gera_netlist.py`, `executa_b.py`): modelo comportamental do UC3845 (UVLO 8,5/7,9 V no modelo, I<sub>start</sub> 0,5 mA), VDMOS do STP13N65M2, TL431/PC817 comportamentais, L<sub>lk</sub> = 2 %, ESR explícitas. 23 casos: regime 90/127/220/264 V × 10/50/100 % (6 ciclos de rede, medição nos 2 últimos); **partida a frio** em 90 e 264 V (pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo até o UVLO, transferindo tensão de barramento e **fase da rede** do cruzamento para o início do chaveamento); degraus 50 → 100 % (80 ms) e 100 → 50 % (100 ms) em 90 e 264 V e com CTR = 0,5; curto de **60 a 380 ms** em 220 V com medições separadas na aplicação (2 ms), no curto sustentado e na recuperação; tolerância do barramento (C1 = 120 µF, −20 %); sem grampo; L<sub>lk</sub> = 3 %. Os `.raw` (0,3–1,3 GB) são relidos por `analisa_curto.py` e `analisa_transitorios.py` para as janelas; as tabelas do relatório vêm de `06_Relatorio/gera_tabelas.py`.
-3. **Esquemático e placa**: `gera_sch.py` (ERC), `placement.py` (sem sobreposições), `router.py` + `completa_rotas.py` (busca em grade para os ramos /DRV e /CS), `gera_pcb.py`, DRC com paridade e preenchimento de zonas, `utils/testa_regras.py` (cobertura do DRC), exportação de Gerbers/furação/3D da mesma revisão.
-4. **BOM e custo** (`bom.py` → `BOM.xlsx`, `custo.xlsx`), **guia de montagem B** (`08_Montagem`, pinagem do T1 fixada, instrumentação com isolador e sonda diferencial, curto bloqueado até os limites) e **Tarefa Extra** (modelo).
+**Tabela 1 – Cadeia de ferramentas e artefatos.**
 
-Hipóteses: η = 0,82; D<sub>máx</sub> = 0,43; B<sub>máx</sub> = 0,25 T; J = 450 A/cm²; k<sub>w</sub> = 0,4; k<sub>p</sub> = 0,3; grampo em 1,8·V<sub>r</sub>; L<sub>lk</sub> = 2 % (verificação a 3 %); T<sub>a</sub> = 40 °C; T<sub>j</sub> = 125 °C; para manter o transformador da A, o vale de projeto de T1 ficou em 94,6 V (conservador) embora com 150 µF o vale calculado em 90 V/50 Hz seja 104,1 V [C].
+| Etapa | Método / referência | Ferramenta e script | Saída | Origem |
+|---|---|---|---|---|
+| Especificação e entrada | Aulas 03, 06, 07 | `02_Calculos/entrada.py`, `emi.py` | capacitor de *bulk*, proteções, filtro de EMI | [C] |
+| Flyback e transformador | Aula 04C (Barbi, 14 passos) | `flyback.py`, `transformador.py` | n, L<sub>p</sub>, núcleo, espiras, fios, perdas, ΔT | [C] |
+| Capacitores e snubber | Aula 03 (6 critérios), Aula 07 | `saida.py`, `snubber.py` | banco de saída, pós-filtro LC, grampo RCD | [C] |
+| Semicondutores | Aulas 02 e 03 (pré-escolha, perdas, dissipador) | `semicondutores.py` (+ Power Stage Designer 5 como contraprova) | MOSFET, diodo, ponte, T<sub>j</sub> | [C] |
+| CI, driver e malha | Aula 05 | `uc3845.py`, `compensador.py` | R<sub>T</sub>/C<sub>T</sub>, R<sub>sense</sub>, partida, hiccup, compensador | [C] |
+| Simulação | LTspice 26 em lote ({{n_casos}} casos) | `03_Simulacao/gera_netlist.py`, `executa_b.py`, `analisa_*.py`, `plota.py` | `medidas.json`, janelas, figuras | [S] |
+| Esquemático e placa | KiCad 10, Aula 08, IPC-2221 | `04_KiCad/gera_sch.py`, `placement.py`, `router.py`, `gera_pcb.py`, `kicad-cli` | ERC, DRC, Gerbers, 3D | [CAD] |
+| BOM e custo | distribuidores (out/nov 2026) | `05_BOM_Custo/bom.py` | `BOM.xlsx`, `custo.xlsx` | — |
+| Relatório | este documento | `06_Relatorio/gera_tabelas.py`, `preenche_relatorio.py`, `build.py` | HTML autossuficiente e PDF | — |
+
+**Modelo de simulação.** UC3845 comportamental (oscilador, latch, comparador de 1 V, UVLO 8,5/7,9 V no modelo, I<sub>start</sub> 0,5 mA), MOSFET VDMOS do STP13N65M2 (mesmo *die* do STF13N65M2), TL431 e PC817 comportamentais, transformador com L<sub>lk</sub> = 2 % e RSE explícitas. Casos: regime 90/127/220/264 V × 10/50/100 % (6 ciclos de rede, medição nos 2 últimos); partida a frio em 90 e 264 V (pré-carga de C1 e C5 descarregados com I<sub>start</sub> máximo até o UVLO, transferindo tensão de barramento e fase da rede); degraus 50 → 100 % e 100 → 50 % em 90 e 264 V e com CTR = 0,5; curto de 60 a 380 ms em 220 V com janelas de aplicação (2 ms), sustentado e recuperação; tolerância do barramento (C1 = 120 µF); sem grampo; L<sub>lk</sub> = 3 %.
+
+**Tabela 2 – Hipóteses de projeto.**
+
+| Hipótese | Valor | Justificativa |
+|---|---|---|
+| Rendimento de projeto, η | 0,82 | conservador para 36 W com grampo RCD (Aula 07); a simulação confirma 82,8–85,3 % |
+| Razão cíclica máxima, D<sub>máx</sub> | 0,43 | abaixo dos 0,5 do UC3845 com margem para o atraso do comparador |
+| Vale de projeto do barramento, V<sub>b,mín</sub> | {{vb_proj}} V | valor da revisão A (100 µF), mantido para preservar o transformador; com 150 µF o vale real é {{vb_min}} V (margem extra) |
+| Densidade de fluxo, B<sub>máx</sub> | 0,25 T | IP12R: B<sub>sat</sub> ≈ 0,35 T a 100 °C; folga para o transitório |
+| Densidade de corrente, J; k<sub>w</sub>; k<sub>p</sub> | 450 A/cm²; 0,4; 0,3 | valores da Aula 04C para flyback |
+| Indutância de dispersão, L<sub>lk</sub> | 2 % de L<sub>p</sub> (verificação a 3 %) | enrolamento intercalado; a medir no transformador real |
+| Grampo RCD | V<sub>c</sub> = 1,8·V<sub>r</sub> | compromisso perda × V<sub>ds</sub> (fig. 7) |
+| Temperaturas | T<sub>a</sub> = 40 °C, T<sub>j</sub> = 125 °C | mesmas das Tarefas 1 e 2 |
 
 ## 4. Resultados
 
-### 4.1 Requisitos e estágio de entrada [C]
+### 4.1 Especificação do produto
 
-| Grandeza | Valor |
-|---|---|
-| Entrada | 90–264 VAC, 50/60 Hz (nominais 127 e 220 V) |
-| Saída | 12,0 V ± 5 %, 0,3–3,0 A (36 W), ondulação ≤ 120 mV p-p |
-| Comutação | 65 kHz (UC3845, D ≤ 0,5) |
-| Rendimento | meta 85 % em 220 V (critério fixado); hipótese de cálculo 82 % |
-| Proteções | fusível T2A/500 V, NTC 10 Ω, MOV S14K275, limite ciclo a ciclo, **hiccup por UVLO no curto**, grampo RCD |
-| EMI | X2 220 nF + choke MC 2 × 10 mH (1,2 A) + X2 100 nF, Y1 2,2 nF |
-| Isolação | transformador + opto; ≥ 6,4 mm na PCI (verificado pelo DRC) |
+A tabela 3 reúne os requisitos: os que vêm do enunciado, os fixados pelo projetista e, para cada um, como foi verificado nesta revisão.
 
-Com **C1 = 150 µF / 400 V**: V<sub>bulk,mín</sub> = 104,1 V em 90 V/50 Hz (82 µF daria 88 V, abaixo do critério de 90 V do guia; 120 µF, −20 % de tolerância, dá ≈ 100 V — caso simulado em 4.6), corrente eficaz no capacitor 0,80 A, corrente eficaz de entrada **0,89 A** em 90 V → choke de **1,2 A** (o Würth 744821110 da A era de 0,7 A / 250 VCA), fusível T2A/500 V (2,5 × I<sub>rms</sub>; interrupção 1500 A conforme catálogo Littelfuse 477), ponte GBU4J (0,19 A médios por diodo, V<sub>RRM</sub> 600 V), inrush 31 A com NTC (187 A sem).
+**Tabela 3 – Requisitos e verificação.**
 
-![Figura 1 – Estágio de entrada: tensão de bulk e corrente da rede (entrada.py, revisão B).](assets/entrada_formas_de_onda.png)
+| Requisito | Especificado | Origem do requisito | Verificação | Resultado na revisão B |
+|---|---|---|---|---|
+| Tensão de entrada | 90–264 V~, 50/60 Hz | enunciado (multi-tensão); 127/220 V validados | cálculo + simulação em 90/127/220/264 V | V<sub>o</sub> {{vo_min}}–{{vo_max}} V em toda a faixa [S] |
+| Tensão e corrente de saída | 12,0 V ± 5 %, 0,3–3,0 A (36 W) | escolha do projetista (< 25 V) | simulação 10–100 % de carga | regulação < 0,1 % [S] |
+| Ondulação de saída | ≤ 120 mV p-p | prática para fontes de mesa | simulação (chaveamento e ciclos de rede) | ≤ {{vopp}} mV / ≤ {{ripple_tot}} mV [S] |
+| Frequência de comutação | 65 kHz | compromisso tamanho × perdas; UC3845 D ≤ 0,5 | R<sub>T</sub>/C<sub>T</sub> | {{fsw}} kHz [C] |
+| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | {{eta_220}} % em 220 V, {{eta_min}}–{{eta_max}} % na faixa [S] |
+| Tensão no MOSFET | ≤ 80 % de 650 V (520 V) em regime; ≤ 600 V em falha | Aula 03 (margem de tensão) | simulação 264 V, L<sub>lk</sub> 2 e 3 %, curto | {{vds_264}} V regime, {{vds_aplic}} V na aplicação do curto [S] |
+| Proteções | fusível, NTC, varistor, limite ciclo a ciclo, **hiccup no curto**, grampo RCD | enunciado (surtos, snubber) + parecer (curto) | cálculo + simulação do curto | desligamento por UVLO em {{hic_uvlo_s}} ms [S] |
+| Filtro de EMI | X2 + choke MC + X2 + Y1 | enunciado | cálculo (curva ideal) | f<sub>DM</sub> {{f_dm}} kHz, f<sub>CM</sub> {{f_cm}} kHz [C]; LISN pendente |
+| Isolação | transformador + opto; ≥ 6,4 mm na PCI | IEC 62368-1 (reforçada, 250 V) | DRC com classes de rede | 0 violações [CAD] |
+| Estabilidade | margem de fase ≥ 45° | Aula 05 | modelo de pequenos sinais + degraus simulados | MF {{pm}}° (mín. {{pm_min}}°) [C]; degraus sem oscilação [S] |
+| Construção | PTH, 2 camadas, preparada para gabinete | Aula 08, Possibilidade II | DRC, cobertura das regras | 140 × 90 mm, 0 erros [CAD] |
 
-### 4.2 Flyback e transformador [C]
+### 4.2 Estágio de entrada: retificador, capacitor de bulk e proteções [C]
 
-Projeto preliminar com V<sub>b,mín</sub> = 94,6 V (conservador) e D<sub>máx</sub> = 0,43: V<sub>r</sub> = 71,3 V, n = 5,62, I<sub>p</sub> = 2,16 A, L<sub>p</sub> = 290 µH. Núcleo **Thornton E-30/7 (NEE-30/15/7, IP12R)**: l<sub>g</sub> = 0,45 mm, **N<sub>p</sub> = 42, N<sub>s</sub> = 7, N<sub>aux</sub> = 9**, L<sub>p</sub> = 294 µH, B<sub>pico</sub> = 0,25 T, fios 1 × 23 AWG (primário), 5 × 23 AWG (secundário), 1 × 28 AWG (auxiliar), perdas 0,96 W, ΔT = 29 °C, K<sub>ocup</sub> = 0,46 (tabela 1). Com o vale real de 104 V (150 µF) a razão cíclica em 90 V/plena carga cai a 0,39 e o modo continua MCD. A ficha de fabricação (pinagem 1-BULK, 3-DRAIN, 4-PGND, 5-AUX, 6/7-SGND, 9/10-ânodos de D1, 2 e 8 livres; ordem de camadas; ensaios de L<sub>p</sub>, L<sub>lk</sub>, relação e fase) está no guia de montagem §3.
+O ponto de partida é a potência de entrada e a escolha do capacitor de *bulk*, que fixa o vale da tensão retificada em 90 V~ e, com ele, a razão cíclica máxima do flyback.
 
-**Tabela 1 – Núcleos candidatos [C].**
+<div class="calc"><div class="t">Memória de cálculo 1 – potência de entrada e capacitor de bulk <span>entrada.py</span></div>
+<div class="eq">P<sub>in</sub> = P<sub>o</sub>/η = 36/0,82 = <span class="res">{{pin_w}} W</span></div>
+<div class="eq">Critério do vale: V<sub>b,mín</sub> ≥ 90 V em 90 V~/50 Hz, com margem para −20 % de tolerância do eletrolítico <span class="why">(guia de projeto; a tabela 4 varre os valores comerciais)</span></div>
+<div class="eq">Escolha: C1 = <span class="res">{{c_bulk}} µF / 400 V</span> → V<sub>b,mín</sub> = <span class="res">{{vb_min}} V</span>, ondulação {{vb_rip}} V, I<sub>C,rms</sub> = {{ic_bulk}} A; V<sub>b,máx</sub> = {{vb_max}} V em 264 V~ <span class="why">(400 V: 92 % de margem)</span></div>
+<div class="eq">Corrente de entrada em 90 V~: I<sub>pico</sub> = {{iin_pk_90}} A, I<sub>rms</sub> = <span class="res">{{iin_rms}} A</span>, FP ≈ {{fp_90}}, THD ≈ {{thd_90}} %, condução ≈ {{cond_90}}° por semiciclo</div>
+</div>
 
-| Núcleo | A<sub>e</sub>A<sub>w</sub> (cm⁴) | l<sub>g</sub> (mm) | N<sub>p</sub>/N<sub>s</sub>/N<sub>aux</sub> | L<sub>p</sub> (µH) | P núcleo (W) | P cobre (W) | ΔT (°C) | K<sub>ocup</sub> |
-|---|---|---|---|---|---|---|---|---|
-| **E-30/7** | 0,48 | 0,45 | 42/7/9 | 294 | 0,62 | 0,35 | 29,1 | 0,46 |
-| E-30/14 | 1,02 | 0,23 | 21/3/4 | 294 | 1,23 | 0,19 | 32,4 | 0,22 |
-| E-42/15 | 2,84 | 0,15 | 14/2/3 | 297 | 2,63 | 0,16 | 43,7 | 0,08 |
+**Tabela 4 – Escolha do capacitor de bulk (90 V~, 50 Hz, plena carga) [C].**
 
-![Figura 2 – Formas de onda teóricas do flyback em 90 e 264 VAC, plena carga (flyback.py).](assets/flyback_formas_de_onda.png)
+| C | C/P<sub>o</sub> | V<sub>bulk,mín</sub> (V) | Ondulação (V) | I<sub>C,rms</sub> (A) | FP | THD (%) | Atende 90 V com −20 %? |
+|---|---|---|---|---|---|---|---|
+| 68 µF | 1,89 µF/W | 80,9 | 43,6 | 0,72 | 0,61 | 104 | não |
+| 82 µF | 2,28 µF/W | 88,2 | 36,2 | 0,74 | 0,60 | 112 | não |
+| 100 µF | 2,78 µF/W | 94,6 | 29,8 | 0,76 | 0,60 | 119 | só nominal (revisão A) |
+| 120 µF | 3,33 µF/W | 99,4 | 24,9 | 0,78 | 0,59 | 126 | limite |
+| **150 µF** | 4,17 µF/W | **104,1** | 19,9 | 0,80 | 0,58 | 132 | **sim** (≈ 100 V com −20 %, caso simulado) |
 
-Esforços teóricos (tabela 2): I<sub>p</sub> = 2,14 A em toda a faixa (MCD), V<sub>ds</sub> máx = **507 V** em 264 V com grampo a 1,8·V<sub>r</sub>, V<sub>rev</sub> do diodo 74 V, I<sub>s,rms</sub> = 5,45 A, I<sub>c,rms</sub> = 4,54 A.
+<div class="calc"><div class="t">Memória de cálculo 2 – proteções e ponte <span>entrada.py, Aula 07</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Fusível: I<sub>f</sub> = 2,5·I<sub>rms,máx</sub> = 2,5 × {{iin_rms}} = {{fus_calc}} A → <span class="res">T 2 A / 250 V~, 5 × 20 mm, ação lenta</span> <span class="why">(lenta por causa do inrush; em porta-fusível de clipes no protótipo)</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">Inrush em 264 V~: sem limitador {{inrush_sem}} A; com NTC 10 Ω frio I = V<sub>pico</sub>/(R<sub>NTC</sub>+R<sub>s</sub>) ≈ <span class="res">{{inrush}} A</span> → <span class="res">NTC 10 Ω / 2–3 A</span> <span class="why">(abaixo do I<sub>FSM</sub> da ponte e do fusível)</span></div></div>
+<div class="step"><div class="n">3</div><div class="eq">Varistor: V<sub>ac,máx</sub> = 264 V → <span class="res">MOV 275 V~ (S14K275)</span>, V<sub>clamp</sub> ≈ 710 V a 50 A &lt; 1000 V do UF4007 e 650 V + grampo do MOSFET</div></div>
+<div class="step"><div class="n">4</div><div class="eq">Ponte: I<sub>méd</sub>/diodo = {{pon_imed}} A, I<sub>rms</sub> = {{pon_irms}} A, I<sub>pico</sub> = {{pon_ipk}} A, V<sub>RRM</sub> ≥ 1,5·V<sub>b,máx</sub> = {{vrrm_min}} V → <span class="res">GBU4J (4 A / 600 V)</span> <span class="why">(surto de 31 A do inrush pede I<sub>FSM</sub> ≥ 100 A)</span></div></div>
+</div>
 
-**Tabela 2 – Esforços teóricos por ponto de operação [C].**
+![Figura 2 – Estágio de entrada: tensão de bulk e corrente da rede em 90 e 264 V~ (entrada.py).](assets/entrada_formas_de_onda.png)
+
+### 4.3 Projeto elétrico do flyback [C]
+
+O projeto preliminar fixa a relação de espiras e a indutância do primário na fronteira MCD/MCC do pior caso (vale de 90 V~, plena carga); os valores finais vêm do transformador construído (§4.4), e com eles recalculam-se os esforços em toda a faixa (tabela 5).
+
+<div class="calc"><div class="t">Memória de cálculo 3 – projeto preliminar <span>flyback.py (Aula 04C)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">V<sub>r</sub> = D<sub>máx</sub>/(1−D<sub>máx</sub>)·V<sub>b,mín</sub> = 0,43/0,57 × {{vb_proj}} = <span class="res">{{vr_calc}} V</span> <span class="why">(tensão refletida: soma-se ao bulk no dreno)</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">n = V<sub>r</sub>/(V<sub>o</sub>+V<sub>f</sub>) = {{vr_calc}}/(12,0+0,7) = <span class="res">{{n_calc}}</span> → adotado <span class="res">n = {{n_real}} (42:7)</span></div></div>
+<div class="step"><div class="n">3</div><div class="eq">I<sub>p</sub> = 2·P<sub>o</sub>/(η·V<sub>b,mín</sub>·D<sub>máx</sub>) = 2 × 36/(0,82 × {{vb_proj}} × 0,43) = <span class="res">{{ip_calc}} A</span></div></div>
+<div class="step"><div class="n">4</div><div class="eq">L<sub>p</sub> = V<sub>b,mín</sub>·D<sub>máx</sub>/(I<sub>p</sub>·f<sub>s</sub>) = {{vb_proj}} × 0,43/({{ip_calc}} × 65 000) = <span class="res">{{lp_calc}} µH</span>; energia por ciclo W = P<sub>o</sub>/(η·f<sub>s</sub>) = {{w_uJ}} µJ</div></div>
+<div class="step"><div class="n">5</div><div class="eq">Com o transformador real (L<sub>p</sub> = {{lp_real}} µH, n = {{n_real}}): V<sub>r</sub> = {{vr_real}} V, I<sub>p</sub> = <span class="res">{{ip_max}} A</span>, D = {{d_90}} em 90 V~ (vale de {{vb_min}} V) → <span class="res">MCD em todos os pontos</span>; t<sub>on,mín</sub> = {{ton_min}} ns em 264 V / 10 % (UC3845: &gt; 350 ns)</div></div>
+<div class="step"><div class="n">6</div><div class="eq">Esforços: V<sub>ds</sub> = V<sub>b,máx</sub> + 1,8·V<sub>r</sub> = {{vb_max}} + {{vc}} ≈ <span class="res">{{vds_clamp}} V</span> ({{vds_pct}} % de 650 V); V<sub>rev,D1</sub> = V<sub>o</sub> + V<sub>b,máx</sub>/n = <span class="res">{{vd_rev}} V</span>; I<sub>s,pk</sub> = n·I<sub>p</sub> = <span class="res">{{is_pk}} A</span>; I<sub>s,rms</sub> = {{is_rms}} A; I<sub>C,rms</sub> = {{ic_rms}} A</div></div>
+</div>
+
+**Tabela 5 – Esforços teóricos por ponto de operação (correntes no vale de V<sub>bulk</sub>, tensões no pico) [C].**
 
 | V<sub>ac</sub> | carga | D | I<sub>p</sub> (A) | I<sub>p,rms</sub> (A) | I<sub>s,pk</sub> (A) | I<sub>s,rms</sub> (A) | I<sub>c,rms</sub> (A) | V<sub>ds</sub> grampo (V) | V<sub>d,rev</sub> (V) |
 |---|---|---|---|---|---|---|---|---|---|
 | 90 | 100 % | 0,393 | 2,14 | 0,776 | 12,9 | 5,45 | 4,54 | 261 | 33 |
-| 127 | 100 % | 0,258 | 2,14 | 0,629 | 12,9 | 5,45 | 4,54 | 314 | 41 |
-| 220 | 100 % | 0,138 | 2,14 | 0,460 | 12,9 | 5,45 | 4,54 | 445 | 63 |
-| 264 | 100 % | 0,114 | 2,14 | 0,418 | 12,9 | 5,45 | 4,54 | 507 | 74 |
+| 127 | 100 % | 0,253 | 2,14 | 0,623 | 12,9 | 5,45 | 4,54 | 313 | 41 |
+| 220 | 100 % | 0,137 | 2,14 | 0,458 | 12,9 | 5,45 | 4,54 | 445 | 63 |
+| 264 | 100 % | 0,113 | 2,14 | 0,416 | 12,9 | 5,45 | 4,54 | 507 | 74 |
 | 264 | 10 % | 0,036 | 0,68 | 0,074 | 4,1 | 0,97 | 0,92 | 507 | 74 |
 
-### 4.3 Capacitores, filtro de saída e snubber [C]
+![Figura 3 – Formas de onda teóricas do flyback em 90 e 264 V~, plena carga: corrente do primário, do secundário e tensão no dreno (flyback.py).](assets/flyback_formas_de_onda.png)
 
-Saída: 3 × Rubycon ZLH 1000 µF/25 V (RSE 6,3 mΩ, I<sub>ripple</sub> 6,0 A ≥ 4,54 A, ΔV<sub>1</sub> = 89 mV) + pós-filtro 3,3 µH (Bourns RLB0914, I<sub>sat</sub> 11 A) / 470 µF → ondulação teórica 2,7 mV (fig. 3). Bulk 150 µF/400 V 105 °C (Nichicon UCY2G151MHD); VCC 220 µF/35 V + 100 nF; VREF 1 µF; C<sub>T</sub> 2,2 nF C0G; X2 220 nF e 100 nF; Y1 2,2 nF (passo 10 mm); snubber 22 nF/630 V de filme. **Snubber RCD**: R = 9 kΩ (**2 × 18 kΩ / 2 W em paralelo**, 2,0 W no conjunto com L<sub>lk</sub> 2 %; 2,6 W a 3 %), C = 22 nF/630 V, UF4007; V<sub>ds</sub> = 507/524 V (fig. 4). RC do diodo de saída 15 Ω + 2,2 nF/100 V (valor comercial instalado e simulado).
+### 4.4 Projeto físico do transformador [C]
 
-![Figura 3 – Ondulação de saída no banco e após o pós-filtro (saida.py).](assets/saida_ripple.png)
+Seguem-se os passos da Aula 04C: produto de áreas, escolha do núcleo entre os Thornton disponíveis, entreferro, espiras, bitolas (efeito pelicular), perdas, elevação de temperatura e ocupação da janela.
 
-![Figura 4 – Compromisso potência × tensão de grampo do snubber (snubber.py).](assets/snubber_compromisso.png)
+<div class="calc"><div class="t">Memória de cálculo 4 – transformador E-30/7 <span>transformador.py (Aula 04C)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">A<sub>e</sub>A<sub>w</sub> ≥ 1,1·P<sub>o</sub>·10⁴/(k<sub>w</sub>·k<sub>p</sub>·J·f<sub>s</sub>·B<sub>máx</sub>) = 1,1 × 36 × 10⁴/(0,4 × 0,3 × 450 × 65 000 × 0,25) = <span class="res">{{aeaw_min}} cm⁴</span> → <span class="res">E-30/7</span> (A<sub>e</sub> = {{ae}} cm², A<sub>w</sub> = {{aw}} cm², A<sub>e</sub>A<sub>w</sub> = {{aeaw}} cm⁴) <span class="why">(menor núcleo que atende; tabela 6)</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">l<sub>g</sub> = 2·µ<sub>0</sub>·W/(B<sub>máx</sub>²·A<sub>e</sub>) = 2 × 4π·10⁻⁷ × {{w_uJ}}·10⁻⁶/(0,25² × {{ae}}·10⁻⁴) = <span class="res">{{lg}} mm</span> <span class="why">(espaçador de {{lg_esp}} mm em cada perna externa)</span></div></div>
+<div class="step"><div class="n">3</div><div class="eq">N<sub>p</sub> = B<sub>máx</sub>·l<sub>g</sub>/(µ<sub>0</sub>·I<sub>p</sub>) = 0,25 × {{lg}}·10⁻³/(4π·10⁻⁷ × {{ip_calc}}) = <span class="res">{{np}} espiras</span>; N<sub>s</sub> = N<sub>p</sub>/n = <span class="res">{{ns}}</span>; N<sub>aux</sub> = N<sub>s</sub>·V<sub>aux</sub>/(V<sub>o</sub>+V<sub>f</sub>) = <span class="res">{{naux}}</span> (V<sub>aux</sub> ≈ {{v_aux}} V)</div></div>
+<div class="step"><div class="n">4</div><div class="eq">L<sub>p</sub> = µ<sub>0</sub>·N<sub>p</sub>²·A<sub>e</sub>/l<sub>g</sub> = <span class="res">{{lp_real}} µH</span>; I<sub>p</sub> real = {{ip_real}} A (D = {{d_tr}}); B<sub>pico</sub> = <span class="res">{{b_real}} T</span></div></div>
+<div class="step"><div class="n">5</div><div class="eq">Δ = 7,5/√65 000 = {{delta_cm}} cm → d<sub>máx</sub> = 2Δ = {{dmax_cm}} cm → fio ≤ 23 AWG; primário I<sub>rms</sub> = {{ip_rms_tr}} A → <span class="res">{{nf_p}} × {{awg_p}} AWG</span>; secundário I<sub>rms</sub> = {{is_rms}} A → <span class="res">{{nf_s}} × {{awg_s}} AWG</span>; auxiliar <span class="res">1 × {{awg_a}} AWG</span> <span class="why">(J = 450 A/cm²)</span></div></div>
+<div class="step"><div class="n">6</div><div class="eq">R<sub>p</sub> = {{rp}} mΩ, R<sub>s</sub> = {{rs}} mΩ (100 °C); P<sub>núcleo</sub> = {{p_nuc}} W + P<sub>cobre</sub> = {{p_cu}} W = <span class="res">{{p_tr}} W</span>; R<sub>t</sub> = 23·(A<sub>e</sub>A<sub>w</sub>)<sup>−0,37</sup> = {{rt}} °C/W → <span class="res">ΔT = {{dt}} °C</span></div></div>
+<div class="step"><div class="n">7</div><div class="eq">A<sub>w,nec</sub> = {{aw_nec}} cm² → K<sub>ocup</sub> = {{aw_nec}}/{{aw}} = <span class="res">{{kocup}}</span> ≤ 0,7 ✓; L<sub>lk</sub> estimada (3 %) = {{llk_est}} µH <span class="why">(entrada do snubber)</span></div></div>
+</div>
 
-### 4.4 Diodos, transistor, perdas e dissipadores [C]
+**Tabela 6 – Núcleos Thornton candidatos (L<sub>p</sub> ≈ 294 µH, B = 0,25 T) [C].**
 
-Pré-escolha: MOSFET 650 V (V<sub>ds</sub> ≤ 80 %), diodo Schottky 100 V/≥ 10 A, ponte 600 V/4 A. Entre os MOSFETs candidatos (tabela 3) as perdas são equivalentes (1,15 W no pior caso) e a revisão B escolhe o **STF13N65M2 em TO-220FP (isolado)**: R<sub>θJC</sub> 3,5 °C/W, T<sub>j</sub> ≈ 72 °C com o clip de 24 °C/W, **sem mica e com a aleta sem potencial** — no TO-220 metálico da A a aleta ficava no potencial do dreno (≈ 500 V). Sem dissipador T<sub>j</sub> seria 112 °C: o dissipador é necessário. **Diodo STPS20H100CT** (2 × 10 A em paralelo): 1,78 W, clip → T<sub>j</sub> ≈ 84 °C (sem dissipador ≈ 150 °C: necessário). Ponte GBU4J: 0,67 W, T<sub>j</sub> ≈ 53 °C sem dissipador. Resistores quentes: R5/R6 (1,0 W cada), R3/R4 (0,42 W cada a 264 V), NTC — afastados dos eletrolíticos na placa.
+| Núcleo | A<sub>e</sub>A<sub>w</sub> (cm⁴) | l<sub>g</sub> (mm) | N<sub>p</sub>/N<sub>s</sub>/N<sub>aux</sub> | L<sub>p</sub> (µH) | P núcleo (W) | P cobre (W) | ΔT (°C) | K<sub>ocup</sub> | Atende |
+|---|---|---|---|---|---|---|---|---|---|
+{{nucleos}}
 
-**Tabela 3 – MOSFETs candidatos [C].**
+A ficha de fabricação (pinagem 1-BULK, 3-DRAIN, 4-PGND, 5-AUX, 6/7-SGND, 9/10-ânodos de D1, pinos 2 e 8 livres; ordem de camadas com metade do primário por fora; ensaios de L<sub>p</sub>, L<sub>lk</sub>, relação e fase) está no guia de montagem, §3. A sensibilidade ao B<sub>máx</sub> (0,20–0,30 T) está na figura 4: 0,25 T equilibra perdas no núcleo e no cobre com ΔT ≈ 29 °C.
 
-| MOSFET | R<sub>DS(on)</sub> (mΩ) | P<sub>tot</sub> 90 V (W) | P<sub>tot</sub> 264 V (W) | R<sub>θJC</sub> (°C/W) | isolado | T<sub>j</sub> com clip (°C) |
+![Figura 4 – Núcleos candidatos e sensibilidade à densidade de fluxo (transformador.py).](assets/trafo_nucleos.png)
+
+### 4.5 Capacitores e filtro de saída [C]
+
+Os seis critérios da Aula 03 (capacitância mínima, RSE, corrente eficaz, tensão, temperatura e custo) levam a um banco de eletrolíticos de baixa impedância em paralelo, complementado por um pós-filtro LC para atingir a ondulação especificada.
+
+<div class="calc"><div class="t">Memória de cálculo 5 – banco de saída e pós-filtro <span>saida.py (Aula 03)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">C<sub>mín</sub> = I<sub>o</sub>·(1−D<sub>2</sub>)·T/ΔV<sub>C</sub> = 3 × (1−0,537) × 15,4 µs/50 mV = <span class="res">{{c_min}} µF</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">RSE<sub>máx</sub> = ΔV<sub>o</sub>/I<sub>s,pk</sub> = 120 mV/{{is_pk}} A = <span class="res">{{esr_max}} mΩ</span> <span class="why">(impraticável com um só eletrolítico → banco em paralelo + LC)</span></div></div>
+<div class="step"><div class="n">3</div><div class="eq">I<sub>C,rms</sub> = {{ic_rms}} A (catálogo a 105 °C/100 kHz); tensão ≥ 1,5–2·V<sub>o</sub> → 25 V; 105 °C, ≥ 5 000 h</div></div>
+<div class="step"><div class="n">4</div><div class="eq">Escolha: <span class="res">{{n_par}} × {{escolha_saida}}</span> → RSE<sub>eq</sub> = {{esr_eq}} mΩ, I<sub>ripple</sub> = {{irip}} A ≥ {{ic_rms}} A ✓, ΔV<sub>1</sub> = {{dv1}} mV <span class="why">(tabela 7)</span></div></div>
+<div class="step"><div class="n">5</div><div class="eq">Pós-filtro L = {{l_pos}} µH, C = {{c_pos}} µF (RSE 40 mΩ): f<sub>c</sub> = 1/(2π√LC) = <span class="res">{{fc_lc}} kHz</span>, atenuação em 65 kHz ≈ {{att_lc}} dB → <span class="res">ΔV<sub>o</sub> ≈ {{dv_out}} mV</span> (meta 120 mV) <span class="why">(a ressonância de 4 kHz entra no modelo da malha, §4.9)</span></div></div>
+</div>
+
+**Tabela 7 – Candidatos para o banco de saída [C].**
+
+| Capacitor × n | RSE eq. (mΩ) | I<sub>ripple</sub> (A) | ΔV<sub>1</sub> (mV) | P<sub>RSE</sub> (W) | I<sub>ripple</sub> ≥ 4,54 A |
+|---|---|---|---|---|---|
+{{cand_saida}}
+
+Demais capacitores: *bulk* {{c_bulk}} µF/400 V 105 °C (Nichicon UCY2G151MHD); VCC {{c_vcc}} µF/35 V + 100 nF cerâmico junto ao pino; VREF 1 µF; C<sub>T</sub> {{ct}} nF C0G; X2 220 nF e 100 nF; Y1 2,2 nF (passo 10 mm); snubber 22 nF/630 V de filme.
+
+![Figura 5 – Ondulação de saída no banco e após o pós-filtro (saida.py).](assets/saida_ripple.png)
+
+### 4.6 Grampo RCD e amortecimento do diodo [C]
+
+A energia da indutância de dispersão a cada bloqueio precisa ser absorvida: o grampo RCD fixa a tensão de grampo V<sub>c</sub> acima da refletida e dissipa essa energia no resistor. Quanto menor V<sub>c</sub>, menor a tensão no dreno e maior a perda; adotou-se V<sub>c</sub> = 1,8·V<sub>r</sub>.
+
+<div class="calc"><div class="t">Memória de cálculo 6 – snubber RCD <span>snubber.py (Aula 07)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">V<sub>c</sub> = 1,8·V<sub>r</sub> = 1,8 × {{vr_real}} = <span class="res">{{vc}} V</span>; L<sub>lk</sub> = 2 % de L<sub>p</sub> = {{llk2}} µH</div></div>
+<div class="step"><div class="n">2</div><div class="eq">E<sub>ciclo</sub> = ½·L<sub>lk</sub>·I<sub>p</sub>²·V<sub>c</sub>/(V<sub>c</sub>−V<sub>r</sub>) = <span class="res">{{e2}} µJ</span> → P = E·f<sub>s</sub> = <span class="res">{{p2}} W</span> (2 %) a {{p3}} W (3 %)</div></div>
+<div class="step"><div class="n">3</div><div class="eq">R = V<sub>c</sub>²/P = {{r_calc2}} kΩ → <span class="res">2 × 18 kΩ / 2 W em paralelo = {{r_sn}} kΩ</span> <span class="why">(em paralelo na placa e no modelo, item 02 do parecer; 4 W nominais para 2–2,6 W)</span></div></div>
+<div class="step"><div class="n">4</div><div class="eq">C ≥ 10·τ/R com τ = T<sub>s</sub> → C<sub>mín</sub> = {{c_calc2}} nF → <span class="res">22 nF / 630 V</span>; t<sub>grampo</sub> ≈ {{t_clamp2}} ns por ciclo; diodo <span class="res">UF4007</span> (1 A, 1000 V, t<sub>rr</sub> 75 ns)</div></div>
+<div class="step"><div class="n">5</div><div class="eq">Resultado: V<sub>c</sub> real = {{vc2}} V (2 %) / {{vc3}} V (3 %) → V<sub>ds,máx</sub> = <span class="res">{{vds_clamp}} / {{vds3}} V</span> (≤ 520 V em 264 V~ ✓). TVS P6KE180A levaria a 616 V: <span class="res">não adotado</span></div></div>
+<div class="step"><div class="n">6</div><div class="eq">RC do diodo de saída: L<sub>lk</sub> refletida ≈ 163 nH, C<sub>j</sub> ≈ 800 pF → f<sub>ring</sub> ≈ 14 MHz; R = √(L/C) ≈ 14 Ω → <span class="res">{{rc_r}} Ω</span>; C ≈ 3·C<sub>j</sub> → <span class="res">{{rc_c}} nF / 100 V</span>; P ≈ C·V²·f<sub>s</sub> = {{rc_p}} W → ½ W</div></div>
+</div>
+
+**Tabela 8 – Compromisso do grampo com a dispersão [C].**
+
+| L<sub>lk</sub> | E/ciclo (µJ) | P (W) | R (kΩ) | C mín (nF) | t grampo (ns) | V<sub>ds</sub> máx (V) |
 |---|---|---|---|---|---|---|
-| IPA65R400CE (TO-220FP) | 400 | 1,14 | 1,38 | 4,0 | sim | 79 |
-| STP13N65M2 (TO-220) | 430 | 1,04 | 1,15 | 1,14 | não | 69 |
-| **STF13N65M2 (TO-220FP)** | 430 | 1,04 | 1,15 | 3,5 | **sim** | **72** |
-| FCPF190N65S3 (TO-220F) | 190 | 0,83 | 1,40 | 3,5 | sim | 79 |
+{{snub_tab}}
 
-![Figura 5 – Distribuição de perdas em plena carga (semicondutores.py).](assets/perdas_semicondutores.png)
+![Figura 6 – Compromisso potência × tensão de grampo do snubber (snubber.py).](assets/snubber_compromisso.png)
 
-**Tabela 4 – Orçamento de perdas em plena carga [C] (W).**
+### 4.7 Semicondutores: pré-escolha, perdas e dissipadores [C]
+
+A pré-escolha segue a Aula 03 (tensão de bloqueio com margem, corrente de pico e média no pior caso); as perdas e os dissipadores seguem a Aula 02 e o mesmo método das Tarefas 1 e 2, com contraprova no Power Stage Designer 5.
+
+<div class="calc"><div class="t">Memória de cálculo 7 – MOSFET {{mos_nome}} <span>semicondutores.py (Aulas 02 e 03)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Pré-escolha: V<sub>ds,máx</sub> = {{vds_clamp}} V → classe 650 V ({{vds_pct}} % ≤ 80 %); I<sub>p</sub> = {{ip_max}} A, I<sub>p,rms</sub> = {{ip_rms}} A → I<sub>D</sub> ≥ 4 A; TO-220 para dissipador</div></div>
+<div class="step"><div class="n">2</div><div class="eq">Condução (264 V~): R<sub>DS(on)</sub>(125 °C) = {{rds125}} mΩ → P<sub>cond</sub> = R·I<sub>rms</sub>² = <span class="res">{{p_cond_hi}} W</span> ({{p_cond_lo}} W em 90 V~, pior condução)</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Comutação (264 V~): t<sub>f,ef</sub> = Q<sub>gd</sub>/I<sub>g,off</sub> = {{tf_eff}} ns → P<sub>off</sub> = ½·V·I<sub>p</sub>·t<sub>f</sub>·f<sub>s</sub> = <span class="res">{{p_off_hi}} W</span>; P<sub>on</sub> (C<sub>oss</sub>) = {{p_on_hi}} W; P<sub>gate</sub> = Q<sub>g</sub>·V<sub>g</sub>·f<sub>s</sub> = {{p_gate}} W</div></div>
+<div class="step"><div class="n">4</div><div class="eq">P<sub>total</sub> = <span class="res">{{p_mos_hi}} W</span> (264 V~) / {{p_mos_lo}} W (90 V~). Sem dissipador: T<sub>j</sub> = 40 + {{p_mos_hi}} × 62,5 = <span class="res">{{tj_mos_sem}} °C</span> → dissipador <span class="res">necessário</span></div></div>
+<div class="step"><div class="n">5</div><div class="eq">R<sub>θSA</sub> ≤ (125−40)/{{p_mos_hi}} − {{rthjc}} = {{rthsa_max}} °C/W → <span class="res">clip Aavid 574502B00000G ({{rthsa}} °C/W)</span> → T<sub>j</sub> = 40 + {{p_mos_hi}} × ({{rthjc}} + {{rthsa}}) = <span class="res">{{tj_mos}} °C</span> <span class="why">(TO-220FP isolado: sem mica, aleta sem o potencial do dreno de ≈ 500 V)</span></div></div>
+</div>
+
+**Tabela 9 – MOSFETs candidatos (650 V) [C].**
+
+| MOSFET | R<sub>DS(on)</sub> 25 °C (mΩ) | P<sub>tot</sub> 90 V (W) | P<sub>tot</sub> 264 V (W) | R<sub>θJC</sub> (°C/W) | isolado | T<sub>j</sub> com clip (°C) |
+|---|---|---|---|---|---|---|
+{{mosfets_tab}}
+
+<div class="calc"><div class="t">Memória de cálculo 8 – diodo de saída e ponte <span>semicondutores.py</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Pré-escolha: V<sub>rev</sub> = {{vd_rev}} V → Schottky 100 V (74 %); I<sub>s,pk</sub> = {{is_pk}} A, I<sub>méd</sub> = 3 A, I<sub>rms</sub> = {{is_rms}} A → ≥ 10 A; Schottky: sem recuperação reversa (Aula 02)</div></div>
+<div class="step"><div class="n">2</div><div class="eq"><span class="res">{{dio_nome}}</span> (2 × 10 A em paralelo): P = V<sub>0</sub>·I<sub>méd</sub> + R<sub>d</sub>·I<sub>rms</sub>² = {{dio_v0}} × 3 + {{dio_rd}}·10⁻³ × {{is_rms}}² = <span class="res">{{dio_p}} W</span>; R<sub>θSA</sub> ≤ {{dio_rthsa_max}} °C/W → clip 24 °C/W → <span class="res">T<sub>j</sub> ≈ {{dio_tj}} °C</span> (sem dissipador ≈ 150 °C: necessário)</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Ponte <span class="res">GBU4J</span>: P ≈ 4·(V<sub>0</sub>·I<sub>méd</sub> + R<sub>d</sub>·I<sub>rms</sub>²) = {{pon_p}} W → T<sub>j</sub> ≈ {{pon_tj}} °C com R<sub>θJA</sub> ≈ 20 °C/W → sem dissipador <span class="why">(em produto, parafusar ao gabinete pelo furo)</span></div></div>
+</div>
+
+**Tabela 10 – Orçamento de perdas em plena carga (W) e rendimento estimado [C].**
 
 | V<sub>ac</sub> | MOSFET | diodo | ponte | trafo | snubber | R<sub>sense</sub> | partida | cap. saída | NTC | L<sub>LC</sub> | UC3845 | total | η (%) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 {{orcamento}}
 
-### 4.5 Componentes do CI, driver, proteção de curto e malha de realimentação [C]
+![Figura 7 – Distribuição de perdas em plena carga: o grampo e o diodo de saída dominam (semicondutores.py).](assets/perdas_semicondutores.png)
 
-R<sub>T</sub> = 6,04 kΩ, C<sub>T</sub> = 2,2 nF → f<sub>sw</sub> = 64,7 kHz. **R<sub>s</sub> = 0,34 Ω** (2 × 0,68 Ω / 1 W): limite 2,65–2,94 A; **filtro 330 Ω / 100 pF no pino 3** (τ = 33 ns, atraso mínimo para reduzir o excesso de corrente na aplicação do curto). Partida 2 × 82 kΩ / 1 W (I<sub>start</sub> ≥ 0,5 mA no vale de 90 V): tempo até o UVLO de 1,0–4,3 s com I<sub>CC,start</sub> típico de 0,3 mA [C] e de {{t_uv_264}} s (264 V) a **{{t_uv_90}} s (90 V)** com o máximo de 0,5 mA [S, pré-carga] — partida lenta em rede baixa, aceitável para fonte de mesa, mas um produto pediria 2 × 68 kΩ ou partida ativa; C<sub>VCC</sub> 220 µF (sustenta 9,2 ms entre 8,4 e 7,6 V; o auxiliar assume em < 6 ms [S]). Auxiliar 15,4 V com UF4004 + **R13 = 100 Ω**. **Proteção de curto (hiccup):** com a saída em curto o auxiliar cai a ≈ 0,9 V, o VCC descarrega com I<sub>CC</sub> − I<sub>start</sub> até 7,6 V, o CI desliga e religa após a recarga por R<sub>start</sub> (tabela 5): em 220 V o ciclo de trabalho da falha calculado é ≈ 10 % [C]; a simulação [S] dá {{hic_uvlo_s}} ms até o UVLO, {{hic_rec_s}} ms de recarga e {{hic_on_s}} ms ligado por tentativa (ciclo de trabalho {{hic_duty_s}} %), o que reduz a corrente eficaz média de D1 no curto a ≈ √0,13 ≈ 0,37 do valor sustentado. Driver: saída totem-pole do UC3845 (R<sub>g</sub> 10 Ω + 1N4148 + 10 kΩ). Compensação de rampa: desnecessária (MCD, D < 0,5).
+### 4.8 Componentes do UC3845, partida, driver e proteção de curto [C]
 
-**Tabela 5 – Hiccup calculado [C] (C<sub>VCC</sub> = 220 µF, I<sub>CC</sub> = 13 mA).**
+<div class="calc"><div class="t">Memória de cálculo 9 – oscilador, sensor de corrente e partida <span>uc3845.py (Aula 05, datasheet SLUS223H)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Oscilador: f<sub>osc</sub> = 2·f<sub>sw</sub> = 130 kHz ≈ 1,72/(R<sub>T</sub>·C<sub>T</sub>) → C<sub>T</sub> = {{ct}} nF (C0G) e R<sub>T</sub> = <span class="res">{{rt}} kΩ</span> (E96) → f<sub>osc</sub> = {{f_osc}} kHz, <span class="res">f<sub>sw</sub> = {{fsw}} kHz</span>; tempo morto {{t_dead}} ns</div></div>
+<div class="step"><div class="n">2</div><div class="eq">Sensor: limite = 1,25·I<sub>p</sub> = 2,68 A → R<sub>s</sub> = 0,9 V/2,68 = 0,336 Ω → <span class="res">2 × 0,68 Ω / 1 W = {{rs}} Ω</span> → I<sub>lim</sub> = {{i_lim_min}} A (V<sub>th</sub> 0,9 V) a {{i_lim_typ}} A (1,0 V); P = I<sub>rms</sub>²·R<sub>s</sub> = {{p_rs}} W</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Filtro do ISENSE no pino 3: R = {{r_filt}} Ω, C = {{c_filt}} pF → τ = <span class="res">{{tau}} ns</span> ≪ t<sub>on,mín</sub>/2 = {{ton_min}}/2 ns ✓ <span class="why">(item 03 do parecer: o filtro fica depois do R<sub>sense</sub>, junto ao CI)</span></div></div>
+<div class="step"><div class="n">4</div><div class="eq">Partida: R<sub>start</sub> = <span class="res">2 × 82 kΩ / 1 W = {{r_start}} kΩ</span> do bulk ao VCC → I<sub>start</sub> no vale de 90 V~ = {{i_start_min}} mA ≥ 0,5 mA (máx. do CI) ✓; C<sub>VCC</sub> = {{c_vcc}} µF sustenta {{t_hold}} ms entre 8,4 e 7,6 V (o auxiliar assume em &lt; 6 ms [S])</div></div>
+<div class="step"><div class="n">5</div><div class="eq">Auxiliar: N<sub>aux</sub>/N<sub>s</sub> = 9/7 → V<sub>aux</sub> ≈ <span class="res">{{v_aux}} V</span> (&lt; 30 V do zener interno); UF4004 + <span class="res">R13 = {{r_aux}} Ω</span> <span class="why">(revisão B: filtra o pico de dispersão para que, no curto, o VCC caia)</span></div></div>
+<div class="step"><div class="n">6</div><div class="eq">Driver: saída totem-pole de ±1 A do próprio CI (Q<sub>g</sub> = 17 nC) → R<sub>g</sub> = <span class="res">{{r_g}} Ω</span> + 1N4148 antiparalelo + {{r_gs}} kΩ gate–source. Compensação de rampa: MCD e D &lt; 0,5 → <span class="res">não necessária</span> (m<sub>2</sub> = {{m2}} mV/µs; provisão R ≈ {{r_slope}} kΩ)</div></div>
+</div>
+
+**Tabela 11 – Tempo de partida por resistor (I<sub>CC,start</sub> típico 0,3 mA) [C]; a simulação com o máximo de 0,5 mA dá {{t_uv_90}} s em 90 V~ e {{t_uv_264}} s em 264 V~ [S].**
+
+| V<sub>ac</sub> | V<sub>bulk</sub> pico (V) | I em R<sub>start</sub> (mA) | I líquida para C<sub>VCC</sub> (mA) | t até o UVLO (s) | P em R<sub>start</sub> (W) |
+|---|---|---|---|---|---|
+{{start_tab}}
+
+<div class="note"><b>Partida lenta em rede baixa.</b> Com o I<sub>start</sub> máximo do CI a partida em 90 V~ leva {{t_uv_90}} s — aceitável para fonte de mesa, mas um produto pediria 2 × 68 kΩ (mais dissipação em 264 V~) ou partida ativa. Documentado como limitação da revisão B.</div>
+
+<div class="calc"><div class="t">Memória de cálculo 10 – proteção de curto-circuito por hiccup <span>uc3845.py; confirmada por simulação em §4.11</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Com a saída em curto V<sub>aux</sub> ≈ 0,9 V: o auxiliar não alimenta o CI → C<sub>VCC</sub> descarrega de {{v_aux}} V a 7,6 V com I<sub>CC</sub> − I<sub>start</sub> = 13 − 1,85 mA (220 V~) → t<sub>UVLO</sub> = C·ΔV/I ≈ <span class="res">{{hic220_uvlo}} ms</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">CI desligado: R<sub>start</sub> recarrega C<sub>VCC</sub> de 7,6 a 8,4 V → t<sub>recarga</sub> ≈ <span class="res">{{hic220_rec}} ms</span>; religa e roda t<sub>ligado</sub> ≈ {{hic220_on}} ms até o VCC cair de novo</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Ciclo de trabalho da falha = t<sub>ligado</sub>/(t<sub>ligado</sub>+t<sub>recarga</sub>) ≈ <span class="res">{{hic220_duty}} %</span> em 220 V~ (tabela 12) → a corrente eficaz média de D1 no curto cai a ≈ √0,13 ≈ 0,37 do valor sustentado <span class="why">(na revisão A, com R13 = 10 Ω, o VCC ficava em 13 V e o curto era sustentado indefinidamente)</span></div></div>
+</div>
+
+**Tabela 12 – Hiccup calculado (C<sub>VCC</sub> = {{c_vcc}} µF, I<sub>CC</sub> = 13 mA) [C].**
 
 | V<sub>ac</sub> | t até UVLO (ms) | t recarga (ms) | t ligado por tentativa (ms) | ciclo de trabalho da falha (%) |
 |---|---|---|---|---|
 {{hiccup}}
 
-**Malha:** divisor R<sub>a</sub> = 9,53 kΩ / R<sub>b</sub> = 2,49 kΩ (12,04 V), R<sub>LED</sub> = 2,74 kΩ, R<sub>bias</sub> = 1 kΩ, pull-up 4,7 kΩ, C<sub>p</sub> = 1 nF. O modelo da planta da B inclui o banco de capacitores com RSE, o pós-filtro L2–C13 (ressonância ≈ 4 kHz) e um polo do opto em 10 kHz; o compensador tipo 2 com **R<sub>z</sub> = 21,5 kΩ, C<sub>z</sub> = 270 nF** cruza em {{fc_khz}} kHz com **margem de fase {{pm}}°** e margem de ganho {{gm}} dB em plena carga, mantendo-se ≥ {{pm_min}}° para 10 % de carga e CTR de 0,5 a 1,6 (fig. 6). A margem é um resultado do modelo [C]; os degraus simulados [S] confirmam a ausência de oscilação, mas não medem a margem.
+### 4.9 Malha de realimentação: TL431 + PC817 e compensador tipo 2 [C]
 
-![Figura 6 – Bode da planta com pós-filtro, compensador e malha aberta (compensador.py, revisão B).](assets/compensador_bode.png)
+<div class="calc"><div class="t">Memória de cálculo 11 – divisor, planta e compensador <span>compensador.py (Aula 05)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Divisor: R<sub>b</sub> = {{rb}} kΩ, R<sub>a</sub> = {{ra}} kΩ (1 %) → V<sub>o</sub> = 2,495·(1 + R<sub>a</sub>/R<sub>b</sub>) = <span class="res">{{vo_real}} V</span>; R<sub>LED</sub> = {{rled}} kΩ (I<sub>LED</sub> ≤ 3 mA), R<sub>bias</sub> = {{rbias}} kΩ (I<sub>KA</sub> ≥ 1 mA do TL431)</div></div>
+<div class="step"><div class="n">2</div><div class="eq">Lado do CI: pull-up R<sub>pu</sub> = {{rpu}} kΩ ao VREF e C<sub>p</sub> = {{cp_nf}} nF (polo em {{fp_cp}} kHz); CTR = 1,0 nominal (faixa 0,5–1,6 verificada)</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Planta (controle → saída, modo corrente em MCD): G<sub>0</sub> = 15,6 dB e f<sub>p</sub> = 26,5 Hz em plena carga (25,6 dB e 2,7 Hz a 10 %); zero da RSE em 8,4 kHz; pós-filtro L2–C13 ressonante em 4 kHz; polo do opto em 10 kHz <span class="why">(item 08 do parecer: modelo completo)</span></div></div>
+<div class="step"><div class="n">4</div><div class="eq">Compensador tipo 2 com zero sobre o polo da planta e f<sub>c</sub> alvo = {{fc_alvo}} kHz: |G<sub>vc</sub>(f<sub>c</sub>)| = −14,9 dB → R<sub>z</sub>/R<sub>a</sub> = 2,26 → <span class="res">R<sub>z</sub> = {{rz}} kΩ, C<sub>z</sub> = {{cz}} nF</span> (f<sub>z</sub> = {{fz_cz}} Hz)</div></div>
+<div class="step"><div class="n">5</div><div class="eq">Resultado: f<sub>c</sub> = {{fc_khz}} kHz, <span class="res">margem de fase {{pm}}°</span>, margem de ganho {{gm}} dB em plena carga; mínimo de {{pm_min}}° entre 10 % de carga e CTR de 0,5 a 1,6 (tabela 13) <span class="why">(a margem é resultado do modelo; os degraus simulados confirmam a ausência de oscilação, mas não a medem)</span></div></div>
+</div>
 
-**Filtro de EMI:** choke 2 × 10 mH (Schaffner RN214-1.2-02-10M, 1,2 A a 40 °C, R<sub>dc</sub> 195 mΩ), X2 220 nF + 100 nF, Y1 2,2 nF, 2 × 470 kΩ: f<sub>DM</sub> ≈ 43 kHz, f<sub>CM</sub> ≈ 24 kHz (fig. 7); curva ideal — a medição com LISN fica para o protótipo.
+**Tabela 13 – Margens de estabilidade do modelo [C].**
 
-![Figura 7 – Atenuação estimada do filtro de EMI (emi.py).](assets/emi_atenuacao.png)
+| Condição | f<sub>c</sub> (kHz) | Margem de fase (°) | Margem de ganho (dB) |
+|---|---|---|---|
+{{margens_tab}}
 
-### 4.6 Simulação da revisão B e comparação com a teoria [S]
+![Figura 8 – Bode da planta com pós-filtro, do compensador e da malha aberta (compensador.py).](assets/compensador_bode.png)
 
-**Regime permanente (tabela 6).** Medições nos dois últimos ciclos de rede de seis simulados; a ondulação é dada separadamente como ondulação de chaveamento (20 períodos) e excursão total em ciclos inteiros da rede (parecer, item "partida e ondulação").
+### 4.10 Filtro de EMI [C]
 
-**Tabela 6 – Teoria [C] × simulação [S] em regime permanente.**
+<div class="calc"><div class="t">Memória de cálculo 12 – filtro de entrada <span>emi.py (Aula 08)</span></div>
+<div class="step"><div class="n">1</div><div class="eq">Choke de modo comum L<sub>CM</sub> = 10 mH por enrolamento, dispersão ≈ {{l_lk_choke}} µH (modo diferencial), corrente ≥ I<sub>rms</sub> em 90 V~ = {{iin_rms}} A → <span class="res">Schaffner RN214-1.2-02-10M (1,2 A a 40 °C)</span> <span class="why">(item 04 do parecer: o choke da A era de 0,7 A)</span></div></div>
+<div class="step"><div class="n">2</div><div class="eq">Modo diferencial (L<sub>lk</sub> + X2 220 nF ∥ 100 nF): f<sub>DM</sub> = 1/(2π√(L<sub>lk</sub>·C<sub>X</sub>)) ≈ <span class="res">{{f_dm}} kHz</span> → atenuação ≥ {{att_dm_195k}} dB em 195 kHz (3ª harmônica, primeira dentro da faixa CISPR)</div></div>
+<div class="step"><div class="n">3</div><div class="eq">Modo comum (L<sub>CM</sub> + C<sub>Y</sub> 2,2 nF): f<sub>CM</sub> ≈ <span class="res">{{f_cm}} kHz</span> → {{att_cm_150k}} dB em 150 kHz; corrente de fuga a 250 V/60 Hz = {{i_fuga}} mA &lt; 0,25 mA (classe II) ✓</div></div>
+<div class="step"><div class="n">4</div><div class="eq">Descarga do X2: 2 × 470 kΩ = {{r_bleed}} MΩ → 34 V em 0,77 s (&lt; 1 s) ✓. A curva é ideal: a medição com LISN fica para o protótipo</div></div>
+</div>
+
+![Figura 9 – Atenuação estimada do filtro de EMI nos modos diferencial e comum (emi.py).](assets/emi_atenuacao.png)
+
+### 4.11 Simulação da revisão B e comparação com a teoria [S]
+
+A simulação cobre os {{n_casos}} casos da tabela 14; cada caso tem um objetivo e uma janela de medição definidos antes de rodar, e as grandezas são extraídas automaticamente (`.meas` do LTspice e releitura dos `.raw`).
+
+**Tabela 14 – Casos simulados e o que cada um verifica.**
+
+| Grupo | Casos | O que verifica | Janela de medição |
+|---|---|---|---|
+| Regime permanente | 90/127/220/264 V~ × 10/50/100 % (12) | regulação, ondulação, esforços, perdas e rendimento (teoria × simulação) | 2 últimos de 6 ciclos de rede |
+| Partida a frio | 90 e 264 V~ (2) | tempo de partida, VCC mínimo, sobretensão, I<sub>p</sub> e V<sub>ds</sub> na partida | pré-carga até o UVLO + 100 ms |
+| Degraus de carga | 50 ↔ 100 % em 90 e 264 V~; CTR = 0,5 (3) | desvio, tempo de retorno, ausência de oscilação | 70–120 ms (degraus em 80 e 100 ms) |
+| Curto-circuito | 220 V~, 60–380 ms (1) | aplicação (2 ms), sustentado (hiccup), recuperação | janelas separadas + releitura do .raw |
+| Tolerâncias | C1 = 120 µF; sem grampo; L<sub>lk</sub> = 3 % (3) | vale do barramento; V<sub>ds</sub> sem snubber; sensibilidade à dispersão | regime, 264 V~ |
+| Pré-carga | 90 e 264 V~ (2) | tempo até o UVLO com I<sub>start</sub> máximo | até VCC = 8,5 V |
+
+**Regime permanente.** A tabela 15 compara, ponto a ponto, a teoria da §4.3 com a simulação; a ondulação aparece como ondulação de chaveamento (20 períodos) e como excursão total em ciclos inteiros da rede.
+
+**Tabela 15 – Teoria [C] × simulação [S] em regime permanente.**
 
 {{regime}}
 
-**Tabela 7 – Perdas e rendimento em plena carga [C] × [S].**
+**Tabela 16 – Perdas e rendimento em plena carga [C] × [S].**
 
 {{perdas}}
 
-![Figura 8 – Um ciclo de comutação em 90 VAC e 264 VAC, plena carga [S].](assets/regime_90V_100pct_ciclo.png)
+<div class="fig2">
 
-![Figura 8b – Comutação em 264 VAC, plena carga: dreno com o grampo RCD [S].](assets/regime_264V_100pct_comut.png)
+![Figura 10 – Um ciclo de comutação em 90 V~, plena carga: corrente do primário, do secundário e tensão no dreno [S].](assets/regime_90V_100pct_ciclo.png)
 
-**Transitórios (tabela 8).** Partida a frio: pré-carga com C1 e C5 descarregados e I<sub>start</sub> máximo (0,5 mA) até o UVLO; a tensão de barramento e a fase da rede nesse instante são transferidas ao modelo de chaveamento. Degraus nos dois sentidos após estabilização. Tolerância do barramento com C1 = 120 µF.
+![Figura 11 – Comutação em 264 V~, plena carga: o grampo RCD limita o dreno a {{vds_264}} V [S].](assets/regime_264V_100pct_comut.png)
 
-**Tabela 8 – Transitórios [S].**
+</div>
+
+**Transitórios.** A partida a frio parte de C1 e C5 descarregados: o modelo de pré-carga leva o VCC até o UVLO com o I<sub>start</sub> máximo e transfere a tensão de barramento e a fase da rede nesse instante ao modelo de chaveamento. Os degraus são aplicados nos dois sentidos após a estabilização (tabela 17).
+
+**Tabela 17 – Transitórios [S].**
 
 {{transitorios}}
 
-![Figura 9 – Partida a frio em 90 VAC: bulk, VCC e saída [S].](assets/partida_90V_rede.png)
+<div class="fig2">
 
-![Figura 9b – Degraus de carga 50 → 100 → 50 % em 90 VAC [S].](assets/degrau_90V_rede.png)
+![Figura 12 – Partida a frio em 90 V~: barramento, VCC e saída; V<sub>o</sub> atinge 11,4 V em {{t_vo_90}} ms sem sobretensão [S].](assets/partida_90V_rede.png)
 
-**Curto-circuito (tabela 9, figs. 10–11).** O curto é aplicado em 60 ms e mantido até 380 ms. Na **aplicação**, a corrente do primário sobe por alguns ciclos acima do limite — não há reset do núcleo com a saída em zero — até {{iq_aplic}} A ({{b_aplic}} T no modelo linear; o núcleo real satura em ≈ 3 A, o que encurta o transitório), I(D1) chega a {{id1_aplic}} A e V<sub>ds</sub> a {{vds_aplic}} V (margem de falha fixada em 600 V, 92 % de 650 V, para pulsos). No **curto sustentado** a limitação ciclo a ciclo segura I<sub>p</sub> em {{iq_sust}} A e D1 conduz {{id1rms_sust}} A eficazes com {{pd1_sust}} W; com R13 = 100 Ω o VCC cai e o CI **desliga por UVLO** (VCC mínimo {{vccmin_sust}} V), religando após a recarga ({{hic_uvlo_s}} ms até o primeiro desligamento, {{hic_rec_s}} ms desligado, {{hic_on_s}} ms ligado por tentativa) — comportamento que **não existia na revisão A** (VCC ficava em 13 V e o curto era sustentado indefinidamente). Na **recuperação** o curto é removido (380 ms) com o CI desligado no hiccup: a saída permanece em zero até o próximo cruzamento do UVLO (VCC = {{vcc_fim_rec}} V no fim dos 40 ms simulados, religamento ≈ 4 ms depois) e a sequência seguinte é a partida normal da fig. 9, sem sobretensão [S]; o tempo de recuperação é, portanto, até um período de recarga ({{hic_rec_s}} ms em 220 V).
+![Figura 13 – Degraus de carga 50 → 100 → 50 % em 90 V~: desvio ≤ {{deg_mv}} mV e retorno a ±0,5 % em ≤ {{deg_t}} ms [S].](assets/degrau_90V_rede.png)
 
-**Tabela 9 – Curto-circuito em 220 VAC por janelas [S].**
+</div>
+
+**Curto-circuito (tabela 18, figuras 14 e 15).** O curto é aplicado em 60 ms e mantido até 380 ms. Na **aplicação**, a corrente do primário sobe por alguns ciclos acima do limite — não há *reset* do núcleo com a saída em zero — até {{iq_aplic}} A ({{b_aplic}} T no modelo linear; o núcleo real satura em ≈ 3 A, o que encurta o transitório), I(D1) chega a {{id1_aplic}} A e V<sub>ds</sub> a {{vds_aplic}} V (margem de falha fixada em 600 V, 92 % de 650 V, para pulsos). No **curto sustentado** a limitação ciclo a ciclo segura I<sub>p</sub> em {{iq_sust}} A e D1 conduz {{id1rms_sust}} A eficazes com {{pd1_sust}} W; com R13 = 100 Ω o VCC cai e o CI **desliga por UVLO** (VCC mínimo {{vccmin_sust}} V), religando após a recarga: {{hic_uvlo_s}} ms até o primeiro desligamento, {{hic_rec_s}} ms desligado, {{hic_on_s}} ms ligado por tentativa (ciclo de trabalho {{hic_duty_s}} %; cálculo da §4.8: {{hic220_uvlo}} / {{hic220_rec}} / {{hic220_on}} ms, {{hic220_duty}} %). Na **recuperação** o curto é removido (380 ms) com o CI desligado no hiccup: a saída permanece em zero até o próximo cruzamento do UVLO (VCC = {{vcc_fim_rec}} V no fim dos 40 ms simulados, religamento ≈ 4 ms depois) e a sequência seguinte é a partida normal da figura 12, sem sobretensão; o tempo de recuperação é, portanto, até um período de recarga ({{hic_rec_s}} ms em 220 V~).
+
+**Tabela 18 – Curto-circuito em 220 V~ por janelas [S].**
 
 {{curto}}
 
-![Figura 10 – Curto-circuito em 220 VAC: janela completa (aplicação, sustentado com hiccup, recuperação) [S].](assets/curto_220V_janelas.png)
+![Figura 14 – Curto-circuito em 220 V~: janela completa com aplicação, sustentado com hiccup e recuperação [S].](assets/curto_220V_janelas.png)
 
-![Figura 11 – Curto-circuito em 220 VAC: zoom na aplicação (transitório sem reset do núcleo) [S].](assets/curto_220V_aplicacao.png)
+<div class="fig2">
 
-![Figura 12 – Dreno sem grampo (264 VAC) [S].](assets/sem_snubber_264V_comut.png)
+![Figura 15 – Zoom na aplicação do curto: transitório sem reset do núcleo [S].](assets/curto_220V_aplicacao.png)
 
-**Análise.** {{analise_regime}} Em carga leve a diferença de V<sub>ds</sub> (grampo mais baixo com menos energia de dispersão) e de I<sub>s,pk</sub> excede 10 % a favor da segurança: os casos excedidos estão listados na tabela 10 com as hipóteses do cálculo (triângulo ideal no vale de V<sub>bulk</sub>, grampo fixo em 1,8·V<sub>r</sub>). O rendimento simulado em 220 V/3 A é {{eta_220}} % (meta 85 %; cálculo 83,0 %), com o grampo ({{psnub_220}} W) e o diodo ({{pdiode_220}} W) como maiores parcelas.
+![Figura 16 – Dreno sem o grampo RCD em 264 V~: a dispersão levaria V<sub>ds</sub> acima da classe do MOSFET [S].](assets/sem_snubber_264V_comut.png)
 
-**Tabela 10 – Verificação dos critérios de projeto.**
+</div>
+
+**Análise.** {{analise_regime}} Em carga leve a diferença de V<sub>ds</sub> (grampo mais baixo com menos energia de dispersão) e de I<sub>s,pk</sub> excede 10 % a favor da segurança: os casos excedidos estão listados na tabela 19 com as hipóteses do cálculo (triângulo ideal no vale de V<sub>bulk</sub>, grampo fixo em 1,8·V<sub>r</sub>). O rendimento simulado em 220 V~/3 A é {{eta_220}} % (meta 85 %; cálculo 83,0 %), com o grampo ({{psnub_220}} W) e o diodo ({{pdiode_220}} W) como maiores parcelas — o mesmo que o orçamento de perdas da §4.7 indicava.
+
+**Tabela 19 – Verificação dos critérios de projeto.**
 
 {{criterios}}
 
-### 4.7 Esquemático [CAD]
+### 4.12 Esquemático [CAD]
 
-Esquemático B (fig. 13; `04_KiCad/fonte_flyback_12V3A_esquematico.pdf`): ERC **0 erros, 0 avisos** (`erc.json`); 69 itens na netlist (54 componentes elétricos, 11 pontos de teste, 4 furos), 33 redes; R5 ∥ R6, C3 no pino 3, TL431 K-A-REF, choke 1-2/3-4, R13 100 Ω, Q1 STF13N65M2. Netlist, BOM e desenho do transformador descrevem a mesma ligação (parecer, passo 1).
+Esquemático B (figura 17; `04_KiCad/fonte_flyback_12V3A_esquematico.pdf`): ERC **0 erros, 0 avisos** (`erc.json`); 71 itens na netlist (54 componentes elétricos, 2 laços de medida JP1/JP2, 11 pontos de teste, 4 furos), 35 redes; R5 ∥ R6, C3 no pino 3, TL431 K-A-REF, choke 1-2/3-4, R13 100 Ω, Q1 STF13N65M2. Netlist, BOM e desenho do transformador descrevem a mesma ligação (parecer, passo 1).
 
-![Figura 13 – Esquemático revisão B (KiCad 10).](assets/esquematico.png)
+<div class="wide">
 
-### 4.8 Lista de materiais e custo
+![Figura 17 – Esquemático da revisão B (KiCad 10).](assets/esquematico.png)
 
-BOM B (`05_BOM_Custo/BOM.xlsx`, 58 itens): orçamento de engenharia com preços herdados da A e provisões para os itens trocados (sem cotação de compra): **US$ 42,73 por fonte com a PCI rateada em 5 placas** (≈ R$ 235) e **US$ 22,37 em 100 unidades**. Para montar um único exemplar comprando o lote mínimo de 5 placas a saída de caixa é ≈ US$ 81 (42,73 − 9,60 + 48) antes de fretes, impostos e mínimos (parecer, item 11). Blocos: PCI 22 %, filtro EMI 14 %, secundário 12 %, transformador 10 %; o kit de mica foi retirado (Q1 isolado) e C9 fixado em 2,2 nF; em 05/11 o fusível axial soldado deu lugar a fusível 5 × 20 T2A/250 V em clipes (porta-fusível para os ensaios; o axial fica para o produto) e entraram os laços de fio JP1/JP2 para sonda de corrente (Aula 08).
+</div>
 
-### 4.9 Layout da PCI [CAD]
+### 4.13 Lista de materiais e custo
 
-Placa B 140 × 90 mm, 2 camadas, todos PTH (fig. 14–16). Mudanças em relação à A, motivadas pelo parecer e pela orientação de placa de teste confiável e produto com gabinete: classes de rede atribuídas (HV, SEC, SEC_PWR; T1.8 como secundário) e regra de isolação incluindo SEC_PWR; laço SGND do Y1 com 1,5 mm; conector da rede afastado do furo de fixação (parafuso de gabinete pode ser PE); saída J2 na borda direita; D1 afastado dos eletrolíticos; Q1 isolado com clip sem tensão. **Placement revisto em 05/11/2026, antes do pedido da PCI** (análise região a região em `04_KiCad/ANALISE_PLACEMENT.md`): J1 na borda esquerda abrindo para fora e J2 na direita (cabos em faces opostas da caixa); filtro de entrada em coluna J1 → F1 → JP1 → RV1/RT1 → R1/R2 → CX1 → L1 → CX2 → BR1, com CX1 encostado nos pinos de entrada de L1 (redes da rede de 80 para 54 mm); porta-fusível 5 × 20 de clipes (troca sem dessoldar nos ensaios); laços de fio JP1 (fase) e JP2 (secundário) para sonda de corrente (Aula 08: "em protótipos, prever pontos de medida de corrente"); Q1 deslocado para junto de T1 (dreno a 15,7 mm do pino 3, era 24,8) e com o clip a 6 mm do corpo de C1 (era 3,5); eletrolíticos de saída com passo 12 mm; serigrafia de segurança (valor do fusível junto a F1, L/N em J1, +12 V/0 V em J2, aviso do C1 de 400 V); regra de isolação primário–secundário elevada para **6,4 mm** (IEC 62368-1, reforçada, 250 V), com exceção documentada de 6,0 mm só sob a fenda do opto (DIP-4 de 7,62 mm; a fenda interrompe a linha de fuga, IEC 60664-1), e o roteador passou a limitar o cobre (e não o eixo) das trilhas. **DRC: 0 erros, 0 itens não conectados, 0 divergências com o esquemático**; 3 avisos de serigrafia justificados (opto sobre a fenda; marca "K" do D3). **Ensaio de cobertura:** numa cópia com cinco violações deliberadas cada regra disparou (`HV_clearance`, `isolacao_prim_sec`, `largura_HV`, `largura_SEC_potencia`, `borda`); sem a exceção do opto o DRC acusa 8 violações, todas em U3. 255 cantos a 45° (21 ângulos retos: 19 saídas de pad, 2 a 0,1 mm de um pad); menor distância entre pads de componentes diferentes 0,95 mm (sinal); pads da rede a ≥ 8,5 mm dos furos e ≥ 7 mm da borda. Detalhes, avaliação térmica/mecânica para gabinete e pendências de produto em `04_KiCad/VERIFICACAO_LAYOUT.md`; fabricação em `04_KiCad/gerbers/` (Gerbers RS-274X, furação Excellon e mapa, **da mesma revisão B**, inspecionados junto com as fendas no `imagens/pcb_camadas.pdf`).
+A BOM B (`05_BOM_Custo/BOM.xlsx`, {{custo_itens}} itens com part number, fabricante e código de distribuidor) é um orçamento de engenharia: preços herdados da revisão A e provisões para os itens trocados, sem cotação de compra. **US$ {{custo_1}} por fonte com a PCI rateada em 5 placas** (≈ R$ {{custo_brl}}) e **US$ {{custo_100}} em 100 unidades**. Para montar um único exemplar comprando o lote mínimo de 5 placas a saída de caixa é ≈ US$ {{custo_caixa}} antes de fretes e impostos (parecer, item 11). Em 05/11 o fusível axial soldado deu lugar a fusível 5 × 20 T2A/250 V em clipes (porta-fusível para os ensaios; o axial fica para o produto) e entraram os laços de fio JP1/JP2 para sonda de corrente (Aula 08).
 
-![Figura 14 – Face superior da PCI B.](assets/pcb_F.Cu.png)
+**Tabela 20 – Custo por bloco funcional (1 unidade, PCI rateada).**
 
-![Figura 15 – Face inferior: planos PGND (com a ilha de sinal) e SGND.](assets/pcb_B.Cu.png)
+| Bloco | Itens | US$ (1 un.) | US$ (100 un.) | % do total |
+|---|---|---|---|---|
+{{custo_blocos}}
 
-![Figura 16 – Render 3D da placa B (dissipadores e corpo de T1 não representados nos modelos 3D).](assets/pcb_3d_iso.png)
+### 4.14 Layout da PCI [CAD]
 
-### 4.10 Montagem e ensaio (Possibilidade II em execução)
+Placa de 140 × 90 mm, 2 camadas, FR-4 1,6 mm, todos os componentes PTH (figuras 18 a 20). O placement foi revisto em 05/11/2026, antes do pedido da PCI, com a análise região a região de `04_KiCad/ANALISE_PLACEMENT.md`. A tabela 21 resume como cada regra da Aula 08 foi atendida e verificada.
 
-`08_Montagem/GUIA_MONTAGEM.md` (B): ficha de fabricação de T1 com pinagem única (6/7 SGND, 9/10 ânodos de D1, 4 PGND, 5 auxiliar), ensaios de L<sub>p</sub>, L<sub>lk</sub>, relação e fase antes de montar; montagem por blocos; instrumentação com transformador isolador, terra de proteção do osciloscópio mantido e sonda diferencial; descarga de C1 (10 J) com 4,7 kΩ/10 W e confirmação com multímetro; tabela de aceite com origem C/S/M; **curto-circuito físico bloqueado** até os limites da seção 5.4 (duração 2 s, parada por I<sub>p</sub> > 3,5 A ou VCC sem cair). Para a execução: `PEDIDO_COMPRA.md` (56 itens, ≈ US$ 111 com sobressalentes e lote de 5 placas), `CRONOGRAMA.md` (pedido até 10/11, T1 na semana 2, blocos nas semanas 4–5, ensaios na 6, revisão C na 7) e `REGISTRO_MEDICOES.md` com as células [M] em branco. Nenhum resultado experimental existe nesta revisão.
+**Tabela 21 – Regras de layout e verificação.**
+
+| Regra (Aula 08 / IPC-2221 / IEC 62368-1) | Como foi atendida | Verificação |
+|---|---|---|
+| Fluxo linear entrada → saída | J1 na borda esquerda abrindo para fora → F1 → JP1 → RV1/RT1 → CX1 → L1 → CX2 → BR1 → C1 → Q1/T1 → D1 → banco → L2 → J2 na borda direita | redes da rede de 80 para 54 mm (`comprimento_redes.txt`) |
+| Laços de alta di/dt curtos | dreno de Q1 a 15,7 mm do pino 3 de T1; fonte → R9/R10 → PGND em 7 mm; D1 a 10 mm do banco | `placement.py`, 0 sobreposições |
+| Terra de sinal × terra de potência | plano PGND de potência e ilha de sinal do UC3845 unidos só no lado frio do R<sub>sense</sub>; ilha contínua (flood-fill) | `router.py` |
+| Analógicos junto ao CI, 100 nF no VCC | filtro do ISENSE, R<sub>T</sub>/C<sub>T</sub>, VREF e C6 (100 nF a 4,3 mm do pino 7) ao redor de U1 | `placement.py` |
+| Larguras por corrente (35 µm) | rede 1,2 mm; bulk 1,5 mm; HV 1,0 mm; secundário de potência 2,0 mm (5,45 A rms, ΔT &lt; 20 °C); sinais 0,5 mm | regras `largura_HV` ≥ 1,0 e `largura_SEC_potencia` ≥ 1,5 no DRC |
+| Isolamento HV e primário–secundário | ≥ 1,0 mm entre redes de alta tensão; **≥ 6,4 mm** entre primário e secundário (reforçada, 250 V), fendas de 1,2 mm sob T1 e U3; exceção de 6,0 mm só sob a fenda do opto (DIP-4 de 7,62 mm; a fenda interrompe a linha de fuga) | DRC 0 violações; cópia sem a exceção acusa 8, todas em U3 |
+| Sem trilhas a 90° | 255 dobras a 45°; 21 ângulos retos só em saídas de pad | contagem no pcbnew |
+| Magnéticos e sensores afastados | L1 a 70 mm de T1, L2 a 30 mm; R<sub>sense</sub> a 38 mm | `placement.py` |
+| Térmico e gabinete | Q1 (TO-220FP isolado) e D1 com clips de 24 °C/W, Q1 a 6 mm de C1; R5/R6 e NTC afastados dos eletrolíticos; furos M3 a ≥ 8,5 mm das redes da rede; J1 e J2 em faces opostas | `VERIFICACAO_LAYOUT.md` §4 |
+| Pontos de medida (protótipo) | 11 TPs com nome na serigrafia + laços JP1 (I da rede) e JP2 (I do secundário) para sonda de corrente | esquemático |
+| Serigrafia de segurança | "F1 T2A 250V", "N"/"L", "+12V 3A"/"0V", "C1 400V DESCARREGAR" | DRC sem `silk_over_copper` novo |
+| DFM | PTH para solda manual; menor distância entre pads de componentes diferentes 0,95 mm (sinal); porta-fusível de clipes; eletrolíticos com passo 12 mm | script |
+
+**DRC: 0 erros, 0 itens não conectados, 0 divergências com o esquemático**; 3 avisos de serigrafia justificados (corpo do opto sobre a fenda; marca "K" do D3). **Ensaio de cobertura:** numa cópia com cinco violações deliberadas cada regra disparou (`HV_clearance`, `isolacao_prim_sec`, `largura_HV`, `largura_SEC_potencia`, `borda`). Fabricação: `04_KiCad/gerbers/` (Gerbers RS-274X, furação Excellon e mapa, da mesma revisão, inspecionados com as fendas em `imagens/pcb_camadas.pdf`). Pendências para a revisão C de layout, a decidir com as medições do protótipo: aproximar o bloco do UC3845 de Q1 (trilhas /COMP, /CS e gate longas), deitar D1 e levar Q1/D1 à borda com dissipador parafusado.
+
+<div class="fig2">
+
+![Figura 18 – Face superior da PCI B (placement de 05/11/2026).](assets/pcb_F.Cu.png)
+
+![Figura 19 – Face inferior: planos PGND (com a ilha de sinal) e SGND.](assets/pcb_B.Cu.png)
+
+</div>
+
+![Figura 20 – Render 3D da placa B (dissipadores clip, corpo de T1 e laços JP1/JP2 não representados nos modelos 3D).](assets/pcb_3d_iso.png)
+
+### 4.15 Montagem e ensaio (Possibilidade II em execução)
+
+O guia `08_Montagem/GUIA_MONTAGEM.md` traz a ficha de fabricação de T1 com pinagem única, os ensaios do transformador antes de montar (L<sub>p</sub>, L<sub>lk</sub>, relação e fase), a montagem por blocos com teste de cada um, a instrumentação (transformador isolador, terra de proteção do osciloscópio mantido, sonda diferencial, descarga de C1 com 4,7 kΩ/10 W) e a tabela de aceite com origem C/S/M. O **curto-circuito físico fica bloqueado** até os limites da seção 5.4 do guia (2 s, parada por I<sub>p</sub> &gt; 3,5 A ou VCC sem cair). Para a execução: `PEDIDO_COMPRA.md` ({{custo_itens}} itens, ≈ US$ 109 com sobressalentes e lote de 5 placas), `CRONOGRAMA.md` (T1 na semana 2, blocos nas semanas 4–5, ensaios na 6, revisão C na 7) e `REGISTRO_MEDICOES.md` com as células [M] em branco. Nenhum resultado experimental existe nesta revisão.
 
 ## 5. Conclusão
 
-A revisão B responde ao parecer técnico com uma referência elétrica única (esquemático, netlist, BOM e desenho do transformador descrevendo a mesma peça e ligação), simulações refeitas com janelas antes/durante/depois de cada evento e uma proteção de curto-circuito efetiva: o transitório de aplicação do curto permanece (é inerente ao flyback sem reset com saída em zero e fica dentro dos limites pulsados dos semicondutores — {{iq_aplic}} A e {{vds_aplic}} V no modelo, menos no núcleo real por saturação), mas o curto sustentado agora termina em **desligamento por UVLO e hiccup** graças ao resistor de 100 Ω no auxiliar. Em regime a simulação B dá V<sub>o</sub> = {{vo_min}}–{{vo_max}} V, ondulação ≤ {{vopp}} mV, V<sub>ds</sub> = {{vds_264}} V em 264 V ({{vds_264_pct}} % de 650 V), partida a frio e degraus nos dois sentidos estáveis e rendimento de {{eta_220}} % em 220 V. A placa B tem DRC com classes atribuídas e cobertura comprovada das regras, zero itens não conectados, paridade com o esquemático, dissipadores dimensionados (necessários em Q1 e D1), MOSFET isolado, conectores e distâncias pensados para gabinete, e pacote de fabricação da mesma revisão. Permanecem como trabalho futuro a medição de L<sub>lk</sub> e da saturação do transformador real, o ensaio de emissões conduzidas e, se houver bancada, o protótipo com o roteiro preparado.
+A revisão B responde ao parecer técnico com uma referência elétrica única (esquemático, netlist, BOM e desenho do transformador descrevendo a mesma peça e ligação), simulações refeitas com janelas antes/durante/depois de cada evento e uma proteção de curto-circuito efetiva: o transitório de aplicação do curto permanece (é inerente ao flyback sem *reset* com saída em zero e fica dentro dos limites pulsados dos semicondutores — {{iq_aplic}} A e {{vds_aplic}} V no modelo, menos no núcleo real por saturação), mas o curto sustentado agora termina em **desligamento por UVLO e hiccup** graças ao resistor de 100 Ω no auxiliar. Em regime a simulação dá V<sub>o</sub> = {{vo_min}}–{{vo_max}} V, ondulação ≤ {{vopp}} mV, V<sub>ds</sub> = {{vds_264}} V em 264 V~ ({{vds_264_pct}} % de 650 V), partida a frio e degraus nos dois sentidos estáveis e rendimento de {{eta_220}} % em 220 V~ — números coerentes com o orçamento de perdas e com os esforços calculados pelo método da Aula 04C, com desvios explicados pelas hipóteses conservadoras do cálculo. A placa tem DRC com classes atribuídas, isolação reforçada de 6,4 mm e cobertura comprovada das regras, dissipadores dimensionados (necessários em Q1 e D1), MOSFET isolado, conectores e distâncias pensados para gabinete e pacote de fabricação da mesma revisão. Permanecem como trabalho da revisão C: medir L<sub>lk</sub> e a saturação do transformador real, as temperaturas de Q1, D1 e C1, o ruído nas trilhas de controle (TP7/TP8) e as emissões conduzidas, e decidir com esses dados as melhorias de layout já identificadas.
 
 ## 6. Referências bibliográficas
 
@@ -224,9 +481,9 @@ A revisão B responde ao parecer técnico com uma referência elétrica única (
 6. MOHAN, N.; UNDELAND, T.; ROBBINS, W. *Power electronics: converters, applications and design*. 2. ed. Wiley, 1995.
 7. TEXAS INSTRUMENTS. *UCx84x Current-Mode PWM Controllers* (SLUS223H), 2024; *TL431 / TL432* (SLVS543), tabela 5-1.
 8. STMICROELECTRONICS. *STP13N65M2 / STF13N65M2* (DS10587); *STPS20H100CT*; *UC3845B*.
-9. SCHAFFNER. *RN series common-mode chokes* (RN214); LITTELFUSE. *215 series 5 × 20 mm ceramic fuses* e *477 series*; KEYSTONE. *3517 fuse clips*; NICHICON. *UCY series*.
+9. SCHAFFNER. *RN series common-mode chokes* (RN214); LITTELFUSE. *215 series 5 × 20 mm ceramic fuses* e *477 series*; KEYSTONE. *3517 fuse clips*; NICHICON. *UCY series*; RUBYCON. *ZLH series*.
 10. THORNTON ELETRÔNICA. *Núcleos de ferrite NEE – IP12R*.
-11. IPC. *IPC-2221B – Generic Standard on Printed Board Design*, 2012.
+11. IPC. *IPC-2221B – Generic Standard on Printed Board Design*, 2012; IEC. *IEC 62368-1* (isolação) e *IEC 60664-1* (coordenação de isolamento).
 12. TEKTRONIX. *Fundamentals of floating measurements and isolated input oscilloscopes* (application note).
 13. ANALOG DEVICES. *LTspice – Help*; KICAD. *KiCad 10 documentation – kicad-cli, custom design rules*.
 14. IFSC. *Plano de Ensino – ELP22109, 2026-2*; *Projeto Semestral 2026-2*; *Tarefa Extra*.

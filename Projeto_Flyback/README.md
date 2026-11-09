@@ -8,7 +8,7 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 | O quê | Onde | Origem |
 |---|---|---|
-| **Relatório B** (6 seções do plano de ensino) | `06_Relatorio/RELATORIO_MATEUS_SALGADO_PROJETO.pdf` (fonte `RELATORIO.template.md` → `preenche_relatorio.py` → `RELATORIO.md` + `tabelas/` → `build.py`) | C/S/CAD |
+| **Relatório B** (6 seções do plano de ensino; 28 p., didático: 12 memórias de cálculo, 21 tabelas, 20 figuras, etiquetas de origem) | `06_Relatorio/RELATORIO_MATEUS_SALGADO_PROJETO.pdf` e `RELATORIO_VISUAL.html` (autossuficiente, abre em qualquer lugar); fonte `RELATORIO.template.md` → `preenche_relatorio.py` → `RELATORIO.md` + `tabelas/` → `build.py`; diagrama `diagrama_blocos.py` | C/S/CAD |
 | **Apresentação B** (16 slides) | `07_Apresentacao/APRESENTACAO_MATEUS_SALGADO_PROJETO.pdf` (`slides.html`) | C/S/CAD |
 | Especificação e aplicações | `01_Especificacao/requisitos.md` (nota da revisão B) | — |
 | Cálculos teóricos (scripts + resultados + figuras) | `02_Calculos/*.py`, `resultados/RESULTADOS_TEORIA.md`, `resultados/*.json`, `assets/*.png` | C |
@@ -42,19 +42,19 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 | Item | Estado | Onde |
 |---|---|---|
-| Requisitos do projeto | ✔ | relatório §4.1, `01_Especificacao` |
+| Requisitos do projeto | ✔ | relatório §4.1 (tabela de requisitos e verificação), `01_Especificacao` |
 | Aplicações | ✔ | relatório §1 |
-| Levantamento das características elétricas | ✔ | §4.1–4.2, `02_Calculos` |
-| Simulação do conversor | ✔ (B, 23 casos) | §4.6, `03_Simulacao` |
-| Esquemático | ✔ | §4.7, `04_KiCad` |
-| Projeto físico do transformador | ✔ | §4.2, `transformador.py`, guia §3 |
-| Escolha dos capacitores | ✔ | §4.3, `saida.py`, `entrada.py` |
-| Escolha dos diodos | ✔ | §4.4 |
-| Componentes associados ao CI | ✔ | §4.5, `uc3845.py`, `compensador.py` |
-| Escolha do driver | ✔ | §4.5 (saída totem-pole do UC3845) |
-| Transistor: perdas e dissipador | ✔ | §4.4, `semicondutores.py` |
-| Lista de materiais com part number e custo (com PCI) | ✔ | §4.8, `05_BOM_Custo` |
-| Layout da PCI (potência + comando) | ✔ | §4.9, `04_KiCad` |
+| Levantamento das características elétricas | ✔ | §4.2–4.3 (memórias de cálculo 1–3), `02_Calculos` |
+| Simulação do conversor | ✔ (B, 23 casos) | §4.11, `03_Simulacao` |
+| Esquemático | ✔ | §4.12, `04_KiCad` |
+| Projeto físico do transformador | ✔ | §4.4 (memória de cálculo 4), `transformador.py`, guia §3 |
+| Escolha dos capacitores | ✔ | §4.2 e §4.5, `saida.py`, `entrada.py` |
+| Escolha dos diodos | ✔ | §4.7 (memória de cálculo 8) |
+| Componentes associados ao CI | ✔ | §4.8–4.9, `uc3845.py`, `compensador.py` |
+| Escolha do driver | ✔ | §4.8 (saída totem-pole do UC3845) |
+| Transistor: perdas e dissipador | ✔ | §4.7 (memória de cálculo 7), `semicondutores.py` |
+| Lista de materiais com part number e custo (com PCI) | ✔ | §4.13, `05_BOM_Custo` |
+| Layout da PCI (potência + comando) | ✔ | §4.14 (tabela de regras e verificação), `04_KiCad` |
 | Relatório nas 6 seções | ✔ | `06_Relatorio` |
 | Apresentação | ✔ | `07_Apresentacao` |
 | Tarefa Extra | ☐ opcional (Possibilidade II escolhida); modelo pronto em `09_Tarefa_Extra` |
