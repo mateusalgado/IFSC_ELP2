@@ -122,7 +122,7 @@ A tabela 3 reúne os requisitos: os que vêm do enunciado, os fixados pelo proje
 | Tensão e corrente de saída | 12,0 V ± 5 %, 0,3–3,0 A (36 W) | escolha do projetista (< 25 V) | simulação 10–100 % de carga | regulação < 0,1 % [S] |
 | Ondulação de saída | ≤ 120 mV p-p | prática para fontes de mesa | simulação (chaveamento e ciclos de rede) | ≤ 4,2 mV / ≤ 9,2 mV [S] |
 | Frequência de comutação | 65 kHz | compromisso tamanho × perdas; UC3845 D ≤ 0,5 | R<sub>T</sub>/C<sub>T</sub> | 64,7 kHz [C] |
-| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,3 % em 220 V, {{eta_min}}–{{eta_max}} % na faixa [S] |
+| Rendimento | meta 85 % em 220 V | boa prática para 36 W | simulação em plena carga | 85,3 % em 220 V, 82,8–85,3 % na faixa [S] |
 | Tensão no MOSFET | ≤ 80 % de 650 V (520 V) em regime; ≤ 600 V em falha | Aula 03 (margem de tensão) | simulação 264 V, L<sub>lk</sub> 2 e 3 %, curto | 482 V regime, 555 V na aplicação do curto [S] |
 | Proteções | fusível, NTC, varistor, limite ciclo a ciclo, **hiccup no curto**, grampo RCD | enunciado (surtos, snubber) + parecer (curto) | cálculo + simulação do curto | desligamento por UVLO em 155 ms [S] |
 | Filtro de EMI | X2 + choke MC + X2 + Y1 | enunciado | cálculo (curva ideal) | f<sub>DM</sub> 43 kHz, f<sub>CM</sub> 24 kHz [C]; LISN pendente |

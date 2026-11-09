@@ -116,7 +116,7 @@ val = {
     "vds_part_264": f(g(tra, "partida_264V", "vds_max"), 0), "ip_part_264": f(g(tra, "partida_264V", "ip_max")),
     "deg_mv": f(max(abs(g(tra, n, s, "desvio_mV", default=0)) for n in ("degrau_90V", "degrau_264V") for s in ("subida", "descida")), 0),
     "deg_t": f(max(g(tra, n, s, "t_retorno_0p5pct_ms", default=0) for n in ("degrau_90V", "degrau_264V") for s in ("subida", "descida")), 1),
-    "n_casos": len(med) + 2,  # 21 casos com medidas + 2 pre-cargas (partida), ver tabela 14 "eta_min": f(min(100 * v["po"] / v["pin"] for k, v in reg.items() if k.endswith("100pct")), 1), "eta_max": f(max(100 * v["po"] / v["pin"] for k, v in reg.items() if k.endswith("100pct")), 1),
+    "n_casos": len(med) + 2, "eta_min": f(min(100 * v["po"] / v["pin"] for k, v in reg.items() if k.endswith("100pct")), 1), "eta_max": f(max(100 * v["po"] / v["pin"] for k, v in reg.items() if k.endswith("100pct")), 1),
     # ---- custo
     "custo_1": f(custo["total_1"]), "custo_100": f(custo["total_100"]), "custo_itens": custo["n_itens"], "custo_brl": f(custo["total_1"] * custo["usd_brl"], 0), "custo_caixa": f(custo["total_1"] - 9.60 + 48, 0),
 }
