@@ -104,7 +104,7 @@ O projeto foi conduzido como uma cadeia reprodutível de scripts: cada etapa lê
 
 | Hipótese | Valor | Justificativa |
 |---|---|---|
-| Rendimento de projeto, η | 0,82 | conservador para 36 W com grampo RCD (Aula 07); a simulação confirma 82,8–85,3 % |
+| Rendimento de projeto, η | 0,82 | conservador para 36 W com grampo RCD (Aula 07); a simulação confirma 82,6–85,2 % |
 | Razão cíclica máxima, D<sub>máx</sub> | 0,43 | abaixo dos 0,5 do UC3845 com margem para o atraso do comparador |
 | Vale de projeto do barramento, V<sub>b,mín</sub> | {{vb_proj}} V | valor da revisão A (100 µF), mantido para preservar o transformador; com 150 µF o vale real é {{vb_min}} V (margem extra) |
 | Densidade de fluxo, B<sub>máx</sub> | 0,25 T | IP12R: B<sub>sat</sub> ≈ 0,35 T a 100 °C; folga para o transitório |

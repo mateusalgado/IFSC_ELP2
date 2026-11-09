@@ -28,7 +28,7 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 | Item | B |
 |---|---|
-| Curto-circuito (9 A / 596 V, sem desligamento) | R13 = 100 Ω no auxiliar → VCC cai, UVLO desliga, hiccup; janelas aplicação / sustentado / recuperação; transitório de aplicação documentado (7,8 A, 555 V no modelo linear; núcleo real satura ≈ 3 A) |
+| Curto-circuito (9 A / 596 V, sem desligamento) | R13 = 100 Ω no auxiliar → VCC cai, UVLO desliga, hiccup; janelas aplicação / sustentado / recuperação; transitório de aplicação documentado (8,0 A, 560 V no modelo linear; núcleo real satura ≈ 3 A) |
 | Grampo RCD em série na placa | R5 ∥ R6 = 9 kΩ no esquemático, na placa e no modelo |
 | Filtro do ISENSE | 330 Ω / 100 pF no pino 3 (τ = 33 ns) |
 | Choke 0,7 A | Schaffner RN214 2 × 10 mH / 1,2 A, pinagem 1-2 / 3-4 |
