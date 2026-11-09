@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(pandoc RELATORIO.md -o RELATORIO.pdf -V geometry:margin=2cm --pdf-engine=xelatex)"
-    ]
-  }
-}
