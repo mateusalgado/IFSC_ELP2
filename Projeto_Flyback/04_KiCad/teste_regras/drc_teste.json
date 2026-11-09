@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-11-05T09:30:56",
+    "date": "2026-11-09T19:01:18",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -42,7 +42,7 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 },
                 {
                     "description": "Ilha PTH 2 [SGND] de CY1",
@@ -60,12 +60,12 @@
             "description": "Missing connection between items",
             "items": [
                 {
-                    "description": "Trilha [/VCC] no F.Cu, comprimento 16,5000 mm",
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 2,1213 mm",
                     "pos": {
-                        "x": 36.5,
-                        "y": 73.5
+                        "x": 35.0,
+                        "y": 72.0
                     },
-                    "uuid": "690eecde-9d11-48dd-be78-199c42bf4563"
+                    "uuid": "a16bace9-36b5-4fa6-994d-ba0ff8d5eb4b"
                 },
                 {
                     "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
@@ -73,7 +73,7 @@
                         "x": 40.0,
                         "y": 89.8
                     },
-                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                    "uuid": "dc39d4a2-25a3-42ce-beae-d607e8e73126"
                 }
             ],
             "severity": "error",
@@ -96,7 +96,7 @@
                         "x": 48.7,
                         "y": 29.5
                     },
-                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                    "uuid": "15a24449-c6fc-4b77-8d0d-478d325e9de5"
                 }
             ],
             "severity": "error",
@@ -105,30 +105,53 @@
     ],
     "violations": [
         {
-            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,2500 mm)",
+            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,7000 mm)",
             "items": [
-                {
-                    "description": "Ilha PTH 1 [/BULK] de C1",
-                    "pos": {
-                        "x": 47.0,
-                        "y": 32.5
-                    },
-                    "uuid": "5cf97a5e-8e91-4c57-baae-cfa0ba369690"
-                },
                 {
                     "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
                     "pos": {
                         "x": 48.7,
                         "y": 29.5
                     },
-                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                    "uuid": "15a24449-c6fc-4b77-8d0d-478d325e9de5"
+                },
+                {
+                    "description": "Trilha [/BULK] no F.Cu, comprimento 10,7500 mm",
+                    "pos": {
+                        "x": 36.25,
+                        "y": 32.5
+                    },
+                    "uuid": "1adc6473-97dd-4bd2-87f8-1cbaa2d0b2e3"
                 }
             ],
             "severity": "error",
             "type": "clearance"
         },
         {
-            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 4,5500 mm)",
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 3,4426 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/AUX] no F.Cu, comprimento 8,7050 mm",
+                    "pos": {
+                        "x": 72.75,
+                        "y": 62.705
+                    },
+                    "uuid": "c9e18459-2e39-420e-939b-83ec6b1af362"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 3,8500 mm)",
             "items": [
                 {
                     "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
@@ -136,15 +159,107 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 },
                 {
-                    "description": "Trilha [Net-(R3-Pad2)] no F.Cu, comprimento 1,7000 mm",
+                    "description": "Ilha PTH 1 [Net-(R3-Pad2)] de R4",
                     "pos": {
-                        "x": 63.5,
+                        "x": 65.2,
                         "y": 44.0
                     },
-                    "uuid": "b12d92c2-a182-4960-8575-8b2403cecb47"
+                    "uuid": "e570ba80-3994-4990-839e-b9d9091ea64d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 2,1004 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 2,1213 mm",
+                    "pos": {
+                        "x": 68.3,
+                        "y": 42.5
+                    },
+                    "uuid": "d317e4d4-f8a2-44c6-8c3d-b8c607f9f838"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 2,1004 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 2,9500 mm",
+                    "pos": {
+                        "x": 69.8,
+                        "y": 44.0
+                    },
+                    "uuid": "56857f2c-f617-4444-bd4f-be24b5803393"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 3,8278 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 5,7500 mm",
+                    "pos": {
+                        "x": 68.3,
+                        "y": 36.75
+                    },
+                    "uuid": "a788c928-b399-4071-a0f4-8a700d4cc9c0"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 0,3100 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 12,1300 mm",
+                    "pos": {
+                        "x": 68.54,
+                        "y": 36.87
+                    },
+                    "uuid": "872e28ea-a444-4319-b6c1-70772a97f7f5"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 }
             ],
             "severity": "error",
@@ -167,53 +282,7 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
-                }
-            ],
-            "severity": "error",
-            "type": "clearance"
-        },
-        {
-            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 1,8100 mm)",
-            "items": [
-                {
-                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 8,2500 mm",
-                    "pos": {
-                        "x": 67.04,
-                        "y": 50.5
-                    },
-                    "uuid": "078ad67b-a30e-4080-b9aa-af1713c74c48"
-                },
-                {
-                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
-                    "pos": {
-                        "x": 69.75,
-                        "y": 47.0
-                    },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
-                }
-            ],
-            "severity": "error",
-            "type": "clearance"
-        },
-        {
-            "description": "Violação do isolamento (regra 'HV_clearance' isolamento 1,0000 mm; atual 0,7000 mm)",
-            "items": [
-                {
-                    "description": "Trilha [/BULK] no F.Cu, comprimento 10,7500 mm",
-                    "pos": {
-                        "x": 36.25,
-                        "y": 32.5
-                    },
-                    "uuid": "1adc6473-97dd-4bd2-87f8-1cbaa2d0b2e3"
-                },
-                {
-                    "description": "Trilha [/VCC] no F.Cu, comprimento 6,0000 mm",
-                    "pos": {
-                        "x": 48.7,
-                        "y": 29.5
-                    },
-                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 }
             ],
             "severity": "error",
@@ -236,7 +305,53 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 4,5500 mm)",
+            "items": [
+                {
+                    "description": "Trilha [Net-(R3-Pad2)] no F.Cu, comprimento 1,7000 mm",
+                    "pos": {
+                        "x": 63.5,
+                        "y": 44.0
+                    },
+                    "uuid": "b12d92c2-a182-4960-8575-8b2403cecb47"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Violação do isolamento (regra 'isolacao_prim_sec' isolamento 6,4000 mm; atual 1,8100 mm)",
+            "items": [
+                {
+                    "description": "Trilha [/DRAIN] no F.Cu, comprimento 8,2500 mm",
+                    "pos": {
+                        "x": 67.04,
+                        "y": 50.5
+                    },
+                    "uuid": "078ad67b-a30e-4080-b9aa-af1713c74c48"
+                },
+                {
+                    "description": "Trilha [SGND] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 69.75,
+                        "y": 47.0
+                    },
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 }
             ],
             "severity": "error",
@@ -259,7 +374,7 @@
                         "x": 40.0,
                         "y": 89.8
                     },
-                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                    "uuid": "dc39d4a2-25a3-42ce-beae-d607e8e73126"
                 }
             ],
             "severity": "error",
@@ -274,7 +389,7 @@
                         "x": 47.0,
                         "y": 32.5
                     },
-                    "uuid": "a484ec00-8ed3-49f9-a2ee-ae00f005357e"
+                    "uuid": "24794b82-8f1b-433f-a936-3b76b49bfe8a"
                 }
             ],
             "severity": "error",
@@ -289,7 +404,7 @@
                         "x": 132.0,
                         "y": 70.0
                     },
-                    "uuid": "5fbcc672-1b06-477e-8987-04cc68057cf6"
+                    "uuid": "517d6c88-870a-4862-ae64-271e4b88bd25"
                 }
             ],
             "severity": "error",
@@ -304,7 +419,7 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 }
             ],
             "severity": "error",
@@ -319,7 +434,7 @@
                         "x": 47.0,
                         "y": 32.5
                     },
-                    "uuid": "a484ec00-8ed3-49f9-a2ee-ae00f005357e"
+                    "uuid": "24794b82-8f1b-433f-a936-3b76b49bfe8a"
                 }
             ],
             "severity": "warning",
@@ -334,7 +449,7 @@
                         "x": 132.0,
                         "y": 70.0
                     },
-                    "uuid": "5fbcc672-1b06-477e-8987-04cc68057cf6"
+                    "uuid": "517d6c88-870a-4862-ae64-271e4b88bd25"
                 }
             ],
             "severity": "warning",
@@ -349,22 +464,7 @@
                         "x": 69.75,
                         "y": 47.0
                     },
-                    "uuid": "48adeacc-618c-4728-bafb-6c9502a4b475"
-                }
-            ],
-            "severity": "warning",
-            "type": "track_dangling"
-        },
-        {
-            "description": "Track has unconnected end",
-            "items": [
-                {
-                    "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
-                    "pos": {
-                        "x": 40.0,
-                        "y": 89.8
-                    },
-                    "uuid": "59a5b82a-d482-4774-bf65-7beb87221297"
+                    "uuid": "d69cdccf-449b-44c9-b4ff-d3e90d66043d"
                 }
             ],
             "severity": "warning",
@@ -379,7 +479,22 @@
                         "x": 48.7,
                         "y": 29.5
                     },
-                    "uuid": "c3724c0a-419c-4d1e-b8c4-76d3e998841e"
+                    "uuid": "15a24449-c6fc-4b77-8d0d-478d325e9de5"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Trilha [/VCC] no F.Cu, comprimento 4,0000 mm",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 89.8
+                    },
+                    "uuid": "dc39d4a2-25a3-42ce-beae-d607e8e73126"
                 }
             ],
             "severity": "warning",

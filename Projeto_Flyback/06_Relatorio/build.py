@@ -1,4 +1,4 @@
-"""Monta o relatorio: RELATORIO.md (+ tabelas/*.md nos marcadores {{nome}}) -> RELATORIO_VISUAL.html (pandoc) -> PDF (Chrome headless).
+"""Monta o relatorio: RELATORIO.md (+ tabelas/*.md nos marcadores {{nome}}) -> RELATORIO_VISUAL.html (pandoc) -> RELATORIO_MATEUS_SALGADO_PROJETO.pdf (Chrome headless).
 Uso (Windows): "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" build.py [arquivo.md] [saida_base]
 """
 import re
@@ -59,7 +59,7 @@ def main():
     h = h.replace("<body>", "<body><div class=\"container\">").replace("</body>", "</div></body>")
     h = re.sub(r"<header id=\"title-block-header\">.*?</header>", "", h, flags=re.S)
     html.write_text(h, encoding="utf-8")
-    pdf = src.parent / (base + ".pdf")
+    pdf = src.parent / "RELATORIO_MATEUS_SALGADO_PROJETO.pdf"   # convencao das tarefas (o HTML intermediario continua RELATORIO_VISUAL.html)
     subprocess.run([str(CHROME), "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--print-to-pdf=" + str(pdf), "--run-all-compositor-stages-before-draw",
                     "--virtual-time-budget=20000", html.resolve().as_uri()], check=True, capture_output=True)
     tmp.unlink(); hdr.unlink()

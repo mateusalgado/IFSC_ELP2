@@ -1,12 +1,12 @@
 """Roda com o Python do KiCad (pcbnew): lista caixa envolvente (courtyard/bbox) e pads dos footprints usados.
-Uso: "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" fp_info.py
+Uso: "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" utils\\fp_info.py  (a partir de 04_KiCad)
 """
 import json
 import sys
 from pathlib import Path
 import pcbnew
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parent.parent   # 04_KiCad (netlist.net, fonte.pretty, fp_info.json)
 LIBROOT = Path(r"C:\Program Files\KiCad\10.0\share\kicad\footprints")
 import re
 txt = (HERE / "netlist.net").read_text(encoding="utf-8")

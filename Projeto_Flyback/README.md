@@ -2,19 +2,19 @@
 
 Aluno: Mateus Salgado Barboza Costa · Prof. Joabel Moia · IFSC · Entrega/apresentação: **21/12/2026**
 
-Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.pdf` sobre a revisão A (19/10/2026, preservada em `../PROJETO/`). Cada número publicado nesta pasta tem origem marcada: **[C]** cálculo (`02_Calculos`), **[S]** simulação LTspice B (`03_Simulacao/runs`), **[CAD]** verificação ERC/DRC (`04_KiCad`), **[M]** medição física — **não há medições físicas: o protótipo não foi montado.**
+Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.pdf` sobre a revisão A (19/10/2026; pasta completa da A em `revisoes/RevA_2026-10-19/`, sem os `.raw`). Enunciados em `../00_Disciplina/`. Cada número publicado nesta pasta tem origem marcada: **[C]** cálculo (`02_Calculos`), **[S]** simulação LTspice B (`03_Simulacao/runs`), **[CAD]** verificação ERC/DRC (`04_KiCad`), **[M]** medição física — **não há medições físicas: o protótipo não foi montado.**
 
 ## Entregáveis principais
 
 | O quê | Onde | Origem |
 |---|---|---|
-| **Relatório B** (6 seções do plano de ensino) | `06_Relatorio/RELATORIO_VISUAL.pdf` (fonte `RELATORIO.template.md` → `preenche_relatorio.py` → `RELATORIO.md` + `tabelas/` → `build.py`) | C/S/CAD |
-| **Apresentação B** (16 slides) | `07_Apresentacao/slides.pdf` (`slides.html`) | C/S/CAD |
+| **Relatório B** (6 seções do plano de ensino) | `06_Relatorio/RELATORIO_MATEUS_SALGADO_PROJETO.pdf` (fonte `RELATORIO.template.md` → `preenche_relatorio.py` → `RELATORIO.md` + `tabelas/` → `build.py`) | C/S/CAD |
+| **Apresentação B** (16 slides) | `07_Apresentacao/APRESENTACAO_MATEUS_SALGADO_PROJETO.pdf` (`slides.html`) | C/S/CAD |
 | Especificação e aplicações | `01_Especificacao/requisitos.md` (nota da revisão B) | — |
 | Cálculos teóricos (scripts + resultados + figuras) | `02_Calculos/*.py`, `resultados/RESULTADOS_TEORIA.md`, `resultados/*.json`, `assets/*.png` | C |
 | Simulação LTspice B (23 casos, janelas, figuras) | `03_Simulacao/` (`gera_netlist.py`, `executa_b.py`, `runs_dir.py`, `analisa_curto.py`, `analisa_transitorios.py`, `hiccup_tempos.py`, `plota.py`, `plota_curto.py`, `runs/medidas.json`, `runs/*.log/.net`, `analise/*.png`) | S |
 | Esquemático KiCad 10 (ERC 0 erros / 0 avisos) | `04_KiCad/fonte_flyback_12V3A.kicad_sch`, `fonte_flyback_12V3A_esquematico.pdf` | CAD |
-| Layout B (DRC 0 erros, 0 não conectados, paridade OK, cobertura das regras) | `04_KiCad/fonte_flyback_12V3A.kicad_pcb`, `drc_B.json`, `teste_regras/`, `gerbers/`, `imagens/`, `3d/`, `VERIFICACAO_LAYOUT.md`, `ANALISE_PLACEMENT.md` (placement como produto; melhorias para a revisão C) | CAD |
+| Layout B (DRC 0 erros, 0 não conectados, paridade OK, cobertura das regras) | `04_KiCad/fonte_flyback_12V3A.kicad_pcb`, `drc_B.json`, `teste_regras/`, `gerbers/`, `imagens/`, `3d/`, `VERIFICACAO_LAYOUT.md`, `ANALISE_PLACEMENT.md` (placement como produto; melhorias para a revisão C); utilitários em `04_KiCad/utils/` | CAD |
 | BOM B com part numbers e custo (1 e 100 un., PCI incluída) | `05_BOM_Custo/BOM.xlsx`, `custo.xlsx`, `custo.md` (`bom.py`) | — |
 | Guia de montagem e ensaio B (ficha de T1, instrumentação, critérios de aceite) | `08_Montagem/GUIA_MONTAGEM.md` (`preenche_guia.py`) | C/S |
 | Tarefa Extra (modelo com os 13 itens; depende de fotos) | `09_Tarefa_Extra/RELATORIO_TAREFA_EXTRA.md` | — |
@@ -33,7 +33,7 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 | Filtro do ISENSE | 330 Ω / 100 pF no pino 3 (τ = 33 ns) |
 | Choke 0,7 A | Schaffner RN214 2 × 10 mH / 1,2 A, pinagem 1-2 / 3-4 |
 | Barramento | C1 = 150 µF (vale 104 V; 99,8 V com −20 %) |
-| Classes de rede / DRC | HV, SEC, SEC_PWR atribuídas; `testa_regras.py` prova que cada regra dispara |
+| Classes de rede / DRC | HV, SEC, SEC_PWR atribuídas; `utils/testa_regras.py` prova que cada regra dispara |
 | T1 / TL431 / guia | pinagem única (1-BULK, 3-DRAIN, 4-PGND, 5-AUX, 6/7-SGND, 9/10-ânodos de D1), TL431 K-A-REF, instrumentação com isolador + sonda diferencial e terra de proteção mantido, curto físico bloqueado até os limites |
 | Estabilidade | planta com pós-filtro L2–C13 e polo do opto; R<sub>z</sub> 21,5 kΩ / C<sub>z</sub> 270 nF |
 | Placa para teste e produto | MOSFET isolado (clip sem potencial), furos M3 ≥ 6 mm da rede, conectores em bordas opostas, D1 longe dos eletrolíticos, dissipadores necessários em Q1 e D1 (térmico em `VERIFICACAO_LAYOUT.md`); **05/11:** J1 abrindo para a borda esquerda, filtro de entrada em coluna, porta-fusível 5 × 20, JP1/JP2 para sonda de corrente, Q1 a 15,7 mm de T1 e 6 mm de C1, eletrolíticos de saída com passo 12 mm, serigrafia de segurança (F1, L/N, +12 V/0 V, C1 400 V), regra de 6,4 mm (`ANALISE_PLACEMENT.md`) |
@@ -80,22 +80,23 @@ Revisão B (novembro/2026) em resposta ao parecer técnico `REVISAO_TECNICA_V1.p
 
 ```bash
 # teoria (WSL)
-wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../PROJETO_REV_B/02_Calculos && python3 run_all.py'
+wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../Projeto_Flyback/02_Calculos && python3 run_all.py'
 # simulação: gera netlists e roda o LTspice em lote (Windows, python do KiCad; .raw fora do OneDrive, ver runs_dir.py)
 "C:\Program Files\KiCad\10.0\bin\python.exe" 03_Simulacao\executa_b.py
 # releitura dos .raw e figuras (WSL; não rodar junto com o LTspice)
-wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../PROJETO_REV_B/03_Simulacao && python3 analisa_curto.py <raw> 60 380 && python3 hiccup_tempos.py <raw> 60 380 && python3 plota_curto.py <raw> 60 380 && python3 analisa_transitorios.py && python3 plota.py regime_90V_100pct regime_264V_100pct partida_90V degrau_90V sem_snubber_264V'
+wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../Projeto_Flyback/03_Simulacao && python3 analisa_curto.py <raw> 60 380 && python3 hiccup_tempos.py <raw> 60 380 && python3 plota_curto.py <raw> 60 380 && python3 analisa_transitorios.py && python3 plota.py regime_90V_100pct regime_264V_100pct partida_90V degrau_90V sem_snubber_264V'
 # KiCad: esquemático → ERC/netlist → placement → roteador → placa → DRC → cobertura das regras → exportações
-wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../PROJETO_REV_B/04_KiCad && python3 gera_sch.py && python3 placement.py && python3 router.py && python3 completa_rotas.py'
+wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../Projeto_Flyback/04_KiCad && python3 gera_sch.py && python3 utils/fp_info.py && python3 placement.py && python3 router.py && python3 completa_rotas.py'
 "C:\Program Files\KiCad\10.0\bin\python.exe" 04_KiCad\gera_pcb.py
 "C:\Program Files\KiCad\10.0\bin\kicad-cli.exe" pcb drc --severity-all --schematic-parity --refill-zones --format json -o 04_KiCad\drc_B.json 04_KiCad\fonte_flyback_12V3A.kicad_pcb
-"C:\Program Files\KiCad\10.0\bin\python.exe" 04_KiCad\testa_regras.py
+"C:\Program Files\KiCad\10.0\bin\python.exe" 04_KiCad\utils\testa_regras.py
+"C:\Program Files\KiCad\10.0\bin\python.exe" 04_KiCad\utils\comprimento_redes.py > 04_KiCad\comprimento_redes.txt
 # BOM, tabelas, relatório, guia e slides
-wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../PROJETO_REV_B/05_BOM_Custo && python3 bom.py'
+wsl -d Ubuntu -- bash -c 'cd /mnt/c/.../Projeto_Flyback/05_BOM_Custo && python3 bom.py'
 "C:\Program Files\KiCad\10.0\bin\python.exe" 06_Relatorio\gera_tabelas.py
 "C:\Program Files\KiCad\10.0\bin\python.exe" 06_Relatorio\preenche_relatorio.py
 "C:\Program Files\KiCad\10.0\bin\python.exe" 06_Relatorio\build.py
 "C:\Program Files\KiCad\10.0\bin\python.exe" 08_Montagem\preenche_guia.py
 ```
 
-Ferramentas: Python 3 (numpy, matplotlib) no WSL Ubuntu e python do KiCad (numpy) no Windows; LTspice 26; KiCad 10 (kicad-cli, pcbnew); pandoc; Chrome headless (PDF); LibreOffice (xlsx). Os `.raw` de 0,1–1,8 GB ficam em `C:\Users\mateu\ELP2_sim_runs\REV_B`; os casos usados no relatório são copiados para `03_Simulacao/runs/` por `runs_dir.copia_raws()`.
+Ferramentas: Python 3 (numpy, matplotlib) no WSL Ubuntu e python do KiCad (numpy) no Windows; LTspice 26; KiCad 10 (kicad-cli, pcbnew); pandoc; Chrome headless (PDF); LibreOffice (xlsx). Os `.raw` de 0,1–1,8 GB (44 casos, 11 GB) ficam **só** em `C:\Users\mateu\ELP2_sim_runs\REV_B`, fora do OneDrive e do git; `03_Simulacao/runs/` guarda `.log`, `.net`, `medidas.json` e as janelas; `runs_dir.copia_raws()` copia um caso para `runs/` quando for preciso reler.

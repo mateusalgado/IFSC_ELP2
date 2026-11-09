@@ -74,5 +74,4 @@ md += ["", "## Itens fora da BOM (bancada e montagem)", "",
        "| Termopar ou termômetro IR | térmico de Q1, D1, R5/R6, T1 | |",
        "| Transformador isolador, variac, sonda diferencial ≥ 700 V, multímetro CAT II 600 V, LCR, wattímetro | laboratório | confirmar disponibilidade com o professor antes de comprar |"]
 (HERE / "PEDIDO_COMPRA.md").write_text("\n".join(md) + "\n", encoding="utf-8")
-json.dump(dict(total_usd=round(total, 2), itens=len(out)), open(HERE / "pedido_compra.json", "w"), indent=1)
 print(f"{len(out)} itens; total US$ {total:.2f} (R$ {total * 5.5:.0f})")

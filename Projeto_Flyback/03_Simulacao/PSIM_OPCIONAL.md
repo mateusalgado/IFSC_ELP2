@@ -1,6 +1,6 @@
 # Reprodução da simulação no PSIM (opcional) – revisão B
 
-A simulação oficial do projeto foi feita em LTspice (`gera_netlist.py` → `netlists/*.net`, `roda.py`, `plota.py`), com modelo comportamental do UC3845 validado contra o datasheet. Se for desejado mostrar a figura também na ferramenta da disciplina, o exemplo `PSIM\examples\PWM IC\UC3844-flyback.psimsch` (PSIM 9.1.1) pode ser adaptado com os valores finais abaixo (o UC3844 do exemplo tem o mesmo bloco funcional do UC3845; trocar o limite de razão cíclica para 50 % no bloco do CI, se disponível, ou manter o UC3844 com D < 0,5 garantido pelo projeto).
+A simulação oficial do projeto foi feita em LTspice (`gera_netlist.py` → `netlists/*.net`, `executa_b.py`, `plota.py`), com modelo comportamental do UC3845 validado contra o datasheet. Se for desejado mostrar a figura também na ferramenta da disciplina, o exemplo `PSIM\examples\PWM IC\UC3844-flyback.psimsch` (PSIM 9.1.1) pode ser adaptado com os valores finais abaixo (o UC3844 do exemplo tem o mesmo bloco funcional do UC3845; trocar o limite de razão cíclica para 50 % no bloco do CI, se disponível, ou manter o UC3844 com D < 0,5 garantido pelo projeto).
 
 ## Valores finais a colocar no esquemático do PSIM
 

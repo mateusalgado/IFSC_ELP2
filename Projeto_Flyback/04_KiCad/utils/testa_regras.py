@@ -5,7 +5,7 @@ que cada regra do .kicad_dru dispara:
   3. largura_HV          -> trilha /BULK com 0,5 mm;
   4. largura_SEC_potencia-> trilha /VO com 0,8 mm;
   5. borda               -> trilha a 0,2 mm da borda.
-Uso: "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" testa_regras.py  (gera teste_regras/ e roda o kicad-cli)
+Uso: "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" utils\\testa_regras.py  (gera teste_regras/ e roda o kicad-cli)
 """
 import json
 import shutil
@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 import pcbnew
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parent.parent   # 04_KiCad
 T = HERE / "teste_regras"
 T.mkdir(exist_ok=True)
 for f in ("fonte_flyback_12V3A.kicad_pcb", "fonte_flyback_12V3A.kicad_pro", "fonte_flyback_12V3A.kicad_dru", "fp-lib-table"):

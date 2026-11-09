@@ -1,10 +1,10 @@
 """Imprime as redes da netlist exportada pelo kicad-cli (netlist.net)."""
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from sexp import parse, find, find_all
 
-doc = parse(Path(sys.argv[1] if len(sys.argv) > 1 else "netlist.net").read_text(encoding="utf-8"))[0]
+doc = parse(Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent / "netlist.net").read_text(encoding="utf-8"))[0]
 nets = find(doc, "nets")
 lst = find_all(nets, "net")
 print("redes:", len(lst))

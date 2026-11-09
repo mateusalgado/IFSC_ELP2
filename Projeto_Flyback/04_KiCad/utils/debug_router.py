@@ -2,7 +2,7 @@
 Uso: python3 debug_router.py NET REF.PIN REF.PIN   (ex.: /BULK C1.1 T1.1)"""
 import sys, math, collections
 from pathlib import Path
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parent.parent   # 04_KiCad
 sys.path.insert(0, str(HERE))
 import router as R
 

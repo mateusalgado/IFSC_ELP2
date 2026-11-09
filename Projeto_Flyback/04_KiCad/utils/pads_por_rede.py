@@ -2,7 +2,7 @@
 import json
 import sys
 from pathlib import Path
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parent.parent   # 04_KiCad
 sys.path.insert(0, str(HERE))
 from placement import POS, pad_abs
 from sexp import parse, find, find_all

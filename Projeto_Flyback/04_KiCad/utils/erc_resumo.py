@@ -1,7 +1,7 @@
 """Resumo legivel do erc.json (kicad-cli sch erc --format json)."""
 import json, collections, sys
 from pathlib import Path
-p = Path(sys.argv[1] if len(sys.argv) > 1 else "erc.json")
+p = Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent / "erc.json")
 e = json.loads(p.read_text(encoding="utf-8"))
 sh = e["sheets"][0]["violations"]
 print(collections.Counter((v["severity"], v["type"]) for v in sh))

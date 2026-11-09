@@ -1,5 +1,6 @@
-# Saídas pesadas e regeneráveis da simulação LTspice (0,1-1,8 GB cada; ver 03_Simulacao/runs_dir.py)
+# Saídas pesadas e regeneráveis da simulação LTspice (0,1-1,8 GB cada; ficam em C:\Users\mateu\ELP2_sim_runs, ver Projeto_Flyback/03_Simulacao/runs_dir.py)
 *.raw
+*.op.raw
 # Caches, bloqueios e temporários
 __pycache__/
 *.pyc
@@ -8,10 +9,9 @@ __pycache__/
 *.kicad_prl
 *-backups/
 fp-info-cache
-Tarefa_01_Calculo_Termico_Dissipador/tmp/
 # Material de aula do professor (direitos autorais): não publicar em repositório público
-Apresentacao_Aula_*.pdf
-Plano_Ensino_Eletronica_Potencia_II.pdf
-Instalacao_PSIM.pdf
-# Configuracao local do Claude Code (permissoes desta maquina)
+00_Disciplina/Aula_*.pdf
+00_Disciplina/Plano_Ensino_EPO_II.pdf
+00_Disciplina/Instalacao_PSIM.pdf
+# Configuração local do Claude Code (permissões desta máquina)
 .claude/

@@ -1,6 +1,10 @@
-# Proposta de reorganização da pasta ELP2 (aguardando confirmação)
+# Reorganização da pasta ELP2 – executada em 09/11/2026
 
-Data: 09/11/2026. Nada foi movido ou apagado ainda. Depois da confirmação eu executo, atualizo as referências nos README/slides, rodo um teste de regeneração (relatório B) e faço o commit no GitHub.
+**Aprovada pelo aluno em 09/11/2026 ("aprovar tudo"), com uma mudança pedida na hora: em vez de manter `Projeto_Flyback_RevA/` e `Projeto_Flyback_RevB/` lado a lado, o projeto virou a pasta única `Projeto_Flyback/` (conteúdo da revisão B) e a revisão A foi movida inteira, sem os `.raw`, para `Projeto_Flyback/revisoes/RevA_2026-10-19/` (segundo pedido do aluno: separada, não apagada). Os dois `Tarefa1*.psimsch` foram mantidos; os PSIM duplicados da Tarefa 2 também.**
+
+Texto original da proposta:
+
+Data: 09/11/2026. Depois da confirmação eu executo, atualizo as referências nos README/slides, rodo um teste de regeneração (relatório B) e faço o commit no GitHub.
 
 ## 1. Estrutura proposta
 

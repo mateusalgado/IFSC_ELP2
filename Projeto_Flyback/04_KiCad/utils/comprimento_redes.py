@@ -1,8 +1,9 @@
 """Comprimento de trilha por rede e caixa envolvente dos footprints da placa B (pcbnew do KiCad 10).
-Uso: "C:\Program Files\KiCad\10.0\bin\python.exe" comprimento_redes.py [fonte_flyback_12V3A.kicad_pcb] > comprimento_redes.txt
+Uso: "C:\Program Files\KiCad\10.0\bin\python.exe" utils\comprimento_redes.py [placa.kicad_pcb] > comprimento_redes.txt  (a partir de 04_KiCad)
 """
 import pcbnew, sys
-b = pcbnew.LoadBoard(sys.argv[1] if len(sys.argv) > 1 else "fonte_flyback_12V3A.kicad_pcb")
+from pathlib import Path
+b = pcbnew.LoadBoard(sys.argv[1] if len(sys.argv) > 1 else str(Path(__file__).resolve().parent.parent / "fonte_flyback_12V3A.kicad_pcb"))
 from collections import defaultdict
 L = defaultdict(float); n = defaultdict(int)
 for t in b.GetTracks():
