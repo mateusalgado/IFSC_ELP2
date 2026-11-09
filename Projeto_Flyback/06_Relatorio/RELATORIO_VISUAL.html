@@ -180,7 +180,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height
 .container { max-width: 980px; margin: 0 auto; padding: 0 8px; }
 h1 { font-size: 1.55em; font-weight: 650; margin: 0 0 6px 0; line-height: 1.25; color: var(--accent); }
 h2 { font-size: 1.28em; font-weight: 650; margin: 24px 0 10px 0; padding-bottom: 4px; border-bottom: 2px solid var(--accent); color: var(--ink); break-after: avoid; }
-h2.pb, .pb { break-before: page; }
+h2.pb, .pb { break-before: page; page-break-before: always; }
 h3 { font-size: 1.08em; font-weight: 650; margin: 18px 0 6px 0; color: var(--accent); break-after: avoid; }
 h4 { font-size: 0.98em; font-weight: 650; margin: 12px 0 4px 0; break-after: avoid; }
 p { margin: 0 0 7px 0; text-align: justify; }
@@ -242,6 +242,12 @@ sub, sup { font-size: 0.74em; line-height: 0; }
 </head>
 <body><div class="container">
 
+<!--
+ESTE É O TEMPLATE. Os trechos entre chaves duplas, como 64,7 ou 85,3, são MARCADORES preenchidos automaticamente
+por preenche_relatorio.py com os resultados dos scripts (02_Calculos/resultados/*.json, 03_Simulacao/runs/*.json, 05_BOM_Custo/custo.json).
+Edite o texto à vontade, mas não apague nem altere os marcadores. O arquivo gerado (RELATORIO.md) é sobrescrito a cada geração:
+  python 06_Relatorio/preenche_relatorio.py  →  python 06_Relatorio/build.py  (HTML autossuficiente + PDF)
+-->
 <div class="titlecard"><h1 id="projeto-de-uma-fonte-chaveada-flyback-12-v-3-a-com-entrada-universal-e-controle-por-uc3845">Projeto
 de uma fonte chaveada flyback 12 V / 3 A com entrada universal e
 controle por UC3845</h1>
@@ -307,7 +313,7 @@ Os quadros “Memória de cálculo” mostram, para cada bloco, a equação, a
 substituição numérica e o resultado adotado, com a justificativa da
 escolha; as tabelas comparam teoria e simulação ponto a ponto.</p>
 </blockquote>
-<h2 id="introdução">1. Introdução</h2>
+<h2 id="introdução" class="pb">1. Introdução</h2>
 <p>O objetivo deste trabalho é projetar um conversor estático segundo o
 Tema II do projeto semestral: retificador em ponte completa a diodos com
 filtro capacitivo seguido de uma fonte chaveada <strong>flyback</strong>
@@ -1062,9 +1068,14 @@ e tensão no dreno (flyback.py).</figcaption>
 </figure>
 <h3 id="projeto-físico-do-transformador-c">4.4 Projeto físico do
 transformador <span class="badge b-C">C</span></h3>
-<p>Seguem-se os passos da Aula 04C: produto de áreas, escolha do núcleo
-entre os Thornton disponíveis, entreferro, espiras, bitolas (efeito
-pelicular), perdas, elevação de temperatura e ocupação da janela.</p>
+<p>O transformador usa <strong>núcleo E de ferrite</strong> (Thornton
+NEE-30/15/7, material IP12R, dois meios-núcleos com entreferro na perna
+central e carretel de 10 pinos), a opção da Aula 04C para flyback: a
+ferrite tem baixas perdas em 65 kHz e o entreferro armazena a energia de
+cada ciclo. Seguem-se os passos da aula: produto de áreas, escolha do
+núcleo entre os E de ferrite Thornton disponíveis, entreferro, espiras,
+bitolas (efeito pelicular), perdas, elevação de temperatura e ocupação
+da janela.</p>
 <div class="calc">
 <div class="t">
 Memória de cálculo 4 – transformador E-30/7 <span>transformador.py (Aula
@@ -1148,8 +1159,8 @@ A<sub>w,nec</sub> = 0,368 cm² → K<sub>ocup</sub> = 0,368/0,80 = <span class="
 </div>
 </div>
 </div>
-<p><strong>Tabela 6 – Núcleos Thornton candidatos (L<sub>p</sub> ≈ 294
-µH, B = 0,25 T) <span class="badge b-C">C</span>.</strong></p>
+<p><strong>Tabela 6 – Núcleos E de ferrite Thornton (IP12R) candidatos,
+L<sub>p</sub> ≈ 294 µH e B = 0,25 T <span class="badge b-C">C</span>.</strong></p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 10%" />

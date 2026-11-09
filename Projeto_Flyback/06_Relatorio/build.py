@@ -24,7 +24,7 @@ CSS = """
   .container { max-width: 980px; margin: 0 auto; padding: 0 8px; }
   h1 { font-size: 1.55em; font-weight: 650; margin: 0 0 6px 0; line-height: 1.25; color: var(--accent); }
   h2 { font-size: 1.28em; font-weight: 650; margin: 24px 0 10px 0; padding-bottom: 4px; border-bottom: 2px solid var(--accent); color: var(--ink); break-after: avoid; }
-  h2.pb, .pb { break-before: page; }
+  h2.pb, .pb { break-before: page; page-break-before: always; }
   h3 { font-size: 1.08em; font-weight: 650; margin: 18px 0 6px 0; color: var(--accent); break-after: avoid; }
   h4 { font-size: 0.98em; font-weight: 650; margin: 12px 0 4px 0; break-after: avoid; }
   p { margin: 0 0 7px 0; text-align: justify; }
@@ -118,7 +118,7 @@ def pos_processa(h):
     h = re.sub(r"<td>(atende com ressalva[^<]*|atende o cálculo[^<]*)</td>", r'<td><span class="warn">\1</span></td>', h)
     h = re.sub(r"<td>(atende(?: a meta)?)</td>", r'<td><span class="ok">\1</span></td>', h)
     # quebra de pagina antes das secoes principais (menos a primeira)
-    h = re.sub(r'<h2 id="([^"]+)">', lambda m: f'<h2 id="{m.group(1)}" class="pb">' if m.group(1) not in ("introdução", "introducao") else m.group(0), h)
+    h = re.sub(r'<h2 id="([^"]+)">', lambda m: f'<h2 id="{m.group(1)}" class="pb">', h)
     return h
 
 

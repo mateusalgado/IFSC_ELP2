@@ -1,3 +1,10 @@
+<!--
+ESTE É O TEMPLATE. Os trechos entre chaves duplas, como {{fsw}} ou {{eta_220}}, são MARCADORES preenchidos automaticamente
+por preenche_relatorio.py com os resultados dos scripts (02_Calculos/resultados/*.json, 03_Simulacao/runs/*.json, 05_BOM_Custo/custo.json).
+Edite o texto à vontade, mas não apague nem altere os marcadores. O arquivo gerado (RELATORIO.md) é sobrescrito a cada geração:
+  python 06_Relatorio/preenche_relatorio.py  →  python 06_Relatorio/build.py  (HTML autossuficiente + PDF)
+-->
+
 # Projeto de uma fonte chaveada flyback 12 V / 3 A com entrada universal e controle por UC3845
 
 **Instituto Federal de Educação, Ciência e Tecnologia de Santa Catarina** · Campus Florianópolis · Departamento Acadêmico de Eletrônica · Engenharia Eletrônica
@@ -187,7 +194,7 @@ O projeto preliminar fixa a relação de espiras e a indutância do primário na
 
 ### 4.4 Projeto físico do transformador [C]
 
-Seguem-se os passos da Aula 04C: produto de áreas, escolha do núcleo entre os Thornton disponíveis, entreferro, espiras, bitolas (efeito pelicular), perdas, elevação de temperatura e ocupação da janela.
+O transformador usa **núcleo E de ferrite** (Thornton NEE-30/15/7, material IP12R, dois meios-núcleos com entreferro na perna central e carretel de 10 pinos), a opção da Aula 04C para flyback: a ferrite tem baixas perdas em 65 kHz e o entreferro armazena a energia de cada ciclo. Seguem-se os passos da aula: produto de áreas, escolha do núcleo entre os E de ferrite Thornton disponíveis, entreferro, espiras, bitolas (efeito pelicular), perdas, elevação de temperatura e ocupação da janela.
 
 <div class="calc"><div class="t">Memória de cálculo 4 – transformador E-30/7 <span>transformador.py (Aula 04C)</span></div>
 <div class="step"><div class="n">1</div><div class="eq">A<sub>e</sub>A<sub>w</sub> ≥ 1,1·P<sub>o</sub>·10⁴/(k<sub>w</sub>·k<sub>p</sub>·J·f<sub>s</sub>·B<sub>máx</sub>) = 1,1 × 36 × 10⁴/(0,4 × 0,3 × 450 × 65 000 × 0,25) = <span class="res">{{aeaw_min}} cm⁴</span> → <span class="res">E-30/7</span> (A<sub>e</sub> = {{ae}} cm², A<sub>w</sub> = {{aw}} cm², A<sub>e</sub>A<sub>w</sub> = {{aeaw}} cm⁴) <span class="why">(menor núcleo que atende; tabela 6)</span></div></div>
@@ -199,7 +206,7 @@ Seguem-se os passos da Aula 04C: produto de áreas, escolha do núcleo entre os 
 <div class="step"><div class="n">7</div><div class="eq">A<sub>w,nec</sub> = {{aw_nec}} cm² → K<sub>ocup</sub> = {{aw_nec}}/{{aw}} = <span class="res">{{kocup}}</span> ≤ 0,7 ✓; L<sub>lk</sub> estimada (3 %) = {{llk_est}} µH <span class="why">(entrada do snubber)</span></div></div>
 </div>
 
-**Tabela 6 – Núcleos Thornton candidatos (L<sub>p</sub> ≈ 294 µH, B = 0,25 T) [C].**
+**Tabela 6 – Núcleos E de ferrite Thornton (IP12R) candidatos, L<sub>p</sub> ≈ 294 µH e B = 0,25 T [C].**
 
 | Núcleo | A<sub>e</sub>A<sub>w</sub> (cm⁴) | l<sub>g</sub> (mm) | N<sub>p</sub>/N<sub>s</sub>/N<sub>aux</sub> | L<sub>p</sub> (µH) | P núcleo (W) | P cobre (W) | ΔT (°C) | K<sub>ocup</sub> | Atende |
 |---|---|---|---|---|---|---|---|---|---|
