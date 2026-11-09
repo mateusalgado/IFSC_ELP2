@@ -33,9 +33,8 @@ CSS = """
   a { color: var(--ink); }
   /* --- cabecalho --- */
   .titlecard { border: 1px solid var(--line); border-left: 6px solid var(--accent); border-radius: 6px; padding: 12px 16px; margin: 0 0 12px 0; background: var(--soft); }
-  .titlecard table.meta { width: auto; min-width: 70%; margin: 6px 0 0 0; font-size: 0.9em; }
-  .titlecard table.meta td { border: 0; padding: 1px 14px 1px 0; background: transparent; }
-  .titlecard table.meta td:first-child { white-space: nowrap; color: var(--muted); }
+  .titlecard .meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px 18px; font-size: 0.92em; color: var(--muted); margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--line); }
+  .titlecard .meta b { color: var(--ink); font-weight: 600; }
   .titlecard p { margin: 2px 0; color: var(--muted); font-size: 0.9em; text-align: left; }
   .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 14px 0; }
   .kpi { border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; background: #fff; break-inside: avoid; }
@@ -90,9 +89,15 @@ def monta_capa(h):
     """h1 + instituicao + tabela de identificacao -> .titlecard; tabela 'Indicador | Valor | Observacao' -> painel .kpis"""
     m = re.search(r"(<h1[^>]*>.*?</h1>)(\s*<p>.*?</p>)?(\s*<table>.*?</table>)", h, flags=re.S)
     if m:
-        tab = re.sub(r"<table>", '<table class="meta">', m.group(3), count=1)
-        tab = re.sub(r"<thead>.*?</thead>", "", tab, flags=re.S)
-        h = h[:m.start()] + '<div class="titlecard">' + m.group(1) + (m.group(2) or "") + tab + "</div>" + h[m.end():]
+        # tabela de identificacao -> grade compacta de duas colunas (rotulo: valor)
+        itens = []
+        for row in re.findall(r"<tr[^>]*>(.*?)</tr>", m.group(3), flags=re.S):
+            cels = re.findall(r"<td[^>]*>(.*?)</td>", row, flags=re.S)
+            if len(cels) >= 2 and cels[1].strip():
+                rot = re.sub(r"</?strong>", "", cels[0]).strip()
+                itens.append(f"<div><b>{rot}:</b> {cels[1].strip()}</div>")
+        grade = '<div class="meta">' + "".join(itens) + "</div>"
+        h = h[:m.start()] + '<div class="titlecard">' + m.group(1) + (m.group(2) or "") + grade + "</div>" + h[m.end():]
     k = re.search(r"<table>\s*<thead>\s*<tr[^>]*>\s*<th[^>]*>Indicador</th>.*?</table>", h, flags=re.S)
     if k:
         corpo = re.search(r"<tbody>(.*?)</tbody>", k.group(0), flags=re.S)
